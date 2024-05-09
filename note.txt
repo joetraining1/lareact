@@ -1,0 +1,28 @@
+types of document in a restaurant :
+
+- purchasing
+- recruitment
+- events planner
+- supply chain documents
+- financial allocation documents
+- shift schedule
+- sales report
+- inspection document
+- legal action document
+- sop document
+- partnership documents
+- company policy
+- insurances
+- recipes
+
+db note
+- separate document file, and info
+- user, profile, employment
+- product,
+- order, 
+- supplier,
+- shipment,
+- transaction,
+- department,
+- document,
+- document info,
