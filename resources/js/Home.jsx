@@ -14,6 +14,12 @@ import CUUser from "./Pages/User/CUUser";
 import CUArchive from "./Pages/Archive/CUArchive";
 import CUPurchase from "./Pages/Purchase/CUPurchase";
 import MasterData from "./Pages/MasterData";
+import Kategori from "./Pages/MasterData/Kategori";
+import Supplier from "./Pages/MasterData/Supplier";
+import Departemen from "./Pages/MasterData/Departemen";
+import Shipment from "./Pages/MasterData/Shipment";
+import Transaksi from "./Pages/MasterData/Transaksi";
+import Progress from "./Pages/Purchase/Progress";
 
 const Home = () => {
     return (
@@ -29,6 +35,7 @@ const Home = () => {
                     <Route path="purchase" element={<PageLayout />}>
                         <Route index element={<Purchases />} />
                         <Route path="add" element={<CUPurchase />} />
+                        <Route path="view/:order_id" element={<Progress />} />
                     </Route>
                     <Route path="product" element={<PageLayout />}>
                         <Route index element={<Products />} />
@@ -40,6 +47,11 @@ const Home = () => {
                     </Route>
                     <Route path="master" element={<PageLayout />}>
                         <Route index element={<MasterData />} />
+                        <Route path="kategori" element={<Kategori />} />
+                        <Route path="supplier" element={<Supplier />} />
+                        <Route path="departemen" element={<Departemen />} />
+                        <Route path="shipment" element={<Shipment />} />
+                        <Route path="transaksi" element={<Transaksi />} />
                     </Route>
                 </Route>
             </Route>

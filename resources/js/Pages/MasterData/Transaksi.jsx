@@ -1,29 +1,25 @@
-import UserColumn from "@/Components/TableColumn/UserColumn";
+import SectionContainer from "@/Components/SectionContainer/SectionContainer";
+import TransaksiColumn from "@/Components/TableColumn/TransaksiColumn";
 import TableData from "@/Components/TableData/TableData";
-import PageContainer from "@/lib/parts/PageContainer/PageContainer";
 import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
-const Users = () => {
-    const navigate = useNavigate();
-    const { DataColumn } = UserColumn();
-
+const Transaksi = () => {
+    const { DataColumn } = TransaksiColumn();
     return (
-        <PageContainer>
+        <SectionContainer url={"/master"}>
             <BoxContainer>
                 <SectionHeader
-                    title={"Users"}
-                    value={"Kelola user aplikasi arsip dan purchasing."}
+                    title={"Manage Data Transaksi"}
+                    value={"Monitor data transaksi pembayaran pada perusahaan."}
                 />
                 <SiteButton
-                    title={"Add User"}
-                    action={() => navigate("add")}
+                    title={"Simpan"}
                     styles={{
-                        width: "120px",
+                        width: "150px",
                     }}
                 />
             </BoxContainer>
@@ -34,8 +30,8 @@ const Users = () => {
                 />
                 <TableData column={DataColumn} rows={[]} />
             </BoxContainer>
-        </PageContainer>
+        </SectionContainer>
     );
 };
 
-export default Users;
+export default Transaksi;

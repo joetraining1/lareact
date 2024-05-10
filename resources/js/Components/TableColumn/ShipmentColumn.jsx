@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
 
-const ArchiveColumn = (data) => {
+const ShipmentColumn = (data) => {
     const DataColumn = useMemo(() => {
         return [
             {
@@ -46,4 +46,4 @@ const ArchiveColumn = (data) => {
     };
 };
 
-export default ArchiveColumn;
+export default ShipmentColumn;

@@ -24,6 +24,71 @@
     animation: 0.35s slideIn;
 } */
 
+#burger-menu {
+	cursor: pointer;
+	height: 27px;
+	width: 27px;
+	position: relative;
+	z-index: 2;
+
+	span,
+	span:before,
+	span:after {
+		background: #fff;
+		display: block;
+		height: 2px;
+		opacity: 1;
+		position: absolute;
+		transition: 0.15s ease-out;
+	}
+
+	span:before,
+	span:after {
+		content: '';
+	}
+
+	span:before {
+		left: 0px;
+		top: -7px;
+		width: 27px;
+	}
+
+	span {
+		right: 0px;
+		top: 13px;
+		width: 27px;
+	}
+
+	span:after {
+		left: 0px;
+		top: 7px;
+		width: 27px;
+	}
+
+	&.close {
+		span:before {
+			top: 0px;
+			transform: rotate(90deg);
+			width: 27px;
+		}
+
+		span {
+			transform: rotate(-45deg);
+			top: 13px;
+			width: 27px;
+		}
+
+		span:after {
+			top: 0px;
+			left: 0;
+			transform: rotate(90deg);
+			opacity: 0;
+			width: 0;
+		}
+	}
+}
+
+
 @keyframes slideOut{
     0%{
         transform: translateX(0%);

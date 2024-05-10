@@ -1,4 +1,5 @@
 import { AllColors } from "@/lib/constant/Colors";
+import { AllSize } from "@/lib/constant/Styles";
 import PageContainer from "@/lib/parts/PageContainer/PageContainer";
 import { BoxContainer } from "@/lib/parts/SectionHeader/SectionHeader";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
@@ -37,3 +38,20 @@ const SectionContainer = ({ children, url }) => {
 };
 
 export default SectionContainer;
+
+export const SectionDivider = ({ children, styles }) => {
+    return (
+        <div
+            style={{
+                ...AllSize,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                gap: "10px",
+                ...styles,
+            }}
+        >
+            {children}
+        </div>
+    );
+};

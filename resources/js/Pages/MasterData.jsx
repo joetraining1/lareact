@@ -26,7 +26,7 @@ const MasterData = () => {
                 />
                 <SiteButton
                     title={"manage"}
-                    action={() => navigate("add")}
+                    action={() => navigate("kategori")}
                     styles={{
                         width: "125px",
                     }}
@@ -38,7 +38,7 @@ const MasterData = () => {
                 />
                 <SiteButton
                     title={"manage department"}
-                    action={() => navigate("add")}
+                    action={() => navigate("departemen")}
                     styles={{
                         width: "225px",
                     }}
@@ -53,7 +53,35 @@ const MasterData = () => {
                 <SiteButton
                     variant="text"
                     title={"manage supplier"}
-                    action={() => navigate("add")}
+                    action={() => navigate("supplier")}
+                    styles={{
+                        width: "200px",
+                    }}
+                />
+                <br />
+                <SectionHeader
+                    title={"Transaksi"}
+                    value={"Kelola data transaksi yang terjadi di perusahaan."}
+                />
+                <SiteButton
+                    variant="text"
+                    title={"manage transaction"}
+                    action={() => navigate("transaksi")}
+                    styles={{
+                        width: "200px",
+                    }}
+                />
+                <br />
+                <SectionHeader
+                    title={"Shipment"}
+                    value={
+                        "Kelola data pengiriman logistik yang terjadi di perusahaan."
+                    }
+                />
+                <SiteButton
+                    variant="text"
+                    title={"manage shipment"}
+                    action={() => navigate("shipment")}
                     styles={{
                         width: "200px",
                     }}

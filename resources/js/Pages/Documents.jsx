@@ -1,3 +1,4 @@
+import ArchiveColumn from "@/Components/TableColumn/ArchiveColumn";
 import TableData from "@/Components/TableData/TableData";
 import PageContainer from "@/lib/parts/PageContainer/PageContainer";
 import SectionHeader, {
@@ -9,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const Documents = () => {
     const navigate = useNavigate();
+    const { DataColumn } = ArchiveColumn();
     return (
         <PageContainer>
             <BoxContainer>
@@ -29,7 +31,7 @@ const Documents = () => {
                     title={"Data Dokumen Arsip"}
                     value={"Keseluruhan arsip dokumen dalam perusahaan."}
                 />
-                <TableData rows={[]} />
+                <TableData column={DataColumn} rows={[]} />
             </BoxContainer>
         </PageContainer>
     );

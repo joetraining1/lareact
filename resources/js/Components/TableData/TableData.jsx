@@ -1,7 +1,8 @@
 import { AllSize } from "@/lib/constant/Styles";
 import { Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import React from "react";
+import ToolBar from "./ToolBar";
 
 const TableData = ({ column, rows, loading }) => {
     if (column && rows) {
@@ -11,7 +12,6 @@ const TableData = ({ column, rows, loading }) => {
                     display: "flex",
                     placeItems: "center",
                     ...AllSize,
-                    minHeight: "20vh",
                 }}
             >
                 <DataGrid
@@ -23,6 +23,9 @@ const TableData = ({ column, rows, loading }) => {
                     }}
                     autoHeight={true}
                     rows={rows}
+                    slots={{
+                        toolbar: ToolBar,
+                    }}
                     columns={column}
                     loading={loading}
                     pageSizeOptions={[10, 25, 50, 100]}

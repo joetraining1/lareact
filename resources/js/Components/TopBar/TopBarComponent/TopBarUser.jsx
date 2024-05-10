@@ -17,7 +17,7 @@ const TopBarUser = () => {
             }}
         >
             <AccountCircleOutlined />
-            Profile
+            McKenzie Johnson
         </Button>
     );
 };

@@ -37,6 +37,7 @@ const CUPurchase = () => {
                     <li>3. Departemen</li>
                     <li>4. Requester</li>
                     <li>5. Purposes</li>
+                    <li>6. Expenses</li>
                 </ul>
             </BoxContainer>
         </SectionContainer>

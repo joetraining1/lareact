@@ -1,3 +1,4 @@
+import ProductColumn from "@/Components/TableColumn/ProductColumn";
 import TableData from "@/Components/TableData/TableData";
 import PageContainer from "@/lib/parts/PageContainer/PageContainer";
 import SectionHeader, {
@@ -9,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const Products = () => {
     const navigate = useNavigate();
+    const { DataColumn } = ProductColumn();
     return (
         <PageContainer>
             <BoxContainer>
@@ -31,7 +33,7 @@ const Products = () => {
                     title={"Data Produk"}
                     value={"Keseluruhan data produk."}
                 />
-                <TableData rows={[]} />
+                <TableData column={DataColumn} rows={[]} />
             </BoxContainer>
         </PageContainer>
     );

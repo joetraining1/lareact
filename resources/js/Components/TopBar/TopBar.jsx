@@ -3,6 +3,7 @@ import { AppBar, Button } from "@mui/material";
 import React from "react";
 import Logo from "./TopBarComponent/Logo";
 import TopBarUser from "./TopBarComponent/TopBarUser";
+import SideBurger from "@/lib/parts/SideBurger/SideBurger";
 
 const TopBar = () => {
     return (
@@ -26,10 +27,10 @@ const TopBar = () => {
                     height: "100%",
                     display: "flex",
                     alignItems: "center",
-                    paddingRight: "2vw",
+                    padding: "0 2vw",
                 }}
             >
-                Top
+                <SideBurger />
                 <TopBarUser />
             </div>
         </AppBar>

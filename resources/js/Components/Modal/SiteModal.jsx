@@ -1,6 +1,5 @@
 import React from "react";
-import Modal from "../Modal";
-import { Button, Paper } from "@mui/material";
+import { Button, Modal, Paper } from "@mui/material";
 import SectionHeader from "@/lib/parts/SectionHeader/SectionHeader";
 import { CancelPresentationRounded } from "@mui/icons-material";
 

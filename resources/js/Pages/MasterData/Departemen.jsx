@@ -1,41 +1,37 @@
-import UserColumn from "@/Components/TableColumn/UserColumn";
+import SectionContainer from "@/Components/SectionContainer/SectionContainer";
+import DepartemenColumn from "@/Components/TableColumn/DepartemenColumn";
 import TableData from "@/Components/TableData/TableData";
-import PageContainer from "@/lib/parts/PageContainer/PageContainer";
 import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
-const Users = () => {
-    const navigate = useNavigate();
-    const { DataColumn } = UserColumn();
-
+const Departemen = () => {
+    const { DataColumn } = DepartemenColumn();
     return (
-        <PageContainer>
+        <SectionContainer url={"/master"}>
             <BoxContainer>
                 <SectionHeader
-                    title={"Users"}
-                    value={"Kelola user aplikasi arsip dan purchasing."}
+                    title={"Manage Departemen Data"}
+                    value={"Monitor departemen pada perusahaan."}
                 />
                 <SiteButton
-                    title={"Add User"}
-                    action={() => navigate("add")}
+                    title={"Simpan"}
                     styles={{
-                        width: "120px",
+                        width: "150px",
                     }}
                 />
             </BoxContainer>
             <BoxContainer>
                 <SectionHeader
-                    title={"Data User Aplikasi"}
+                    title={"Data Departemen"}
                     value={"Kelola keseluruhan data user pada aplikasi."}
                 />
                 <TableData column={DataColumn} rows={[]} />
             </BoxContainer>
-        </PageContainer>
+        </SectionContainer>
     );
 };
 
-export default Users;
+export default Departemen;

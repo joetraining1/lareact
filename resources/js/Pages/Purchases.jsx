@@ -1,4 +1,6 @@
+import PurchaseColumn from "@/Components/TableColumn/PurchaseColumn";
 import TableData from "@/Components/TableData/TableData";
+import { PurchaseData } from "@/lib/constant/TestData";
 import PageContainer from "@/lib/parts/PageContainer/PageContainer";
 import SectionHeader, {
     BoxContainer,
@@ -9,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const Purchases = () => {
     const navigate = useNavigate();
+    const { DataColumn } = PurchaseColumn(PurchaseData);
     return (
         <PageContainer>
             <BoxContainer>
@@ -31,7 +34,7 @@ const Purchases = () => {
                     title={"Data Belanja Perusahaan"}
                     value={"Informasi data belanja perusahaan."}
                 />
-                <TableData rows={[]} />
+                <TableData column={DataColumn} rows={PurchaseData} />
             </BoxContainer>
         </PageContainer>
     );

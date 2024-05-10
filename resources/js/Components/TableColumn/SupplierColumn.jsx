@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
 
-const ArchiveColumn = (data) => {
+const SupplierColumn = ({ data, addition }) => {
     const DataColumn = useMemo(() => {
         return [
             {
@@ -13,13 +13,13 @@ const ArchiveColumn = (data) => {
                     `${params.api.getAllRowIds().indexOf(params.id) + 1}.`,
             },
             {
-                field: "title",
-                headerName: "Data Title",
-                width: 150,
+                field: "nama_supplier",
+                headerName: "Nama Supplier",
+                width: 250,
             },
             {
-                field: "value",
-                headerName: "Data Value",
+                field: "kontak_supplier",
+                headerName: "Kontak Supplier",
                 width: 250,
             },
             {
@@ -46,4 +46,4 @@ const ArchiveColumn = (data) => {
     };
 };
 
-export default ArchiveColumn;
+export default SupplierColumn;
