@@ -16,3 +16,13 @@ export const PurchaseData = [
         expense: "15,000,000",
     },
 ];
+
+export const DataFilterOnSearch = [
+    "Persistent",
+    "is",
+    "The",
+    "Key",
+    "To",
+    "A",
+    "Relaxation",
+];

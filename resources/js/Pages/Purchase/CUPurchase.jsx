@@ -1,3 +1,4 @@
+import ProductForm from "@/Components/Forms/ProductForm";
 import SectionContainer from "@/Components/SectionContainer/SectionContainer";
 import SectionHeader, {
     BoxContainer,
@@ -13,6 +14,7 @@ const CUPurchase = () => {
                     title={"Register Purchase Order"}
                     value={"Menambahkan Purchasing Order baru."}
                 />
+                <ProductForm />
                 <SiteButton
                     title={"Simpan"}
                     styles={{

@@ -94,7 +94,7 @@ const PurchaseColumn = (data) => {
                         <SectionDivider>
                             <SiteButton
                                 title={"kelola"}
-                                action={() => navigate(`view/${order_id}`)}
+                                action={() => navigate(`${order_id}`)}
                                 variant={"text"}
                             />
                         </SectionDivider>

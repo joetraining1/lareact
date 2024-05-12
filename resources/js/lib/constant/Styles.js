@@ -17,18 +17,17 @@ export const BoxStyleBasic = {
     // border: `1px solid ${AllColors.GreenDoff}50`,
 };
 
+export const h4FontStyle = {
+    fontFamily: "Noto Sans, sans-serif",
+    fontWeight: "600",
+};
 export const ButtonStyleBasic = {
     backgroundColor: AllColors.GreenDoff,
-    fontWeight: "600",
+    ...h4FontStyle,
     borderRadius: "5px",
     "&:hover": {
         backgroundColor: AllColors.GreenDoff,
     },
-};
-
-export const h4FontStyle = {
-    fontFamily: "Noto Sans, sans-serif",
-    fontWeight: "600",
 };
 
 export const SideSx = {

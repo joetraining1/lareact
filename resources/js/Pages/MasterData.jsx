@@ -25,7 +25,7 @@ const MasterData = () => {
                     value={"Kelola kategori data di aplikasi."}
                 />
                 <SiteButton
-                    title={"manage"}
+                    title={"manage kategori"}
                     action={() => navigate("kategori")}
                     styles={{
                         width: "125px",
@@ -55,7 +55,7 @@ const MasterData = () => {
                     title={"manage supplier"}
                     action={() => navigate("supplier")}
                     styles={{
-                        width: "200px",
+                        width: "fit-content",
                     }}
                 />
                 <br />
@@ -68,7 +68,7 @@ const MasterData = () => {
                     title={"manage transaction"}
                     action={() => navigate("transaksi")}
                     styles={{
-                        width: "200px",
+                        width: "fit-content",
                     }}
                 />
                 <br />

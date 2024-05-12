@@ -20,6 +20,7 @@ import Departemen from "./Pages/MasterData/Departemen";
 import Shipment from "./Pages/MasterData/Shipment";
 import Transaksi from "./Pages/MasterData/Transaksi";
 import Progress from "./Pages/Purchase/Progress";
+import Profile from "./Pages/Profile";
 
 const Home = () => {
     return (
@@ -28,6 +29,9 @@ const Home = () => {
                 <Route path="login" element={<Login />} />
                 <Route element={<MainLayout />}>
                     <Route index element={<Index />} />
+                    <Route path="profile/:user_id" element={<PageLayout />}>
+                        <Route index element={<Profile />} />
+                    </Route>
                     <Route path="archive" element={<PageLayout />}>
                         <Route index element={<Documents />} />
                         <Route path="add" element={<CUArchive />} />
@@ -35,7 +39,7 @@ const Home = () => {
                     <Route path="purchase" element={<PageLayout />}>
                         <Route index element={<Purchases />} />
                         <Route path="add" element={<CUPurchase />} />
-                        <Route path="view/:order_id" element={<Progress />} />
+                        <Route path=":order_id" element={<Progress />} />
                     </Route>
                     <Route path="product" element={<PageLayout />}>
                         <Route index element={<Products />} />

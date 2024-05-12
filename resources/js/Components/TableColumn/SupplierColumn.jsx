@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
 
-const SupplierColumn = ({ data, addition }) => {
+const SupplierColumn = (data) => {
     const DataColumn = useMemo(() => {
         return [
             {

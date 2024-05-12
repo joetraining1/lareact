@@ -1,5 +1,8 @@
-import SectionContainer from "@/Components/SectionContainer/SectionContainer";
-import InputLabel from "@/lib/parts/InputLabel/InputLabel";
+import ArchiveForm from "@/Components/Forms/ArchiveForm";
+import SectionContainer, {
+    SectionDivider,
+} from "@/Components/SectionContainer/SectionContainer";
+import FileUploader from "@/lib/parts/FileUploader/FileUploader";
 import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
@@ -12,10 +15,11 @@ const CUArchive = () => {
             <BoxContainer>
                 <SectionHeader
                     title={"Register Arsip Dokumen"}
-                    value={
-                        "Menambahkan data dokumen arsip yang digunakan dalam perusahaan."
-                    }
+                    value={"File maksimal 2mb, pdf."}
                 />
+                <SectionDivider>
+                    <FileUploader file={(a) => console.log(a.name)} />
+                </SectionDivider>
                 <SiteButton
                     title={"Simpan"}
                     styles={{
@@ -37,17 +41,7 @@ const CUArchive = () => {
                     title={"Detail Arsip"}
                     value={"Informasi Dokumen Tambahan."}
                 />
-                <InputLabel title={"Nama User"} />
-                <InputLabel title={"Kontak User"} />
-                <InputLabel title={"Alamat User"} />
-                <InputLabel title={"Email User"} />
-                <InputLabel title={"Password User"} />
-                <SiteButton
-                    title={"Simpan"}
-                    styles={{
-                        width: "150px",
-                    }}
-                />
+                <ArchiveForm />
             </BoxContainer>
         </SectionContainer>
     );

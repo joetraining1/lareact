@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
 
-const ShipmentColumn = (data) => {
+const ShipmentColumn = ({ data = [], addition = [] }) => {
     const DataColumn = useMemo(() => {
         return [
             {
@@ -12,14 +12,40 @@ const ShipmentColumn = (data) => {
                 renderCell: (params) =>
                     `${params.api.getAllRowIds().indexOf(params.id) + 1}.`,
             },
+            ...addition,
             {
-                field: "title",
-                headerName: "Data Title",
+                field: "shipment_id",
+                headerName: "ID Shipping",
                 width: 150,
             },
             {
-                field: "value",
-                headerName: "Data Value",
+                field: "transaksi_id",
+                headerName: "ID Transaksi",
+                width: 150,
+            },
+            {
+                field: "document_id",
+                headerName: "ID Dokumen",
+                width: 150,
+            },
+            {
+                field: "shipment_ref",
+                headerName: "No. Referensi",
+                width: 250,
+            },
+            {
+                field: "shipment_cost",
+                headerName: "Biaya Pengiriman",
+                width: 250,
+            },
+            {
+                field: "shipment_start",
+                headerName: "Tanggal Pengiriman",
+                width: 250,
+            },
+            {
+                field: "shipment_estimated",
+                headerName: "Tanggal Estimasi",
                 width: 250,
             },
             {

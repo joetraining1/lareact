@@ -8,7 +8,7 @@ import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import React from "react";
 
 const Transaksi = () => {
-    const { DataColumn } = TransaksiColumn();
+    const { DataColumn } = TransaksiColumn({});
     return (
         <SectionContainer url={"/master"}>
             <BoxContainer>

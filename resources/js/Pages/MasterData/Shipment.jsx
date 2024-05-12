@@ -8,7 +8,7 @@ import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import React from "react";
 
 const Shipment = () => {
-    const { DataColumn } = ShipmentColumn();
+    const { DataColumn } = ShipmentColumn({});
     return (
         <SectionContainer url={"/master"}>
             <BoxContainer>

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const Products = () => {
     const navigate = useNavigate();
-    const { DataColumn } = ProductColumn();
+    const { DataColumn } = ProductColumn({});
     return (
         <PageContainer>
             <BoxContainer>
