@@ -11,7 +11,18 @@ class departemen extends Model
 
     protected $fillable = ['departemen_id', 'departemen_nama', 'lokasi'];
 
-    // public function offdays(){
-    //     return $this->hasMany(Offday::class);
-    // }
+    public function employment()
+    {
+        return $this->hasMany(user_employment::class);
+    }
+
+    public function document_info()
+    {
+        return $this->hasMany(document_info::class);
+    }
+
+    public function order()
+    {
+        return $this->hasMany(order::class);
+    }
 }
