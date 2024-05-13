@@ -1,3 +1,5 @@
+import KategoriForm from "@/Components/Forms/KategoriForm";
+import IndexModal from "@/Components/Modal/IndexModal";
 import SectionContainer from "@/Components/SectionContainer/SectionContainer";
 import KategoriColumn from "@/Components/TableColumn/KategoriColumn";
 import TableData from "@/Components/TableData/TableData";
@@ -16,17 +18,19 @@ const Kategori = () => {
                     title={"Manage Kategori Data"}
                     value={"Monitor data kategori pada perusahaan."}
                 />
-                <SiteButton
-                    title={"Simpan"}
-                    styles={{
-                        width: "150px",
-                    }}
-                />
+                <IndexModal
+                    title={"Register New Kategori"}
+                    value={"Tambahkan kategori baru"}
+                    button={"Add new Kategori"}
+                >
+                    <br />
+                    <KategoriForm />
+                </IndexModal>
             </BoxContainer>
             <BoxContainer>
                 <SectionHeader
-                    title={"Data User Aplikasi"}
-                    value={"Kelola keseluruhan data user pada aplikasi."}
+                    title={"Kategori Data"}
+                    value={"Kelola keseluruhan kategori data pada aplikasi."}
                 />
                 <TableData column={DataColumn} rows={[]} />
             </BoxContainer>

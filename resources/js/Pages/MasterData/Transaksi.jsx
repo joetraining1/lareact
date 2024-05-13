@@ -8,7 +8,15 @@ import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import React from "react";
 
 const Transaksi = () => {
-    const { DataColumn } = TransaksiColumn({});
+    const { DataColumn } = TransaksiColumn({
+        addition: [
+            {
+                field: "order_id",
+                headerName: "ID Order",
+                width: 150,
+            },
+        ],
+    });
     return (
         <SectionContainer url={"/master"}>
             <BoxContainer>
@@ -25,8 +33,8 @@ const Transaksi = () => {
             </BoxContainer>
             <BoxContainer>
                 <SectionHeader
-                    title={"Data User Aplikasi"}
-                    value={"Kelola keseluruhan data user pada aplikasi."}
+                    title={"Data Transaksi Order"}
+                    value={"Kelola keseluruhan data transaksi pada perusahaan."}
                 />
                 <TableData column={DataColumn} rows={[]} />
             </BoxContainer>

@@ -5,8 +5,9 @@ import { ClearRounded } from "@mui/icons-material";
 import { AllColors } from "@/lib/constant/Colors";
 import { Button, Typography } from "@mui/material";
 import { h4FontStyle } from "@/lib/constant/Styles";
+import { FileSlicer } from "@/lib/utils/StringExtensionExtractor";
 
-const FileUploader = ({ file }) => {
+const FileUploader = ({ file = (a) => console.log(a.name) }) => {
     const [selected, setSelected] = useState(null);
 
     const handleFile = (doc) => {
@@ -56,7 +57,7 @@ const FileUploader = ({ file }) => {
                         color: AllColors.DarkGrey,
                     }}
                 >
-                    {selected.name}
+                    {FileSlicer(selected.name)}
                 </Typography>
             )}
         </React.Fragment>

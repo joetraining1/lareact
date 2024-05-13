@@ -13,13 +13,23 @@ const SupplierColumn = (data) => {
                     `${params.api.getAllRowIds().indexOf(params.id) + 1}.`,
             },
             {
-                field: "nama_supplier",
+                field: "supplier_id",
+                headerName: "ID Supplier",
+                width: 150,
+            },
+            {
+                field: "supplier_nama",
                 headerName: "Nama Supplier",
                 width: 250,
             },
             {
-                field: "kontak_supplier",
+                field: "supplier_kontak",
                 headerName: "Kontak Supplier",
+                width: 250,
+            },
+            {
+                field: "supplier_alamat",
+                headerName: "Alamat Supplier",
                 width: 250,
             },
             {

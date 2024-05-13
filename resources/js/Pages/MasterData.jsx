@@ -59,34 +59,6 @@ const MasterData = () => {
                     }}
                 />
                 <br />
-                <SectionHeader
-                    title={"Transaksi"}
-                    value={"Kelola data transaksi yang terjadi di perusahaan."}
-                />
-                <SiteButton
-                    variant="text"
-                    title={"manage transaction"}
-                    action={() => navigate("transaksi")}
-                    styles={{
-                        width: "fit-content",
-                    }}
-                />
-                <br />
-                <SectionHeader
-                    title={"Shipment"}
-                    value={
-                        "Kelola data pengiriman logistik yang terjadi di perusahaan."
-                    }
-                />
-                <SiteButton
-                    variant="text"
-                    title={"manage shipment"}
-                    action={() => navigate("shipment")}
-                    styles={{
-                        width: "200px",
-                    }}
-                />
-                <br />
             </BoxContainer>
         </PageContainer>
     );

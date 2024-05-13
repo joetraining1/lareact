@@ -13,13 +13,18 @@ const DepartemenColumn = (data) => {
                     `${params.api.getAllRowIds().indexOf(params.id) + 1}.`,
             },
             {
-                field: "title",
-                headerName: "Data Title",
+                field: "departemen_id",
+                headerName: "ID Departemen",
                 width: 150,
             },
             {
-                field: "value",
-                headerName: "Data Value",
+                field: "departemen_nama",
+                headerName: "Nama Departemen",
+                width: 250,
+            },
+            {
+                field: "lokasi",
+                headerName: "Lokasi Departemen",
                 width: 250,
             },
             {

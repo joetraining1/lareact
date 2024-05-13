@@ -7,34 +7,18 @@ const ProductForm = () => {
     return (
         <React.Fragment>
             <SectionDivider>
-                <SectionDivider
+                <SearchField
+                    title={"Diajukan oleh :"}
                     styles={{
-                        flexDirection: "column",
-                        alignItems: "start",
-                        position: "relative",
+                        width: "100%",
                     }}
-                >
-                    <SearchField
-                        title={"Diajukan oleh :"}
-                        styles={{
-                            width: "100%",
-                        }}
-                    />
-                </SectionDivider>
-                <SectionDivider
+                />
+                <SearchField
+                    title={"Departemen Pengajuan :"}
                     styles={{
-                        flexDirection: "column",
-                        alignItems: "start",
-                        position: "relative",
+                        width: "100%",
                     }}
-                >
-                    <SearchField
-                        title={"Departemen Pengajuan :"}
-                        styles={{
-                            width: "100%",
-                        }}
-                    />
-                </SectionDivider>
+                />
                 <SectionDivider
                     styles={{
                         flexDirection: "column",

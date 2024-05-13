@@ -1,3 +1,5 @@
+import DepartemenForm from "@/Components/Forms/DepartemenForm";
+import IndexModal from "@/Components/Modal/IndexModal";
 import SectionContainer from "@/Components/SectionContainer/SectionContainer";
 import DepartemenColumn from "@/Components/TableColumn/DepartemenColumn";
 import TableData from "@/Components/TableData/TableData";
@@ -16,12 +18,14 @@ const Departemen = () => {
                     title={"Manage Departemen Data"}
                     value={"Monitor departemen pada perusahaan."}
                 />
-                <SiteButton
-                    title={"Simpan"}
-                    styles={{
-                        width: "150px",
-                    }}
-                />
+                <IndexModal
+                    title={"Register New Departemen"}
+                    value={"Tambahkan departemen baru"}
+                    button={"Add new departemen"}
+                >
+                    <br />
+                    <DepartemenForm />
+                </IndexModal>
             </BoxContainer>
             <BoxContainer>
                 <SectionHeader

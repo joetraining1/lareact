@@ -13,14 +13,19 @@ const KategoriColumn = (data) => {
                     `${params.api.getAllRowIds().indexOf(params.id) + 1}.`,
             },
             {
-                field: "title",
-                headerName: "Data Title",
+                field: "kategori_id",
+                headerName: "ID Kategori",
                 width: 150,
             },
             {
-                field: "value",
-                headerName: "Data Value",
+                field: "kategori_nama",
+                headerName: "Nama Kategori",
                 width: 250,
+            },
+            {
+                field: "kategori_deskripsi",
+                headerName: "Deskripsi Kategori",
+                width: 350,
             },
             {
                 field: "option",

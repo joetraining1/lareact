@@ -1,3 +1,5 @@
+import SupplierForm from "@/Components/Forms/SupplierForm";
+import IndexModal from "@/Components/Modal/IndexModal";
 import SectionContainer from "@/Components/SectionContainer/SectionContainer";
 import SupplierColumn from "@/Components/TableColumn/SupplierColumn";
 import TableData from "@/Components/TableData/TableData";
@@ -16,12 +18,14 @@ const Supplier = () => {
                     title={"Manage Supplier Data"}
                     value={"Monitor data supplier pada perusahaan."}
                 />
-                <SiteButton
-                    title={"Simpan"}
-                    styles={{
-                        width: "150px",
-                    }}
-                />
+                <IndexModal
+                    title={"Register New Supplier"}
+                    value={"Tambahkan Supplier Baru"}
+                    button={"Add new supplier"}
+                >
+                    <br />
+                    <SupplierForm />
+                </IndexModal>
             </BoxContainer>
             <BoxContainer>
                 <SectionHeader

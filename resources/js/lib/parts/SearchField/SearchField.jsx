@@ -4,8 +4,9 @@ import { h4FontStyle } from "@/lib/constant/Styles";
 import { TextField } from "@mui/material";
 import React, { useRef, useState } from "react";
 import PopupWidget from "../PopupWidget/PopupWidget";
+import { SectionDivider } from "@/Components/SectionContainer/SectionContainer";
 
-const SearchField = ({ id, title, styles }) => {
+const SearchField = ({ id, title, styles, popStyle }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [keyword, setKeyword] = useState("");
 
@@ -26,7 +27,14 @@ const SearchField = ({ id, title, styles }) => {
     };
 
     return (
-        <React.Fragment>
+        <SectionDivider
+            styles={{
+                flexDirection: "column",
+                alignItems: "start",
+                position: "relative",
+                height: "fit-content",
+            }}
+        >
             <label
                 htmlFor={id}
                 style={{
@@ -45,6 +53,7 @@ const SearchField = ({ id, title, styles }) => {
                 sx={{
                     ...styles,
                     zIndex: 1,
+                    width: "100%",
                 }}
                 onChange={(e) => handleKeyword(e)}
             />
@@ -59,7 +68,7 @@ const SearchField = ({ id, title, styles }) => {
                     close={() => setIsOpen(false)}
                 />
             )}
-        </React.Fragment>
+        </SectionDivider>
     );
 };
 

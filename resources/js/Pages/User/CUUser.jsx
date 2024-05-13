@@ -1,3 +1,5 @@
+import UserForm from "@/Components/Forms/UserForm";
+import UserProfileForm from "@/Components/Forms/UserProfileForm";
 import SectionContainer from "@/Components/SectionContainer/SectionContainer";
 import InputLabel from "@/lib/parts/InputLabel/InputLabel";
 import SectionHeader, {
@@ -11,22 +13,11 @@ const CUUser = () => {
         <SectionContainer url={"/user"}>
             <BoxContainer>
                 <SectionHeader
-                    title={"Tambah Data Produk"}
-                    value={
-                        "Menambahkan data produk yang digunakan dalam perusahaan."
-                    }
+                    title={"Register User Baru"}
+                    value={"Menambahkan data user baru."}
                 />
-                <InputLabel title={"Nama User"} />
-                <InputLabel title={"Kontak User"} />
-                <InputLabel title={"Alamat User"} />
-                <InputLabel title={"Email User"} />
-                <InputLabel title={"Password User"} />
-                <SiteButton
-                    title={"Simpan"}
-                    styles={{
-                        width: "150px",
-                    }}
-                />
+                <UserProfileForm />
+                <UserForm />
             </BoxContainer>
         </SectionContainer>
     );

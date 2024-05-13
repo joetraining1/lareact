@@ -16,9 +16,17 @@ const CUProduct = () => {
                         "Menambahkan data produk yang digunakan dalam perusahaan."
                     }
                 />
-                <InputLabel title={"Nama Produk"} />
-                <InputLabel title={"Harga Produk"} />
-                <InputLabel title={"Berat Produk"} />
+                <InputLabel title={"Nama Produk :"} />
+                <InputLabel title={"Harga Produk :"} />
+                <InputLabel
+                    id={"desc-product"}
+                    title={"Deskripsi Produk :"}
+                    props={{
+                        multiline: true,
+                        minRows: 3,
+                        maxRows: 3,
+                    }}
+                />
                 <SiteButton
                     title={"Simpan"}
                     styles={{

@@ -7,7 +7,13 @@ const IndexModal = ({ button, title, value, children }) => {
     const { modalState, shiftModal } = useModalState();
     return (
         <React.Fragment>
-            <SiteButton title={button} action={() => shiftModal()} />
+            <SiteButton
+                title={button}
+                styles={{
+                    padding: "0",
+                }}
+                action={() => shiftModal()}
+            />
             <SiteModal
                 action={() => shiftModal()}
                 title={title}

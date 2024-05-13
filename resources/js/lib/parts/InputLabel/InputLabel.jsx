@@ -3,7 +3,7 @@ import { h4FontStyle } from "@/lib/constant/Styles";
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
 
-const InputLabel = ({ id, value, title, action, styles }) => {
+const InputLabel = ({ id, value, title, action, styles, props }) => {
     const [cvalue, setcValue] = useState(value);
 
     return (
@@ -21,6 +21,7 @@ const InputLabel = ({ id, value, title, action, styles }) => {
                 sx={{ ...styles }}
                 id={id}
                 size="small"
+                {...props}
                 value={cvalue}
                 onChange={(e) => {
                     setcValue(e.target.value);
