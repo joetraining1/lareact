@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\kategori;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +20,7 @@ class KategoriController extends Controller
         if ($types->count() > 0) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
+                'data' => $types,
             ]);
         } else {
             return response()->json([
@@ -32,19 +33,27 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'kategori_name' => 'required|string|max:255',
+            'kategori_deskripsi' => 'required|string|max:255',
         ]);
 
+        $asd = date('ym');
+        $id = IdGenerator::generate([
+            'table' => 'kategoris',
+            'field' => 'kategori_id',
+            'length' => 10,
+            'prefix' => "KTG$asd",
+        ]);
         $type = kategori::create([
-            'title' => $request->title,
-            'description' => $request->description,
+            'kategori_id' => $id,
+            'kategori_name' => $request->kategori_name,
+            'kategori_deskripsi' => $request->kategori_deskripsi,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User type registered successfully',
-            'type' => $type,
+            'message' => 'Kategori registered successfully',
+            'data' => $type,
         ]);
     }
 
@@ -54,7 +63,7 @@ class KategoriController extends Controller
         if ($type) {
             return response()->json([
                 'status' => 'success',
-                'type' => $type,
+                'data' => $type,
             ]);
         } else {
             return response()->json([
@@ -86,20 +95,21 @@ class KategoriController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'kategori_name' => 'required|string|max:255',
+            'kategori_deskripsi' => 'required|string|max:255',
         ]);
 
         $type = kategori::find($id);
         if ($type) {
-            $type->title = $request->title;
-            $type->description = $request->description;
+            $type->kategori_id = $type->kategori_id;
+            $type->kategori_name = $request->kategori_name;
+            $type->kategori_deskripsi = $request->kategori_deskripsi;
             $type->save();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type updated successfully',
-                'type' => $type,
+                'message' => 'Kategori updated successfully',
+                'data' => $type,
             ]);
         } else {
             return response()->json([
@@ -113,17 +123,11 @@ class KategoriController extends Controller
     {
         $type = kategori::find($id);
         if ($type) {
-            $return = [
-                'id' => $type->id,
-                'title' => $type->title,
-                'description' => $type->description,
-            ];
             $type->delete();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type removed successfully',
-                'type' => $return,
+                'message' => 'Kategori removed successfully',
             ]);
         } else {
             return response()->json([

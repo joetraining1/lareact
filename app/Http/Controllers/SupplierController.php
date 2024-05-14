@@ -16,17 +16,18 @@ class SupplierController extends Controller
     public function index()
     {
         $types = supplier::all();
+
         if ($types->count() > 0) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 'no data.',
-                'message' => 'there are no data to be found.',
+                'data' => $types,
             ]);
         }
+
+        return response()->json([
+            'status' => 'no data.',
+            'message' => 'there are no data to be found.',
+        ]);
     }
 
     public function SearchQuery(Request $request)
@@ -51,19 +52,30 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'supplier_name' => 'required|string|max:255',
+            'supplier_harga' => 'required|string|max:255',
+            'supplier_deskripsi' => 'required|string|max:255',
+        ]);
+
+        $asd = date('ym');
+        $id = IdGenerator::generate([
+            'table' => 'suppliers',
+            'field' => 'supplier_id',
+            'length' => 10,
+            'prefix' => "SPL$asd",
         ]);
 
         $type = supplier::create([
-            'title' => $request->title,
-            'description' => $request->description,
+            'supplier_id' => $id,
+            'supplier_name' => $request->supplier_name,
+            'supplier_kontak' => $request->supplier_kontak,
+            'supplier_alamat' => $request->supplier_alamat,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User type registered successfully',
-            'type' => $type,
+            'message' => 'Supplier registered successfully',
+            'data' => $type,
         ]);
     }
 
@@ -86,20 +98,23 @@ class SupplierController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'supplier_name' => 'required|string|max:255',
+            'supplier_harga' => 'required|string|max:255',
+            'supplier_deskripsi' => 'required|string|max:255',
         ]);
 
         $type = supplier::find($id);
         if ($type) {
-            $type->title = $request->title;
-            $type->description = $request->description;
+            $type->supplier_id = $type->supplier_id;
+            $type->supplier_name = $request->supplier_name;
+            $type->supplier_kontak = $request->supplier_kontak;
+            $type->supplier_alamat = $request->supplier_alamat;
             $type->save();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type updated successfully',
-                'type' => $type,
+                'message' => 'Supplier updated successfully',
+                'data' => $type,
             ]);
         } else {
             return response()->json([
@@ -113,17 +128,12 @@ class SupplierController extends Controller
     {
         $type = supplier::find($id);
         if ($type) {
-            $return = [
-                'id' => $type->id,
-                'title' => $type->title,
-                'description' => $type->description,
-            ];
+
             $type->delete();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type removed successfully',
-                'type' => $return,
+                'message' => 'Supplier removed successfully',
             ]);
         } else {
             return response()->json([

@@ -51,9 +51,20 @@ const MasterData = () => {
                     }
                 />
                 <SiteButton
-                    variant="text"
                     title={"manage supplier"}
                     action={() => navigate("supplier")}
+                    styles={{
+                        width: "fit-content",
+                    }}
+                />
+                <br />
+                <SectionHeader
+                    title={"Hubungan Kerja Pegawai"}
+                    value={"Kelola data hubungan kerja pegawai di perusahaan."}
+                />
+                <SiteButton
+                    title={"manage employment"}
+                    action={() => navigate("employment")}
                     styles={{
                         width: "fit-content",
                     }}

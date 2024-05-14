@@ -21,6 +21,7 @@ import Shipment from "./Pages/MasterData/Shipment";
 import Transaksi from "./Pages/MasterData/Transaksi";
 import Progress from "./Pages/Purchase/Progress";
 import Profile from "./Pages/Profile";
+import Employment from "./Pages/MasterData/Employment";
 
 const Home = () => {
     return (
@@ -56,6 +57,7 @@ const Home = () => {
                         <Route path="departemen" element={<Departemen />} />
                         <Route path="shipment" element={<Shipment />} />
                         <Route path="transaksi" element={<Transaksi />} />
+                        <Route path="employment" element={<Employment />} />
                     </Route>
                 </Route>
             </Route>

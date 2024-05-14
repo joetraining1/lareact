@@ -31,19 +31,23 @@ class UserEmploymentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'user_id' => 'required|string|max:255',
+            'departemen_id' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'posisi' => 'required|string|max:255',
         ]);
 
         $type = user_employment::create([
-            'title' => $request->title,
-            'description' => $request->description,
+            'user_id' => $request->user_id,
+            'departemen_id' => $request->departemen_id,
+            'jabatan' => $request->jabatan,
+            'posisi' => $request->posisi,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User type registered successfully',
-            'type' => $type,
+            'message' => 'User employment registered successfully',
+            'data' => $type,
         ]);
     }
 
@@ -72,14 +76,16 @@ class UserEmploymentController extends Controller
 
         $type = user_employment::find($id);
         if ($type) {
-            $type->title = $request->title;
-            $type->description = $request->description;
+            $type->user_id = $type->user_id;
+            $type->departemen_id = $type->departemen_id;
+            $type->jabatan = $request->jabatan;
+            $type->posisi = $request->posisi;
             $type->save();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type updated successfully',
-                'type' => $type,
+                'message' => 'User employment updated successfully',
+                'data' => $type,
             ]);
         } else {
             return response()->json([
@@ -93,17 +99,12 @@ class UserEmploymentController extends Controller
     {
         $type = user_employment::find($id);
         if ($type) {
-            $return = [
-                'id' => $type->id,
-                'title' => $type->title,
-                'description' => $type->description,
-            ];
+
             $type->delete();
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'User type removed successfully',
-                'type' => $return,
             ]);
         } else {
             return response()->json([

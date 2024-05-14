@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\product;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,10 +17,13 @@ class ProductController extends Controller
     public function index()
     {
         $types = product::all();
+
+        $products = DB::select('SELECT products.product_id, products.kategori_id, products.product_name, products.product_harga, product.product_deskripsi, kategoris.kategori_name from products left join kategoris on products.kategori_id = kategoris.kategori_id');
         if ($types->count() > 0) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
+                'data' => $types,
+                'include' => $products,
             ]);
         } else {
             return response()->json([
@@ -32,19 +36,32 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'kategori_id' => 'required|string|max:255',
+            'product_name' => 'required|string|max:255',
+            'product_harga' => 'required|string|max:255',
+            'product_deskripsi' => 'required|string|max:255',
+        ]);
+
+        $asd = date('ym');
+        $id = IdGenerator::generate([
+            'table' => 'products',
+            'field' => 'product_id',
+            'length' => 10,
+            'prefix' => "PRD$asd",
         ]);
 
         $type = product::create([
-            'title' => $request->title,
-            'description' => $request->description,
+            'product_id' => $id,
+            'kategori_id' => $request->kategori_id,
+            'product_name' => $request->product_name,
+            'product_harga' => $request->product_harga,
+            'product_deskripsi' => $request->product_deskripsi,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User type registered successfully',
-            'type' => $type,
+            'message' => 'Product registered successfully',
+            'data' => $type,
         ]);
     }
 
@@ -86,20 +103,25 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'kategori_id' => 'string|max:255',
+            'product_name' => 'string|max:255',
+            'product_harga' => 'string|max:255',
+            'product_deskripsi' => 'string|max:255',
         ]);
 
         $type = product::find($id);
         if ($type) {
-            $type->title = $request->title;
-            $type->description = $request->description;
+            $type->product_id = $type->product_id;
+            $type->kategori_id = $request->kategori_id ? $request->kategori_id : $type->kategori_id;
+            $type->product_name = $request->product_name ? $request->product_name : $type->product_name;
+            $type->product_harga = $request->product_harga ? $request->product_harga : $type->product_harga;
+            $type->product_deskripsi = $request->product_deskripsi ? $request->product_deskripsi : $type->product_deskripsi;
             $type->save();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type updated successfully',
-                'type' => $type,
+                'message' => 'Product updated successfully',
+                'data' => $type,
             ]);
         } else {
             return response()->json([
@@ -113,17 +135,12 @@ class ProductController extends Controller
     {
         $type = product::find($id);
         if ($type) {
-            $return = [
-                'id' => $type->id,
-                'title' => $type->title,
-                'description' => $type->description,
-            ];
+
             $type->delete();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type removed successfully',
-                'type' => $return,
+                'message' => 'Product removed successfully',
             ]);
         } else {
             return response()->json([

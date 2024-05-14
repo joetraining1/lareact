@@ -19,7 +19,7 @@ class UserProfileController extends Controller
         if ($types->count() > 0) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
+                'data' => $types,
             ]);
         } else {
             return response()->json([
@@ -51,18 +51,22 @@ class UserProfileController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'user_id' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+            'kontak' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
         ]);
 
         $type = user_profile::create([
-            'title' => $request->title,
-            'description' => $request->description,
+            'user_id' => $request->user_id,
+            'nama' => $request->nama,
+            'kontak' => $request->kontak,
+            'alamat' => $request->alamat,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User type registered successfully',
+            'message' => 'User profile registered successfully',
             'type' => $type,
         ]);
     }
@@ -86,20 +90,23 @@ class UserProfileController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+            'kontak' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
         ]);
 
         $type = user_profile::find($id);
         if ($type) {
-            $type->title = $request->title;
-            $type->description = $request->description;
+            $type->user_id = $type->user_id;
+            $type->nama = $request->nama;
+            $type->kontak = $request->kontak;
+            $type->alamat = $request->alamat;
             $type->save();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type updated successfully',
-                'type' => $type,
+                'message' => 'User profile updated successfully',
+                'data' => $type,
             ]);
         } else {
             return response()->json([
@@ -113,17 +120,12 @@ class UserProfileController extends Controller
     {
         $type = user_profile::find($id);
         if ($type) {
-            $return = [
-                'id' => $type->id,
-                'title' => $type->title,
-                'description' => $type->description,
-            ];
+
             $type->delete();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type removed successfully',
-                'type' => $return,
+                'message' => 'User profile removed successfully',
             ]);
         } else {
             return response()->json([

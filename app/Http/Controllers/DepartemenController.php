@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\departemen;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -32,19 +33,28 @@ class DepartemenController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'departemen_name' => 'required|string|max:255',
+            'lokasi' => 'required|string|max:255',
+        ]);
+
+        $asd = date('ym');
+        $id = IdGenerator::generate([
+            'table' => 'suppliers',
+            'field' => 'supplier_id',
+            'length' => 10,
+            'prefix' => "SPL$asd",
         ]);
 
         $type = departemen::create([
-            'title' => $request->title,
-            'description' => $request->description,
+            'departemen_id' => $id,
+            'departemen_name' => $request->departemen_name,
+            'lokasi' => $request->lokasi,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User type registered successfully',
-            'type' => $type,
+            'message' => 'Departemen registered successfully',
+            'data' => $type,
         ]);
     }
 
@@ -86,20 +96,20 @@ class DepartemenController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'departemen_name' => 'required|string|max:255',
+            'lokasi' => 'required|string|max:255',
         ]);
 
         $type = departemen::find($id);
         if ($type) {
-            $type->title = $request->title;
-            $type->description = $request->description;
+            $type->departemen_name = $request->departemen_name;
+            $type->lokasi = $request->lokasi;
             $type->save();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type updated successfully',
-                'type' => $type,
+                'message' => 'Departemen updated successfully',
+                'data' => $type,
             ]);
         } else {
             return response()->json([
@@ -113,17 +123,12 @@ class DepartemenController extends Controller
     {
         $type = departemen::find($id);
         if ($type) {
-            $return = [
-                'id' => $type->id,
-                'title' => $type->title,
-                'description' => $type->description,
-            ];
+
             $type->delete();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type removed successfully',
-                'type' => $return,
+                'message' => 'Departemen removed successfully',
             ]);
         } else {
             return response()->json([

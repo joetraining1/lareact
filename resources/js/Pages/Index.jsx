@@ -8,9 +8,11 @@ import React, { useEffect } from "react";
 const Index = () => {
     useEffect(() => {
         const testApi = async () => {
-            const req = await ApiClient.get("auth/home-welcome").then((res) => {
-                return res.data;
-            });
+            const req = await ApiClient.get(`auth/home-welcome/hires`).then(
+                (res) => {
+                    return res.data;
+                }
+            );
 
             console.log(req);
 

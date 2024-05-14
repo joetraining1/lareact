@@ -12,22 +12,29 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'testApi', 'refresh']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'testApi', 'refresh', 'PostApi']]);
     }
 
-    public function testApi(Request $request)
+    public function testApi(Request $request, $id)
     {
+        // $dt = Carbon::parse('2012-9-5 23:26:11');
+
+        // $asd = date('ym');
         // $id = IdGenerator::generate([
         //     'table' => 'kategoris',
-        //     'length' => 8,
-        //     'prefix' => date('y'),
+        //     'field' => 'kategori_id',
+        //     'length' => 10,
+        //     'prefix' => "KTG$asd",
         // ]);
+
+        // $user = (new AppUserController)->showUserById('haidid');
 
         $str = 'welcome';
 
         return response()->json([
             'message' => "you are connected to this api. $str",
-            // 'feature' => $id,
+            // 'feature' => $user,
+            'time' => $id,
         ], 200);
     }
 
@@ -45,21 +52,22 @@ class AuthController extends Controller
         if (! $token) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized',
+                'message' => 'Unauthorized.',
             ], 401);
         }
 
         $user = Auth::user();
+        $userProfile = '';
+
         $userData = [
-            'name' => $user->name,
-            'type' => $userType->title,
-            'id' => $user->id,
+            'type' => $user->type,
+            'user_id' => $user->user_id,
         ];
 
         return response()->json([
             'status' => 'success',
             'user' => $userData,
-            'authorisation' => [
+            'authorization' => [
                 'token' => $token,
                 'type' => 'bearer',
             ],

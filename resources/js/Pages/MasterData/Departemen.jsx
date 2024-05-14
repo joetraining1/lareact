@@ -6,7 +6,6 @@ import TableData from "@/Components/TableData/TableData";
 import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
-import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import React from "react";
 
 const Departemen = () => {

@@ -63,6 +63,19 @@ class AppUserController extends Controller
         }
     }
 
+    public function showUserById($id)
+    {
+        $type = app_user::find($id);
+        if ($type) {
+            return $type;
+        }
+
+        return [
+            'status' => 'no data.',
+            'message' => "there are no $id data to be found.",
+        ];
+    }
+
     public function update(Request $request, $id)
     {
         $request->validate([
