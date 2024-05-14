@@ -9,7 +9,11 @@ class supplier extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['supplier_id', 'supplier_nama', 'supplier_kontak', 'supplier_alamat'];
+    protected $fillable = [
+        'supplier_id',
+        'supplier_name',
+        'supplier_kontak',
+        'supplier_alamat'];
 
     public function transaksi()
     {

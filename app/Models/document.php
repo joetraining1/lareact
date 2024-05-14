@@ -9,7 +9,14 @@ class document extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['document_id', 'document_path', 'document_file', 'document_url', 'created_by', 'modified_by', 'modified_at'];
+    protected $fillable = [
+        'document_id',
+        'document_path',
+        'document_file',
+        'document_url',
+        'created_by',
+        'modified_by',
+        'modified_at'];
 
     public function document_info()
     {

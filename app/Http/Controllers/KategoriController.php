@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KategoriController extends Controller
 {
@@ -61,6 +62,25 @@ class KategoriController extends Controller
                 'message' => 'there are no data to be found.',
             ]);
         }
+    }
+
+    public function SearchQuery(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        $query = DB::select("SELECT * from kategoris where kategoris.kategori_name like %$keyword%");
+
+        if ($query) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $query,
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'fail',
+            'message' => 'There are no data to be found.',
+        ]);
     }
 
     public function update(Request $request, $id)

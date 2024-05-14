@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
+            $table->string('order_id');
+            $table->string('transaksi_id')->unique();
+            $table->string('transaksi_ref');
+            $table->bigInteger('transaksi_cost');
+            $table->string('supplier_id');
+            $table->string('transaksi_date');
+            $table->string('document_id');
+            $table->string('modified_by');
             $table->timestamps();
         });
     }

@@ -16,7 +16,11 @@ class app_user extends Authenticatable implements JWTSubject
      *
      * @var array<int, string>
      */
-    protected $fillable = ['user_id', 'email', 'password', 'type'];
+    protected $fillable = [
+        'user_id',
+        'email',
+        'password',
+        'type'];
 
     public function departemen()
     {

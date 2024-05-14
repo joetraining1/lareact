@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('document_infos', function (Blueprint $table) {
             $table->id();
+            $table->string('document_id');
+            $table->string('document_ref');
+            $table->string('document_judul');
+            $table->string('kategori_id');
+            $table->string('document_agenda');
+            $table->string('departemen_id');
+            $table->string('document_date');
+            $table->string('modified_by');
             $table->timestamps();
         });
     }

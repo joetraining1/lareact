@@ -9,7 +9,10 @@ class departemen extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['departemen_id', 'departemen_nama', 'lokasi'];
+    protected $fillable = [
+        'departemen_id',
+        'departemen_name',
+        'lokasi'];
 
     public function employment()
     {

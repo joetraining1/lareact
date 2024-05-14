@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppUserController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DocumentInfoController;
@@ -30,6 +31,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1/')->group(function () {
+    Route::prefix('auth/')->group(function () {
+        Route::controller(AuthController::class)->group(function () {
+            Route::get('home-welcome', 'testApi');
+        });
+    });
+
     Route::controller(AppUserController::class)->group(function () {
         Route::prefix('account/')->group(function () {
             Route::controller(UserProfileController::class)->group(function () {

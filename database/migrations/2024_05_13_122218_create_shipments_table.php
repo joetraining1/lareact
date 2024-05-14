@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
+            $table->string('order_id');
+            $table->string('transaksi_id');
+            $table->string('shipment_id')->unique();
+            $table->string('shipment_ref');
+            $table->string('shipment_cost');
+            $table->string('shipment_start');
+            $table->string('shipment_estimated');
+            $table->string('document_id');
+            $table->string('modified_by');
             $table->timestamps();
         });
     }

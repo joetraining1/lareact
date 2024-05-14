@@ -2,9 +2,24 @@ import PageContainer from "@/lib/parts/PageContainer/PageContainer";
 import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
-import React from "react";
+import ApiClient from "@/lib/services/ApiClient";
+import React, { useEffect } from "react";
 
 const Index = () => {
+    useEffect(() => {
+        const testApi = async () => {
+            const req = await ApiClient.get("auth/home-welcome").then((res) => {
+                return res.data;
+            });
+
+            console.log(req);
+
+            return req;
+        };
+        testApi();
+        return;
+    }, []);
+
     return (
         <PageContainer>
             <BoxContainer>

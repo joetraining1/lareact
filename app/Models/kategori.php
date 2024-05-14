@@ -9,7 +9,10 @@ class kategori extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['kategori_id', 'kategori_nama', 'kategori_deskripsi'];
+    protected $fillable = [
+        'kategori_id',
+        'kategori_name',
+        'kategori_deskripsi'];
 
     public function document_info()
     {

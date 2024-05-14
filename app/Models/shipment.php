@@ -9,7 +9,16 @@ class shipment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['shipment_id', 'order_id', 'transaksi_id', 'shipment_ref', 'document_id', 'shipment_cost', 'shipment_start', 'shipment_estimated', 'modified_by'];
+    protected $fillable = [
+        'shipment_id',
+        'order_id',
+        'transaksi_id',
+        'shipment_ref',
+        'document_id',
+        'shipment_cost',
+        'shipment_start',
+        'shipment_estimated',
+        'modified_by'];
 
     public function order()
     {

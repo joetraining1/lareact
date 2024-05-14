@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\app_user;
 use Carbon\Carbon;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,8 +17,17 @@ class AuthController extends Controller
 
     public function testApi(Request $request)
     {
+        // $id = IdGenerator::generate([
+        //     'table' => 'kategoris',
+        //     'length' => 8,
+        //     'prefix' => date('y'),
+        // ]);
+
+        $str = 'welcome';
+
         return response()->json([
-            'message' => 'you are connected to this api.',
+            'message' => "you are connected to this api. $str",
+            // 'feature' => $id,
         ], 200);
     }
 
@@ -27,6 +37,7 @@ class AuthController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
+
         $credentials = $request->only('email', 'password');
 
         $token = Auth::attempt($credentials, ['exp' => Carbon::now()->addDays(7)->timestamp()]);

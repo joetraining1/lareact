@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupplierController extends Controller
 {
@@ -26,6 +27,25 @@ class SupplierController extends Controller
                 'message' => 'there are no data to be found.',
             ]);
         }
+    }
+
+    public function SearchQuery(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        $query = DB::select("SELECT * from suppliers where suppliers.supplier_name like %$keyword%");
+
+        if ($query) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $query,
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'fail',
+            'message' => 'There are no data to be found.',
+        ]);
     }
 
     public function store(Request $request)

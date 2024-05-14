@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\departemen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DepartemenController extends Controller
 {
@@ -44,6 +45,25 @@ class DepartemenController extends Controller
             'status' => 'success',
             'message' => 'User type registered successfully',
             'type' => $type,
+        ]);
+    }
+
+    public function SearchQuery(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        $query = DB::select("SELECT * from departemens where departemens.departemen_name like %$keyword%");
+
+        if ($query) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $query,
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'fail',
+            'message' => 'There are no data to be found.',
         ]);
     }
 
