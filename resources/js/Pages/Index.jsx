@@ -34,9 +34,9 @@ const Index = () => {
                 <SectionHeader title={"Checklist"} />
                 <ul>
                     <li>1. - Communicator</li>
-                    <li>2. - Harvester</li>
-                    <li>3. - Preservator</li>
-                    <li>4. - Processor</li>
+                    <li>2. Harvester</li>
+                    <li>3. Preservator</li>
+                    <li>4. Processor</li>
                     <li>5. - Manipulator</li>
                     <li>6. Presenter</li>
                     <li>7. Navigator</li>

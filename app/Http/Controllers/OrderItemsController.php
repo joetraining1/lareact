@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\order_items;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderItemsController extends Controller
 {
@@ -12,13 +13,13 @@ class OrderItemsController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index()
+    public function index($id)
     {
-        $types = order_items::all();
+        $types = DB::select("SELECT order_items.product_id, products.product_name, order_items.order_qty, order_items.order_cost from order_items left join products on order_items.product_id = products.product_id where order_items.order_id = $id");
         if ($types->count() > 0) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
+                'data' => $types,
             ]);
         } else {
             return response()->json([
