@@ -31,19 +31,31 @@ class DocumentInfoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'document_id' => 'required|string|max:255',
+            'document_ref' => 'required|string|max:255',
+            'document_judul' => 'required|string|max:255',
+            'document_agenda' => 'required|string|max:255',
+            'document_date' => 'required|string|max:255',
+            'kategori_id' => 'required|string|max:255',
+            'departemen_id' => 'required|string|max:255',
+            'user_id' => 'required|string|max:255',
         ]);
 
         $type = document_info::create([
-            'title' => $request->title,
-            'description' => $request->description,
+            'document_id' => $request->document_id,
+            'document_ref' => $request->document_ref,
+            'document_judul' => $request->document_judul,
+            'document_agenda' => $request->document_agenda,
+            'document_date' => $request->document_date,
+            'kategori_id' => $request->kategori_id,
+            'departemen_id' => $request->departemen_id,
+            'modified_by' => $request->user_id,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User type registered successfully',
-            'type' => $type,
+            'message' => 'Document info registered successfully',
+            'data' => $type,
         ]);
     }
 
@@ -66,20 +78,31 @@ class DocumentInfoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'document_ref' => 'required|string|max:255',
+            'document_judul' => 'required|string|max:255',
+            'document_agenda' => 'required|string|max:255',
+            'document_date' => 'required|string|max:255',
+            'kategori_id' => 'required|string|max:255',
+            'departemen_id' => 'required|string|max:255',
+            'user_id' => 'required|string|max:255',
         ]);
 
         $type = document_info::find($id);
         if ($type) {
-            $type->title = $request->title;
-            $type->description = $request->description;
+            $type->document_id = $type->document_id;
+            $type->document_ref = $request->document_ref;
+            $type->document_judul = $request->document_judul;
+            $type->document_agenda = $request->document_agenda;
+            $type->document_date = $request->document_date;
+            $type->kategori_id = $request->kategori_id;
+            $type->departemen_id = $request->departemen_id;
+            $type->modified_by = $request->user_id;
             $type->save();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type updated successfully',
-                'type' => $type,
+                'message' => 'Document info updated successfully',
+                'date' => $type,
             ]);
         } else {
             return response()->json([
@@ -93,17 +116,12 @@ class DocumentInfoController extends Controller
     {
         $type = document_info::find($id);
         if ($type) {
-            $return = [
-                'id' => $type->id,
-                'title' => $type->title,
-                'description' => $type->description,
-            ];
+
             $type->delete();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type removed successfully',
-                'type' => $return,
+                'message' => 'Document info removed successfully',
             ]);
         } else {
             return response()->json([

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\order;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -31,19 +32,44 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'departmen_id' => 'required|string|max:255',
+            'document_id' => 'string|max:255',
+            'requester' => 'required|string|max:255',
+            'purpose' => 'required|string|max:255',
+            'expense' => 'required|integer|max:20',
+            'user_id' => 'required|string|max:255',
         ]);
 
-        $type = order::create([
-            'title' => $request->title,
-            'description' => $request->description,
+        $asd = date('ym');
+        $id = IdGenerator::generate([
+            'table' => 'orders',
+            'field' => 'order_id',
+            'length' => 10,
+            'prefix' => "ORD$asd",
         ]);
+
+        $data = [
+            'order_id' => $id,
+            'departemen_id' => $request->departemen_id,
+            'requester' => $request->requester,
+            'purpose' => $request->purpose,
+            'expense' => $request->expense,
+            'modified_by' => $request->user_id,
+        ];
+
+        if ($request->document_id) {
+            $data = [
+                ...$data,
+                'document_id' => $request->document_id,
+            ];
+        }
+
+        $type = order::create($data);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User type registered successfully',
-            'type' => $type,
+            'message' => 'Order registered successfully',
+            'data' => $type,
         ]);
     }
 
@@ -66,20 +92,29 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'departmen_id' => 'required|string|max:255',
+            'document_id' => 'string|max:255',
+            'requester' => 'required|string|max:255',
+            'purpose' => 'required|string|max:255',
+            'expense' => 'required|integer|max:20',
+            'user_id' => 'required|string|max:255',
         ]);
 
         $type = order::find($id);
         if ($type) {
-            $type->title = $request->title;
-            $type->description = $request->description;
+            $type->order_id = $type->order_id;
+            $type->departemen_id = $request->departemen_id;
+            $type->document_id = $request->document_id ? $request->document_id : $type->document_id;
+            $type->requester = $request->requester;
+            $type->purpose = $request->purpose;
+            $type->expense = $request->expense;
+            $type->modified_by = $request->user_id;
             $type->save();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type updated successfully',
-                'type' => $type,
+                'message' => 'Order updated successfully',
+                'data' => $type,
             ]);
         } else {
             return response()->json([
@@ -93,17 +128,12 @@ class OrderController extends Controller
     {
         $type = order::find($id);
         if ($type) {
-            $return = [
-                'id' => $type->id,
-                'title' => $type->title,
-                'description' => $type->description,
-            ];
+
             $type->delete();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type removed successfully',
-                'type' => $return,
+                'message' => 'Order removed successfully',
             ]);
         } else {
             return response()->json([

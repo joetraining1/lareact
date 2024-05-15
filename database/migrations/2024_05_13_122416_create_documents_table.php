@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->string('document_id')->unique();
-            $table->string('document_path');
-            $table->string('document_file');
-            $table->string('document_url');
+            $table->string('document_path')->nullable();
+            $table->string('document_file')->nullable();
+            $table->string('document_url')->nullable();
             $table->string('created_by');
             $table->string('modified_by');
             $table->timestamps();

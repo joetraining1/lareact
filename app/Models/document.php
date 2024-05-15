@@ -16,7 +16,7 @@ class document extends Model
         'document_url',
         'created_by',
         'modified_by',
-        'modified_at'];
+    ];
 
     public function document_info()
     {

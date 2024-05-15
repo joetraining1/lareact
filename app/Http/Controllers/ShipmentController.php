@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\shipment;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 
 class ShipmentController extends Controller
@@ -31,19 +32,48 @@ class ShipmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'order_id' => 'required|string|max:255',
+            'transaksi_id' => 'required|string|max:255',
+            'shipment_ref' => 'required|string|max:255',
+            'document_id' => 'string|max:255',
+            'shipment_cost' => 'required|string|max:255',
+            'shipment_start' => 'required|string|max:255',
+            'shipment_estimated' => 'required|string|max:255',
+            'user_id' => 'required|string|max:255',
         ]);
 
-        $type = shipment::create([
-            'title' => $request->title,
-            'description' => $request->description,
+        $asd = date('ym');
+        $id = IdGenerator::generate([
+            'table' => 'shipments',
+            'field' => 'shipment_id',
+            'length' => 10,
+            'prefix' => "SHP$asd",
         ]);
+
+        $data = [
+            'shipment_id' => $id,
+            'order_id' => $request->order_id,
+            'transaksi_id' => $request->transaksi_id,
+            'shipment_ref' => $request->supplier_id,
+            'shipment_cost' => $request->shipment_cost,
+            'shipment_start' => $request->shipment_start,
+            'shipment_estimated' => $request->shipment_estimated,
+            'modified_by' => $request->user_id,
+        ];
+
+        if ($request->document_id) {
+            $data = [
+                ...$data,
+                'document_id' => $request->document_id,
+            ];
+        }
+
+        $type = shipment::create($data);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User type registered successfully',
-            'type' => $type,
+            'message' => 'Shipment registered successfully',
+            'data' => $type,
         ]);
     }
 
@@ -66,20 +96,33 @@ class ShipmentController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'order_id' => 'required|string|max:255',
+            'transaksi_id' => 'required|string|max:255',
+            'shipment_ref' => 'required|string|max:255',
+            'document_id' => 'string|max:255',
+            'shipment_cost' => 'required|string|max:255',
+            'shipment_start' => 'required|string|max:255',
+            'shipment_estimated' => 'required|string|max:255',
+            'user_id' => 'required|string|max:255',
         ]);
 
         $type = shipment::find($id);
         if ($type) {
-            $type->title = $request->title;
-            $type->description = $request->description;
+            $type->shipment_id = $type->shipment_id;
+            $type->shipment_ref = $request->shipment_ref;
+            $type->order_id = $request->order_id;
+            $type->transaksi_id = $request->transaksi_id;
+            $type->document_id = $request->document_id ? $request->document_id : $type->document_id;
+            $type->shipment_cost = $request->shipment_cost;
+            $type->shipment_start = $request->shipment_start;
+            $type->shipment_estimated = $request->shipment_estimated;
+            $type->modified_by = $request->user_id;
             $type->save();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type updated successfully',
-                'type' => $type,
+                'message' => 'Shipment updated successfully',
+                'data' => $type,
             ]);
         } else {
             return response()->json([
@@ -93,17 +136,12 @@ class ShipmentController extends Controller
     {
         $type = shipment::find($id);
         if ($type) {
-            $return = [
-                'id' => $type->id,
-                'title' => $type->title,
-                'description' => $type->description,
-            ];
+
             $type->delete();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type removed successfully',
-                'type' => $return,
+                'message' => 'Shipment removed successfully',
             ]);
         } else {
             return response()->json([

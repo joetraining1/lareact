@@ -31,10 +31,23 @@ class AuthController extends Controller
 
         $str = 'welcome';
 
+        $obj = [
+            'test' => 'test',
+        ];
+
+        $obj2 = [
+            'obj' => 'obj',
+        ];
+
+        $obj = [
+            ...$obj,
+            ...$obj2,
+        ];
+
         return response()->json([
             'message' => "you are connected to this api. $str",
-            // 'feature' => $user,
-            'time' => $id,
+            'feature' => $obj,
+            // 'time' => $id,
         ], 200);
     }
 

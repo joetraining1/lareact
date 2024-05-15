@@ -31,19 +31,23 @@ class OrderItemsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'order_id' => 'required|string|max:255',
+            'product_id' => 'required|string|max:255',
+            'order_qty' => 'required|integer|max:20',
+            'order_cost' => 'required|integer|max:20',
         ]);
 
         $type = order_items::create([
-            'title' => $request->title,
-            'description' => $request->description,
+            'order_id' => $request->order_id,
+            'product_id' => $request->product_id,
+            'order_qty' => $request->order_qty,
+            'order_cost' => $request->order_cost,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User type registered successfully',
-            'type' => $type,
+            'message' => 'Order item registered successfully',
+            'data' => $type,
         ]);
     }
 
@@ -66,20 +70,22 @@ class OrderItemsController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'product_id' => 'required|string|max:255',
+            'order_qty' => 'required|integer|max:20',
+            'order_cost' => 'required|integer|max:20',
         ]);
 
         $type = order_items::find($id);
         if ($type) {
-            $type->title = $request->title;
-            $type->description = $request->description;
+            $type->product_id = $request->product_id;
+            $type->order_qty = $request->order_qty;
+            $type->order_cost = $request->order_cost;
             $type->save();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type updated successfully',
-                'type' => $type,
+                'message' => 'Order item updated successfully',
+                'data' => $type,
             ]);
         } else {
             return response()->json([
@@ -93,17 +99,12 @@ class OrderItemsController extends Controller
     {
         $type = order_items::find($id);
         if ($type) {
-            $return = [
-                'id' => $type->id,
-                'title' => $type->title,
-                'description' => $type->description,
-            ];
+
             $type->delete();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type removed successfully',
-                'type' => $return,
+                'message' => 'Item removed successfully',
             ]);
         } else {
             return response()->json([
