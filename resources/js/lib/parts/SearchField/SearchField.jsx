@@ -6,7 +6,7 @@ import React, { useRef, useState } from "react";
 import PopupWidget from "../PopupWidget/PopupWidget";
 import { SectionDivider } from "@/Components/SectionContainer/SectionContainer";
 
-const SearchField = ({ id, title, styles, popStyle }) => {
+const SearchField = ({ id, title, styles, popStyle, action }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [keyword, setKeyword] = useState("");
 

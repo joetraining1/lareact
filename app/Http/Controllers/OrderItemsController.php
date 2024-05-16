@@ -58,7 +58,7 @@ class OrderItemsController extends Controller
         if ($type) {
             return response()->json([
                 'status' => 'success',
-                'type' => $type,
+                'data' => $type,
             ]);
         } else {
             return response()->json([

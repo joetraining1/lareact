@@ -53,8 +53,8 @@ class SupplierController extends Controller
     {
         $request->validate([
             'supplier_name' => 'required|string|max:255',
-            'supplier_harga' => 'required|string|max:255',
-            'supplier_deskripsi' => 'required|string|max:255',
+            'supplier_kontak' => 'required|string|max:255',
+            'supplier_alamat' => 'required|string|max:255',
         ]);
 
         $asd = date('ym');

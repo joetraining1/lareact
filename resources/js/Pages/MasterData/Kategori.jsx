@@ -11,6 +11,7 @@ import React from "react";
 
 const Kategori = () => {
     const { DataColumn } = KategoriColumn();
+
     return (
         <SectionContainer url={"/master"}>
             <BoxContainer>

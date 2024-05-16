@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\transaksi;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransaksiController extends Controller
 {
@@ -13,9 +14,9 @@ class TransaksiController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index()
+    public function index($id)
     {
-        $types = transaksi::all();
+        $types = DB::select("SELECT *, suppliers.supplier_name, documents.document_url, user_profiles.nama from transaksis left join supplier on transaksis.supplier_id = suppliers.supplier_id left join documents on transaksis.document_id = documents.document_id left join app_users on transaksis.modified_by = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id where transaksis.order_id = $id");
         if ($types->count() > 0) {
             return response()->json([
                 'status' => 'success',

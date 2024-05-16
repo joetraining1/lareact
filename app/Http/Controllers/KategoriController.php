@@ -44,6 +44,7 @@ class KategoriController extends Controller
             'length' => 10,
             'prefix' => "KTG$asd",
         ]);
+
         $type = kategori::create([
             'kategori_id' => $id,
             'kategori_name' => $request->kategori_name,

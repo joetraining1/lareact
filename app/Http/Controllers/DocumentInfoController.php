@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\document_info;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DocumentInfoController extends Controller
 {
@@ -61,11 +62,15 @@ class DocumentInfoController extends Controller
 
     public function show($id)
     {
-        $type = document_info::find($id);
+        $type = document_info::where('document_id', $id);
+        $doc_info = DB::table('document_infos')
+            ->where('document_id', '=', $id)
+            ->get();
+
         if ($type) {
             return response()->json([
                 'status' => 'success',
-                'type' => $type,
+                'data' => $type,
             ]);
         } else {
             return response()->json([

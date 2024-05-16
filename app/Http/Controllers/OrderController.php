@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\order;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -15,7 +16,8 @@ class OrderController extends Controller
 
     public function index()
     {
-        $types = order::all();
+        $types = DB::select('SELECT *, departemens.departemen_name, documents.document_url, user_profiles.nama from orders left join departemens on orders.departemen_id = departemens.departemen_id left join documents on orders.document_id = documents.document_id left join app_users on orders.requester = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id');
+
         if ($types->count() > 0) {
             return response()->json([
                 'status' => 'success',

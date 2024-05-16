@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\shipment;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ShipmentController extends Controller
 {
@@ -13,9 +14,9 @@ class ShipmentController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index()
+    public function index($id)
     {
-        $types = shipment::all();
+        $types = DB::select("SELECT *, documents.document_url, user_profiles.nama from shipments left join documents on shipments.document_id = documents.document_id left join app_users on shipments.modified_by = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id where shipments.order_id = $id");
         if ($types->count() > 0) {
             return response()->json([
                 'status' => 'success',

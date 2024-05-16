@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1/')->group(function () {
     Route::prefix('auth/')->group(function () {
         Route::controller(AuthController::class)->group(function () {
-            Route::get('home-welcome/{id}', 'testApi');
+            Route::post('home-welcome/{id}', 'testApi');
             Route::post('login', 'login');
             Route::post('register', 'register');
             Route::post('logout', 'logout');

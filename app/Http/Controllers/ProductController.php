@@ -16,7 +16,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $types = product::all();
+        $types = DB::select('SELECT *, kategoris.kategori_name from products left join kategoris on products.kategori_id = kategoris.kategori_id');
 
         $products = DB::select('SELECT products.product_id, products.kategori_id, products.product_name, products.product_harga, product.product_deskripsi, kategoris.kategori_name from products left join kategoris on products.kategori_id = kategoris.kategori_id');
         if ($types->count() > 0) {

@@ -16,8 +16,8 @@ const CUUser = () => {
                     title={"Register User Baru"}
                     value={"Menambahkan data user baru."}
                 />
-                <UserProfileForm />
                 <UserForm />
+                <UserProfileForm />
             </BoxContainer>
         </SectionContainer>
     );

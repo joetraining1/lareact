@@ -3,7 +3,16 @@ import { h4FontStyle } from "@/lib/constant/Styles";
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
 
-const InputLabel = ({ id, value, title, action, styles, props }) => {
+const InputLabel = ({
+    id,
+    value = "",
+    title,
+    action,
+    styles,
+    props,
+    labelStyle,
+    type,
+}) => {
     const [cvalue, setcValue] = useState(value);
 
     return (
@@ -13,6 +22,7 @@ const InputLabel = ({ id, value, title, action, styles, props }) => {
                 style={{
                     ...h4FontStyle,
                     color: AllColors.DarkGrey,
+                    ...labelStyle,
                 }}
             >
                 {title}
@@ -20,6 +30,7 @@ const InputLabel = ({ id, value, title, action, styles, props }) => {
             <TextField
                 sx={{ ...styles }}
                 id={id}
+                type={type}
                 size="small"
                 {...props}
                 value={cvalue}

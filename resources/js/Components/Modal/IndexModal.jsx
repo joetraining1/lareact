@@ -1,12 +1,29 @@
 import useModalState from "@/hooks/useModalState";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
-import React from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import SiteModal from "./SiteModal";
+import { useDispatch, useSelector } from "react-redux";
+import { In, Out } from "@/redux/slices/modalSlice";
+
+export const ModalContext = createContext({
+    modalState: Boolean,
+    shiftModal: () => {},
+});
 
 const IndexModal = ({ button, title, value, children }) => {
     const { modalState, shiftModal } = useModalState();
+
+    const open = useSelector((state) => state.modal.modalState.open);
+
+    const dispatch = useDispatch();
+
     return (
-        <React.Fragment>
+        <ModalContext.Provider
+            value={{
+                modalState,
+                shiftModal,
+            }}
+        >
             <SiteButton
                 title={button}
                 styles={{
@@ -22,7 +39,7 @@ const IndexModal = ({ button, title, value, children }) => {
             >
                 {children}
             </SiteModal>
-        </React.Fragment>
+        </ModalContext.Provider>
     );
 };
 

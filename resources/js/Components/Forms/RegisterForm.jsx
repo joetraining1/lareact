@@ -1,43 +1,34 @@
-import { LoginScene } from "@/lib/constant/Styles";
-import InputLabel from "@/lib/parts/InputLabel/InputLabel";
+import { LoginScene, h4FontStyle } from "@/lib/constant/Styles";
+import SiteButton from "@/lib/parts/SiteButton/SiteButton";
+import UniversalButton from "@/lib/parts/UniversalButton/UniversalButton";
 import { Typography } from "@mui/material";
 import React, { useState } from "react";
 import { SectionDivider } from "../SectionContainer/SectionContainer";
-import SiteButton from "@/lib/parts/SiteButton/SiteButton";
-import UniversalButton from "@/lib/parts/UniversalButton/UniversalButton";
+import InputLabel from "@/lib/parts/InputLabel/InputLabel";
 import { useNavigate } from "react-router-dom";
-import ApiClient from "@/lib/services/ApiClient";
-import { useDispatch } from "react-redux";
-import { login } from "@/redux/slices/authSlice";
 import Cookies from "js-cookie";
+import ApiClient from "@/lib/services/ApiClient";
 
-const LoginForms = () => {
+const RegisterForm = () => {
+    const navigate = useNavigate();
+
     const [payload, setPayload] = useState({
         email: "",
         password: "",
     });
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const [msg, setMsg] = useState("");
 
     const adding = async () => {
-        const req = await ApiClient.post("auth/login", payload)
+        const req = await ApiClient.post("auth/register", payload)
             .then((res) => {
                 return res.data;
             })
             .catch((error) => {
                 console.log(error);
+                setMsg(error?.data?.message);
                 return;
             });
-
-        dispatch(
-            login({
-                user_id: req.user.user_id,
-                type: req.user.type,
-                token: req.authorization.accessToken,
-            })
-        );
-        Cookies.set("accessToken", req.authorization.accessToken);
+        Cookies.set("accessToken", req.authorization.token);
         navigate("/");
         return;
     };
@@ -51,7 +42,7 @@ const LoginForms = () => {
                     fontWeight: "600",
                 }}
             >
-                Signing In
+                Register
             </Typography>
             <Typography
                 variant="body1"
@@ -59,7 +50,7 @@ const LoginForms = () => {
                     ...LoginScene,
                 }}
             >
-                Masuk untuk melanjutkan.
+                New member assigning.
             </Typography>
             <br />
             <InputLabel
@@ -77,6 +68,18 @@ const LoginForms = () => {
                 }}
                 action={(a) => (payload.password = a)}
             />
+            {msg && (
+                <Typography
+                    variant="body2"
+                    sx={{
+                        fontStyle: "italic",
+                        color: "red",
+                        ...h4FontStyle,
+                    }}
+                >
+                    {msg}
+                </Typography>
+            )}
             <br />
             <SectionDivider
                 styles={{
@@ -84,20 +87,20 @@ const LoginForms = () => {
                 }}
             >
                 <SiteButton
-                    title={"Sign in"}
+                    title={"submit"}
                     styles={{
                         fontFamily: LoginScene.fontFamily,
                     }}
                     action={() => adding()}
                 />
                 <UniversalButton
-                    title={"register"}
+                    title={"login"}
                     variant={"text"}
-                    action={() => navigate("/register")}
+                    action={() => navigate("/login")}
                 />
             </SectionDivider>
         </React.Fragment>
     );
 };
 
-export default LoginForms;
+export default RegisterForm;

@@ -22,12 +22,17 @@ import Transaksi from "./Pages/MasterData/Transaksi";
 import Progress from "./Pages/Purchase/Progress";
 import Profile from "./Pages/Profile";
 import Employment from "./Pages/MasterData/Employment";
+import RegisterForm from "./Components/Forms/RegisterForm";
+import LoginForms from "./Components/Forms/LoginForms";
 
 const Home = () => {
     return (
         <Routes>
             <Route path="/">
-                <Route path="login" element={<Login />} />
+                <Route element={<Login />}>
+                    <Route path="login" element={<LoginForms />} />
+                    <Route path="register" element={<RegisterForm />} />
+                </Route>
                 <Route element={<MainLayout />}>
                     <Route index element={<Index />} />
                     <Route path="profile/:user_id" element={<PageLayout />}>
@@ -36,6 +41,10 @@ const Home = () => {
                     <Route path="archive" element={<PageLayout />}>
                         <Route index element={<Documents />} />
                         <Route path="add" element={<CUArchive />} />
+                        <Route
+                            path="edit/:document_id"
+                            element={<CUArchive />}
+                        />
                     </Route>
                     <Route path="purchase" element={<PageLayout />}>
                         <Route index element={<Purchases />} />
@@ -45,10 +54,12 @@ const Home = () => {
                     <Route path="product" element={<PageLayout />}>
                         <Route index element={<Products />} />
                         <Route path="add" element={<CUProduct />} />
+                        <Route path="edit/:user_id" element={<CUProduct />} />
                     </Route>
                     <Route path="user" element={<PageLayout />}>
                         <Route index element={<Users />} />
                         <Route path="add" element={<CUUser />} />
+                        <Route path="edit/:user_id" element={<CUUser />} />
                     </Route>
                     <Route path="master" element={<PageLayout />}>
                         <Route index element={<MasterData />} />

@@ -2,14 +2,17 @@ import { AllColors } from "@/lib/constant/Colors";
 import { SiteMenu } from "@/lib/constant/Menus";
 import { SideSx, h4FontStyle } from "@/lib/constant/Styles";
 import SideItem from "@/lib/parts/SideItem/SideItem";
+import UserServices from "@/lib/services/User/UserServices";
 import { slideOut } from "@/redux/slices/sidebarSlice";
 import { DirectionsRunRounded, StorageRounded } from "@mui/icons-material";
 import { Box, Button, Divider, Drawer } from "@mui/material";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const SideBar = () => {
     const open = useSelector((state) => state.sidebar.sidebarState.open);
+
+    const { signout } = UserServices();
 
     return (
         <Drawer variant="persistent" open={open}>
@@ -54,6 +57,7 @@ const SideBar = () => {
                         gap: "1vw",
                         padding: "5px 1vw",
                     }}
+                    onClick={() => signout()}
                 >
                     <DirectionsRunRounded />
                     Logout

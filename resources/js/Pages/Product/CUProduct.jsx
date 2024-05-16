@@ -1,5 +1,6 @@
 import SectionContainer from "@/Components/SectionContainer/SectionContainer";
 import InputLabel from "@/lib/parts/InputLabel/InputLabel";
+import SearchField from "@/lib/parts/SearchField/SearchField";
 import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
@@ -17,6 +18,7 @@ const CUProduct = () => {
                     }
                 />
                 <InputLabel title={"Nama Produk :"} />
+                <SearchField title={"Kategori Produk :"} />
                 <InputLabel title={"Harga Produk :"} />
                 <InputLabel
                     id={"desc-product"}

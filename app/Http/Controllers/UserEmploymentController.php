@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\user_employment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserEmploymentController extends Controller
 {
@@ -53,11 +54,15 @@ class UserEmploymentController extends Controller
 
     public function show($id)
     {
-        $type = user_employment::find($id);
+        $type = user_employment::where('user_id', $id);
+        $user = DB::table('app_users')
+            ->where('user_id', '=', $id)
+            ->get();
+
         if ($type) {
             return response()->json([
                 'status' => 'success',
-                'type' => $type,
+                'data' => $type,
             ]);
         } else {
             return response()->json([

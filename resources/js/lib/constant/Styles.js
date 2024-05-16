@@ -33,3 +33,7 @@ export const ButtonStyleBasic = {
 export const SideSx = {
     width: "15vw",
 };
+
+export const LoginScene = {
+    fontFamily: "Playfair Display, sans-serif",
+};

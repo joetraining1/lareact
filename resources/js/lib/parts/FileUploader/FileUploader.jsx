@@ -25,6 +25,7 @@ const FileUploader = ({ file = (a) => console.log(a.name) }) => {
                     color: AllColors.GreenDoff,
                     border: `1px solid ${AllColors.GreenDoff}`,
                     padding: "5px 1vw",
+                    width: "fit-content",
                     "&:hover": {
                         border: `1px solid ${AllColors.GreenDoff}`,
                     },
@@ -35,7 +36,7 @@ const FileUploader = ({ file = (a) => console.log(a.name) }) => {
                 <input
                     type="file"
                     hidden
-                    accept="application/pdf"
+                    // accept="application/pdf"
                     onChange={(e) => handleFile(e.target.files[0])}
                 />
             </Button>

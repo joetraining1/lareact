@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -18,6 +20,14 @@ class AuthController extends Controller
     public function testApi(Request $request, $id)
     {
         // $dt = Carbon::parse('2012-9-5 23:26:11');
+
+        $request->validate([
+            'file_pdf' => 'required|mimes:png,pdf,jpeg,svg,jpg|max:2048',
+        ]);
+
+        $file_path = $request->file('file_pdf')->store('files', 'public');
+        $file_url = "http://localhost:8000/storage/$file_path";
+        $file_name = Str::of($file_path)->remove('files/');
 
         // $asd = date('ym');
         // $id = IdGenerator::generate([
@@ -46,8 +56,12 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => "you are connected to this api. $str",
-            'feature' => $obj,
-            // 'time' => $id,
+            // 'feature' => [
+            //     'url' => $file_url,
+            //     'path' => $file_path,
+            //     'name' => $file_name,
+            // ],
+            'time' => $file_url,
         ], 200);
     }
 
@@ -58,9 +72,11 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        auth()->shouldUse('api');
 
-        $token = Auth::attempt($credentials, ['exp' => Carbon::now()->addDays(7)->timestamp()]);
+        $credentials = request(['email', 'password']);
+
+        $token = auth()->attempt($credentials);
 
         if (! $token) {
             return response()->json([
@@ -69,44 +85,55 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = Auth::user();
-        $userProfile = '';
+        $access = $this->respondWithToken($token);
+
+        $user = auth()->user();
 
         $userData = [
-            'type' => $user->type,
             'user_id' => $user->user_id,
+            'type' => $user->type,
         ];
 
         return response()->json([
             'status' => 'success',
             'user' => $userData,
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ],
+            'authorization' => $access->original,
         ], 200);
     }
 
     public function register(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:app_users',
             'password' => 'required|string|min:6',
         ]);
 
-        $user = app_user::create([
-            'user_id' => $request->department_id,
-            'email' => $request->rank_id,
-            'password' => $request->deployment_id,
-            'type' => $request->bank_id,
+        $asd = date('ym');
+        $id = IdGenerator::generate([
+            'table' => 'app_users',
+            'field' => 'user_id',
+            'length' => 10,
+            'prefix' => "USR$asd",
         ]);
+
+        $user = app_user::create([
+            'user_id' => $id,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'type' => 0,
+        ]);
+
+        $userData = [
+            'user_id' => $user->user_id,
+            'type' => $user->type,
+        ];
 
         $token = Auth::login($user);
 
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
-            'user' => $user,
+            'user' => $userData,
             'authorization' => [
                 'token' => $token,
                 'type' => 'bearer',
@@ -132,6 +159,15 @@ class AuthController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully logged out.',
+        ]);
+    }
+
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'accessToken' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 600,
         ]);
     }
 }

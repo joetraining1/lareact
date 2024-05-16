@@ -41,6 +41,7 @@ const ArchiveForm = () => {
             <InputLabel title={"Judul Dokumen :"} />
             <InputLabel title={"Agenda Dokumen :"} />
             <InputLabel title={"Tanggal Dokumen :"} />
+
             <SiteButton
                 title={"Simpan"}
                 styles={{
