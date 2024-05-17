@@ -6,18 +6,24 @@ import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
-import React from "react";
+import React, { useState } from "react";
 
 const CUUser = () => {
+    const [uId, setUId] = useState("");
+
     return (
         <SectionContainer url={"/user"}>
-            <BoxContainer>
+            <BoxContainer
+                styles={{
+                    transition: "all 0.3s ease-in-out",
+                }}
+            >
                 <SectionHeader
                     title={"Register User Baru"}
                     value={"Menambahkan data user baru."}
                 />
-                <UserForm />
-                <UserProfileForm />
+                <UserForm uId={(a) => setUId(a)} />
+                {uId && <UserProfileForm id={uId} />}
             </BoxContainer>
         </SectionContainer>
     );

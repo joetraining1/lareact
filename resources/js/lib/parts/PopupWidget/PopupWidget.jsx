@@ -4,7 +4,7 @@ import { DataFilterOnSearch } from "@/lib/constant/TestData";
 import { Button, Paper } from "@mui/material";
 import React from "react";
 
-const PopupWidget = ({ keyword, styles, close, action, data }) => {
+const PopupWidget = ({ styles, close, children }) => {
     return (
         <Paper
             elevation={3}
@@ -20,22 +20,7 @@ const PopupWidget = ({ keyword, styles, close, action, data }) => {
                 overflowY: "auto",
             }}
         >
-            {DataFilterOnSearch.map((item, index) => {
-                return item.includes(keyword) ? (
-                    <span
-                        key={index}
-                        style={{
-                            cursor: "pointer",
-                        }}
-                        onClick={() => {
-                            action(item);
-                            return close();
-                        }}
-                    >
-                        {item}
-                    </span>
-                ) : null;
-            })}
+            {children}
             <Button
                 variant="text"
                 sx={{

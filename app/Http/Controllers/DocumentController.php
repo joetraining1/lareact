@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\document;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -17,11 +18,11 @@ class DocumentController extends Controller
 
     public function index()
     {
-        $types = document::all();
-        if ($types->count() > 0) {
+        $types = DB::select('SELECT document_infos.id, document_infos.document_id, document_infos.document_ref, document_infos.document_judul, document_infos.document_agenda, document_infos.kategori_id, document_infos.departemen_id, document_infos.document_date, document_infos.modified_by, documents.document_url, documents.created_by, kategoris.kategori_name,departemens.departemen_name from document_infos left join documents on document_infos.document_id = documents.document_id left join kategoris on document_infos.kategori_id = kategoris.kategori_id left join departemens on document_infos.departemen_id = departemens.departemen_id');
+        if ($types) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
+                'data' => $types,
             ]);
         } else {
             return response()->json([
@@ -91,7 +92,7 @@ class DocumentController extends Controller
         if ($type) {
             return response()->json([
                 'status' => 'success',
-                'type' => $type,
+                'data' => $type,
             ]);
         } else {
             return response()->json([

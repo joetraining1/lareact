@@ -24,6 +24,7 @@ import Profile from "./Pages/Profile";
 import Employment from "./Pages/MasterData/Employment";
 import RegisterForm from "./Components/Forms/RegisterForm";
 import LoginForms from "./Components/Forms/LoginForms";
+import VisitorLayout from "./Layouts/VisitorLayout";
 
 const Home = () => {
     return (
@@ -72,6 +73,7 @@ const Home = () => {
                     </Route>
                 </Route>
             </Route>
+            <Route path="*" element={<VisitorLayout />} />
         </Routes>
     );
 };

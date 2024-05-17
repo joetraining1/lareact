@@ -1,5 +1,7 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
+import { SectionDivider } from "../SectionContainer/SectionContainer";
+import KategoriForm from "../Forms/KategoriForm";
 
 const KategoriColumn = (data) => {
     const DataColumn = useMemo(() => {
@@ -18,7 +20,7 @@ const KategoriColumn = (data) => {
                 width: 150,
             },
             {
-                field: "kategori_nama",
+                field: "kategori_name",
                 headerName: "Nama Kategori",
                 width: 250,
             },
@@ -31,15 +33,27 @@ const KategoriColumn = (data) => {
                 field: "option",
                 headerName: "Option",
                 width: 150,
-                renderCell: ({ row: { id, title, value } }) => {
+                renderCell: ({
+                    row: { kategori_id, kategori_name, kategori_deskripsi },
+                }) => {
                     return (
-                        <IndexModal
-                            button={"option"}
-                            title={"Test Table Modal"}
-                            value={"modal opened"}
+                        <SectionDivider
+                            styles={{
+                                alignItems: "center",
+                            }}
                         >
-                            {title}
-                        </IndexModal>
+                            <IndexModal
+                                button={"option"}
+                                title={"Test Table Modal"}
+                                value={"modal opened"}
+                            >
+                                <KategoriForm
+                                    id={kategori_id}
+                                    name={kategori_name}
+                                    deskripsi={kategori_deskripsi}
+                                />
+                            </IndexModal>
+                        </SectionDivider>
                     );
                 },
             },

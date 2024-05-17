@@ -35,7 +35,6 @@ class OrderController extends Controller
     {
         $request->validate([
             'departmen_id' => 'required|string|max:255',
-            'document_id' => 'string|max:255',
             'requester' => 'required|string|max:255',
             'purpose' => 'required|string|max:255',
             'expense' => 'required|integer|max:20',
@@ -58,13 +57,6 @@ class OrderController extends Controller
             'expense' => $request->expense,
             'modified_by' => $request->user_id,
         ];
-
-        if ($request->document_id) {
-            $data = [
-                ...$data,
-                'document_id' => $request->document_id,
-            ];
-        }
 
         $type = order::create($data);
 

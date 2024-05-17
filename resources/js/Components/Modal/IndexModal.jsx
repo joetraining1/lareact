@@ -13,10 +13,6 @@ export const ModalContext = createContext({
 const IndexModal = ({ button, title, value, children }) => {
     const { modalState, shiftModal } = useModalState();
 
-    const open = useSelector((state) => state.modal.modalState.open);
-
-    const dispatch = useDispatch();
-
     return (
         <ModalContext.Provider
             value={{

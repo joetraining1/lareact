@@ -1,5 +1,7 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
+import { Typography } from "@mui/material";
+import { SectionDivider } from "../SectionContainer/SectionContainer";
 
 const ProductColumn = ({ data = [], addition = [] }) => {
     const typeColumn = [
@@ -17,18 +19,26 @@ const ProductColumn = ({ data = [], addition = [] }) => {
             width: 150,
         },
         {
-            field: "product_nama",
+            field: "product_name",
             headerName: "Nama Produk",
             width: 200,
         },
         ...addition,
         {
-            field: "kategori_nama",
+            field: "kategori_name",
             headerName: "Kategori",
             width: 150,
         },
         {
-            field: "produk_deskripsi",
+            field: "product_harga",
+            headerName: "Harga Produk",
+            width: 250,
+            // renderCell: ({ row: { product_harga } }) => {
+            //     return <Typography>{product_harga}</Typography>;
+            // },
+        },
+        {
+            field: "product_deskripsi",
             headerName: "Deskripsi Produk",
             width: 250,
         },
@@ -38,13 +48,19 @@ const ProductColumn = ({ data = [], addition = [] }) => {
             width: 150,
             renderCell: ({ row: { id, title, value } }) => {
                 return (
-                    <IndexModal
-                        button={"option"}
-                        title={"Test Table Modal"}
-                        value={"modal opened"}
+                    <SectionDivider
+                        styles={{
+                            alignItems: "center",
+                        }}
                     >
-                        {title}
-                    </IndexModal>
+                        <IndexModal
+                            button={"option"}
+                            title={"Test Table Modal"}
+                            value={"modal opened"}
+                        >
+                            {title}
+                        </IndexModal>
+                    </SectionDivider>
                 );
             },
         },

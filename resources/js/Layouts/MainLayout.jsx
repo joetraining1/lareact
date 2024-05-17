@@ -2,6 +2,7 @@ import SideBar from "@/Components/SideBar/SideBar";
 import TopBar from "@/Components/TopBar/TopBar";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Head } from "@inertiajs/react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const MainLayout = () => {
@@ -14,6 +15,7 @@ const MainLayout = () => {
 
     return (
         <React.Fragment>
+            <Head title="Aplikasi Arsip dan Purchasing" />
             <TopBar />
             <div
                 style={{

@@ -1,5 +1,6 @@
 import ProductColumn from "@/Components/TableColumn/ProductColumn";
 import TableData from "@/Components/TableData/TableData";
+import useGetFetch from "@/hooks/useGetFetch";
 import PageContainer from "@/lib/parts/PageContainer/PageContainer";
 import SectionHeader, {
     BoxContainer,
@@ -11,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Products = () => {
     const navigate = useNavigate();
     const { DataColumn } = ProductColumn({});
+    const { resp, current, isError } = useGetFetch("products");
     return (
         <PageContainer>
             <BoxContainer>
@@ -33,7 +35,7 @@ const Products = () => {
                     title={"Data Produk"}
                     value={"Keseluruhan data produk."}
                 />
-                <TableData column={DataColumn} rows={[]} />
+                <TableData column={DataColumn} rows={resp ? resp.data : []} />
             </BoxContainer>
         </PageContainer>
     );

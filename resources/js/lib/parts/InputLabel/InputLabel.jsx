@@ -41,6 +41,11 @@ const InputLabel = ({
                     }
                     return;
                 }}
+                InputProps={{
+                    style: {
+                        border: "none",
+                    },
+                }}
             />
         </React.Fragment>
     );

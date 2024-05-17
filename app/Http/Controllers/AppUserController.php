@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\app_user;
+use App\Models\user_employment;
+use App\Models\user_profile;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AppUserController extends Controller
 {
@@ -15,11 +19,11 @@ class AppUserController extends Controller
 
     public function index()
     {
-        $types = DB::select('SELECT app_users.user_id, app_users.email, user_profiles.nama, user_profiles.kontak, user_profiles.alamat from app_users left join user_profiles on app_users.user_id = user_profiles.user_id');
-        if ($types->count() > 0) {
+        $types = DB::select('SELECT app_users.id, app_users.user_id, app_users.email, user_profiles.nama, user_profiles.kontak, user_profiles.alamat from app_users left join user_profiles on app_users.user_id = user_profiles.user_id order by app_users.user_id asc');
+        if ($types) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
+                'data' => $types,
             ]);
         } else {
             return response()->json([
@@ -32,19 +36,36 @@ class AppUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'email' => 'required|string|max:255',
+            'password' => 'required|string|max:255',
         ]);
 
-        $type = app_user::create([
-            'title' => $request->title,
-            'description' => $request->description,
+        $asd = date('ym');
+        $id = IdGenerator::generate([
+            'table' => 'app_users',
+            'field' => 'user_id',
+            'length' => 10,
+            'prefix' => "USR$asd",
+        ]);
+
+        $user = app_user::create([
+            'user_id' => $id,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'type' => 0,
+        ]);
+
+        $profile = user_profile::create([
+            'user_id' => $id,
+        ]);
+        $employment = user_employment::create([
+            'user_id' => $id,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User type registered successfully',
-            'type' => $type,
+            'message' => 'User registered successfully',
+            'data' => $user,
         ]);
     }
 

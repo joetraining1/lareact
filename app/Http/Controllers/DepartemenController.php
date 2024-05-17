@@ -42,7 +42,7 @@ class DepartemenController extends Controller
             'table' => 'suppliers',
             'field' => 'supplier_id',
             'length' => 10,
-            'prefix' => "SPL$asd",
+            'prefix' => "DPT$asd",
         ]);
 
         $type = departemen::create([
@@ -62,7 +62,7 @@ class DepartemenController extends Controller
     {
         $keyword = $request->keyword;
 
-        $query = DB::select("SELECT * from departemens where departemens.departemen_name like %$keyword%");
+        $query = DB::select('SELECT * from departemens where departemens.departemen_name like "%'.$keyword.'%"');
 
         if ($query) {
             return response()->json([

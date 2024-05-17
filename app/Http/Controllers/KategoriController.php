@@ -78,7 +78,7 @@ class KategoriController extends Controller
     {
         $keyword = $request->keyword;
 
-        $query = DB::select("SELECT * from kategoris where kategoris.kategori_name like %$keyword%");
+        $query = DB::select('SELECT * from kategoris where kategoris.kategori_name like "%'.$keyword.'%"');
 
         if ($query) {
             return response()->json([

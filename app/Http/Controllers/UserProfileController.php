@@ -33,7 +33,7 @@ class UserProfileController extends Controller
     {
         $keyword = $request->keyword;
 
-        $query = DB::select("SELECT * from user_profiles where user_profiles.nama like %$keyword%");
+        $query = DB::select('SELECT * from user_profiles where user_profiles.nama like "%'.$keyword.'%"');
 
         if ($query) {
             return response()->json([

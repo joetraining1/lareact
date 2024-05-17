@@ -1,5 +1,6 @@
 import UserColumn from "@/Components/TableColumn/UserColumn";
 import TableData from "@/Components/TableData/TableData";
+import useGetFetch from "@/hooks/useGetFetch";
 import PageContainer from "@/lib/parts/PageContainer/PageContainer";
 import SectionHeader, {
     BoxContainer,
@@ -11,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Users = () => {
     const navigate = useNavigate();
     const { DataColumn } = UserColumn();
+    const { resp, current, isError } = useGetFetch("accounts");
 
     return (
         <PageContainer>
@@ -32,7 +34,7 @@ const Users = () => {
                     title={"Data User Aplikasi"}
                     value={"Kelola keseluruhan data user pada aplikasi."}
                 />
-                <TableData column={DataColumn} rows={[]} />
+                <TableData column={DataColumn} rows={resp ? resp.data : []} />
             </BoxContainer>
         </PageContainer>
     );

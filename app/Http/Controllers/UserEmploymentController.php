@@ -19,7 +19,7 @@ class UserEmploymentController extends Controller
         if ($types->count() > 0) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
+                'data' => $types,
             ]);
         } else {
             return response()->json([

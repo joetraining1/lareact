@@ -1,5 +1,6 @@
 import ArchiveColumn from "@/Components/TableColumn/ArchiveColumn";
 import TableData from "@/Components/TableData/TableData";
+import useGetFetch from "@/hooks/useGetFetch";
 import PageContainer from "@/lib/parts/PageContainer/PageContainer";
 import SectionHeader, {
     BoxContainer,
@@ -11,6 +12,9 @@ import { useNavigate } from "react-router-dom";
 const Documents = () => {
     const navigate = useNavigate();
     const { DataColumn } = ArchiveColumn();
+
+    const { resp, current, isError } = useGetFetch("docs");
+
     return (
         <PageContainer>
             <BoxContainer>
@@ -31,7 +35,7 @@ const Documents = () => {
                     title={"Data Dokumen Arsip"}
                     value={"Keseluruhan arsip dokumen dalam perusahaan."}
                 />
-                <TableData column={DataColumn} rows={[]} />
+                <TableData column={DataColumn} rows={resp ? resp.data : []} />
             </BoxContainer>
         </PageContainer>
     );

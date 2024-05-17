@@ -16,14 +16,13 @@ class ProductController extends Controller
 
     public function index()
     {
-        $types = DB::select('SELECT *, kategoris.kategori_name from products left join kategoris on products.kategori_id = kategoris.kategori_id');
+        // $types = DB::select('SELECT *, kategoris.kategori_name from products left join kategoris on products.kategori_id = kategoris.kategori_id');
 
-        $products = DB::select('SELECT products.product_id, products.kategori_id, products.product_name, products.product_harga, product.product_deskripsi, kategoris.kategori_name from products left join kategoris on products.kategori_id = kategoris.kategori_id');
-        if ($types->count() > 0) {
+        $products = DB::select('SELECT products.id, products.product_id, products.kategori_id, products.product_name, products.product_harga, products.product_deskripsi, kategoris.kategori_name from products left join kategoris on products.kategori_id = kategoris.kategori_id');
+        if ($products) {
             return response()->json([
                 'status' => 'success',
-                'data' => $types,
-                'include' => $products,
+                'data' => $products,
             ]);
         } else {
             return response()->json([
@@ -69,7 +68,7 @@ class ProductController extends Controller
     {
         $keyword = $request->keyword;
 
-        $query = DB::select("SELECT * from products where products.product_name like %$keyword%");
+        $query = DB::select('SELECT * from products where products.product_name like "%'.$keyword.'%"');
 
         if ($query) {
             return response()->json([

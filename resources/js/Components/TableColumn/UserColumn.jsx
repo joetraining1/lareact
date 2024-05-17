@@ -13,13 +13,28 @@ const UserColumn = (data) => {
                     `${params.api.getAllRowIds().indexOf(params.id) + 1}.`,
             },
             {
-                field: "title",
-                headerName: "Data Title",
+                field: "user_id",
+                headerName: "ID User",
                 width: 150,
             },
             {
-                field: "value",
-                headerName: "Data Value",
+                field: "nama",
+                headerName: "Nama",
+                width: 250,
+            },
+            {
+                field: "email",
+                headerName: "Email User",
+                width: 250,
+            },
+            {
+                field: "kontak",
+                headerName: "Kontak",
+                width: 250,
+            },
+            {
+                field: "alamat",
+                headerName: "Alamat",
                 width: 250,
             },
             {

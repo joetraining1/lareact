@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\app_user;
+use App\Models\user_employment;
+use App\Models\user_profile;
 use Carbon\Carbon;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
@@ -14,7 +16,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'testApi', 'refresh', 'PostApi']]);
+        $this->middleware('auth:api', ['except' => ['login', 'logout', 'register', 'testApi', 'refresh', 'PostApi']]);
     }
 
     public function testApi(Request $request, $id)
@@ -121,6 +123,12 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'type' => 0,
+        ]);
+        $profile = user_profile::create([
+            'user_id' => $id,
+        ]);
+        $employment = user_employment::create([
+            'user_id' => $id,
         ]);
 
         $userData = [

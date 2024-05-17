@@ -20,7 +20,14 @@ const UserServices = () => {
         return;
     };
 
-    return { signout };
+    const forceOut = () => {
+        dispatch(logout());
+        Cookies.remove("accessToken");
+        navigate("/");
+        return;
+    };
+
+    return { signout, forceOut };
 };
 
 export default UserServices;

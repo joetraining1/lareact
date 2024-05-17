@@ -1,13 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import { SectionDivider } from "../SectionContainer/SectionContainer";
 import SearchField from "@/lib/parts/SearchField/SearchField";
 import InputLabel from "@/lib/parts/InputLabel/InputLabel";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
+import ApiClient from "@/lib/services/ApiClient";
+import KategoriItems from "../DropItems/KategoriItems";
+import { useSelector } from "react-redux";
+import DepartemenItems from "../DropItems/DepartemenItems";
+import { TargetUrl } from "@/lib/constant/Target";
 
-const ArchiveForm = () => {
+const ArchiveForm = ({ document_id = "", id }) => {
+    if (!document_id) {
+        return null;
+    }
+
+    const user = useSelector((state) => state.auth.authState);
+
+    const [payload, setPayload] = useState({
+        document_id: document_id,
+        document_ref: "",
+        document_judul: "",
+        document_agenda: "",
+        document_date: "",
+        kategori_id: "",
+        departemen_id: "",
+        user_id: user.user_id,
+    });
+
+    const adding = async () => {
+        if (id) {
+            const up = await ApiClient.post(
+                `docs/info/${document_id}?_method=PUT`,
+                payload
+            )
+                .then((res) => {
+                    return res.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    return;
+                });
+
+            shiftModal();
+            return console.log(up);
+        }
+        const req = await ApiClient.post(`docs/info/${document_id}`, payload)
+            .then((res) => {
+                return res.data;
+            })
+            .catch((error) => {
+                console.log(error);
+                return;
+            });
+        return console.log(req);
+    };
+
     return (
         <React.Fragment>
-            <InputLabel title={"Nomor Referensei Dokumen :"} />
+            <InputLabel
+                title={`Nomor Referensei Dokumen ID:${document_id}`}
+                action={(a) => (payload.document_ref = a)}
+            />
             <SectionDivider>
                 <SectionDivider
                     styles={{
@@ -21,7 +74,18 @@ const ArchiveForm = () => {
                         styles={{
                             width: "100%",
                         }}
-                    />
+                        target={TargetUrl.kategori}
+                        action={(a) => console.log(a)}
+                    >
+                        <KategoriItems
+                            action={(a) =>
+                                setPayload({
+                                    ...payload,
+                                    kategori_id: a.kategori_id,
+                                })
+                            }
+                        />
+                    </SearchField>
                 </SectionDivider>
                 <SectionDivider
                     styles={{
@@ -35,18 +99,38 @@ const ArchiveForm = () => {
                         styles={{
                             width: "100%",
                         }}
-                    />
+                        target={TargetUrl.departemen}
+                    >
+                        <DepartemenItems
+                            action={(a) =>
+                                setPayload({
+                                    ...payload,
+                                    departemen_id: a.departemen_id,
+                                })
+                            }
+                        />
+                    </SearchField>
                 </SectionDivider>
             </SectionDivider>
-            <InputLabel title={"Judul Dokumen :"} />
-            <InputLabel title={"Agenda Dokumen :"} />
-            <InputLabel title={"Tanggal Dokumen :"} />
+            <InputLabel
+                title={"Judul Dokumen :"}
+                action={(a) => (payload.document_judul = a)}
+            />
+            <InputLabel
+                title={"Agenda Dokumen :"}
+                action={(a) => (payload.document_agenda = a)}
+            />
+            <InputLabel
+                title={"Tanggal Dokumen :"}
+                action={(a) => (payload.document_date = a)}
+            />
 
             <SiteButton
                 title={"Simpan"}
                 styles={{
                     width: "150px",
                 }}
+                action={() => adding()}
             />
         </React.Fragment>
     );
