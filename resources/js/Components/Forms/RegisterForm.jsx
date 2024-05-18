@@ -8,9 +8,12 @@ import InputLabel from "@/lib/parts/InputLabel/InputLabel";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import ApiClient from "@/lib/services/ApiClient";
+import { useDispatch } from "react-redux";
+import { login } from "@/redux/slices/authSlice";
 
 const RegisterForm = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [payload, setPayload] = useState({
         email: "",
@@ -21,6 +24,7 @@ const RegisterForm = () => {
     const adding = async () => {
         const req = await ApiClient.post("auth/register", payload)
             .then((res) => {
+                console.log(res);
                 return res.data;
             })
             .catch((error) => {
@@ -28,7 +32,14 @@ const RegisterForm = () => {
                 setMsg(error?.data?.message);
                 return;
             });
-        Cookies.set("accessToken", req.authorization.token);
+        Cookies.set("accessToken", req.authorization);
+        dispatch(
+            login({
+                user_id: req.user.user_id,
+                type: req.user.type,
+                token: req.authorization,
+            })
+        );
         navigate("/");
         return;
     };

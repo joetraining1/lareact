@@ -1,44 +1,37 @@
 import useModal from "@/hooks/useModal";
+import usePage from "@/hooks/usePage";
 import InputLabel from "@/lib/parts/InputLabel/InputLabel";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import ApiClient from "@/lib/services/ApiClient";
+import KategoriServices from "@/lib/services/Kategori/KategoriServices";
 import React, { useState } from "react";
 
 const KategoriForm = ({ refresh, id, name = "", deskripsi = "" }) => {
     const { shiftModal } = useModal();
+    const { adding } = KategoriServices();
 
     const [payload, setPayload] = useState({
         kategori_name: name,
         kategori_deskripsi: deskripsi,
     });
 
-    const adding = async () => {
+    const service = async () => {
         if (id) {
-            const up = await ApiClient.post(
-                `kategori/${id}?_method=PUT`,
-                payload
-            )
-                .then((res) => {
-                    return res.data;
-                })
-                .catch((error) => {
-                    console.log(error);
-                    return;
-                });
-
-            shiftModal();
-            return console.log(up);
-        }
-        const req = await ApiClient.post("kategori", payload)
-            .then((res) => {
-                return res.data;
-            })
-            .catch((error) => {
-                console.log(error);
-                return;
+            adding({
+                id: id,
+                payload: payload,
             });
+            refresh();
+            shiftModal();
+            return;
+        }
+
+        adding({
+            payload: payload,
+        });
+        refresh();
         shiftModal();
-        return console.log(req);
+        return;
     };
 
     return (
@@ -67,7 +60,7 @@ const KategoriForm = ({ refresh, id, name = "", deskripsi = "" }) => {
                 action={(a) => (payload.kategori_deskripsi = a)}
             />
             <br />
-            <SiteButton title={"submit"} action={() => adding()} />
+            <SiteButton title={"submit"} action={() => service()} />
         </div>
     );
 };

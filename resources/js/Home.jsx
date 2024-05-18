@@ -73,7 +73,6 @@ const Home = () => {
                     </Route>
                 </Route>
             </Route>
-            <Route path="*" element={<VisitorLayout />} />
         </Routes>
     );
 };

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
-            $table->string('nama');
-            $table->string('kontak');
-            $table->string('alamat');
+            $table->string('nama')->nullable();
+            $table->string('kontak')->nullable();
+            $table->string('alamat')->nullable();
             $table->timestamps();
         });
     }

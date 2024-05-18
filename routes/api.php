@@ -62,6 +62,7 @@ Route::prefix('v1/')->group(function () {
         });
 
         Route::get('accounts', 'index');
+        Route::get('profile/{id}', 'showProfile');
         Route::post('account', 'store');
         Route::put('account/{id}', 'update');
         Route::delete('account/{id}', 'destroy');

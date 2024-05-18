@@ -75,17 +75,18 @@ class UserEmploymentController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'departemen_id' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'posisi' => 'required|string|max:255',
         ]);
 
-        $type = user_employment::find($id);
+        $type = user_employment::where('user_id', $id)->get();
         if ($type) {
-            $type->user_id = $type->user_id;
-            $type->departemen_id = $type->departemen_id;
-            $type->jabatan = $request->jabatan;
-            $type->posisi = $request->posisi;
-            $type->save();
+            $type[0]->user_id = $type[0]->user_id;
+            $type[0]->departemen_id = $request->departemen_id;
+            $type[0]->jabatan = $request->jabatan;
+            $type[0]->posisi = $request->posisi;
+            $type[0]->save();
 
             return response()->json([
                 'status' => 'success',

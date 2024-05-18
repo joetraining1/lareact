@@ -127,6 +127,7 @@ class AuthController extends Controller
         $profile = user_profile::create([
             'user_id' => $id,
         ]);
+
         $employment = user_employment::create([
             'user_id' => $id,
         ]);
@@ -136,16 +137,15 @@ class AuthController extends Controller
             'type' => $user->type,
         ];
 
-        $token = Auth::login($user);
+        $credentials = request(['email', 'password']);
+
+        $token = auth()->attempt($credentials);
 
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
             'user' => $userData,
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ],
+            'authorization' => $token,
         ]);
     }
 

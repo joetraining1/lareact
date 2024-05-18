@@ -1,12 +1,13 @@
 import ApiClient from "@/lib/services/ApiClient";
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
-const useGetFetch = (params) => {
-    const [url, setUrl] = useState(params ? params : "");
+export const PageContext = createContext({
+    resp: [],
+    forceRefresh: () => {},
+});
 
+const PageProvider = ({ children, url }) => {
     const [resp, setResp] = useState([]);
-    const [current, setCurrent] = useState("Standby");
-    const [isError, setIsError] = useState(null);
     const [isFetching, setIsFetching] = useState(true);
 
     const forceRefresh = () => {
@@ -15,29 +16,35 @@ const useGetFetch = (params) => {
 
     useEffect(() => {
         const handleRequest = async () => {
-            setCurrent("Loading");
-            setIsError(null);
             try {
-                const request = await ApiClient.get(params).then((response) => {
+                const request = await ApiClient.get(url).then((response) => {
                     return response.data;
                 });
                 setResp(request);
                 return;
             } catch (err) {
-                setIsError(err.data);
                 console.log(err);
                 return;
-            } finally {
-                setCurrent("Standby");
             }
         };
         if (isFetching) {
             handleRequest();
         }
-        return setIsFetching(false);
+        return () => {
+            setIsFetching(false);
+        };
     }, [isFetching]);
 
-    return { resp, current, isError, isFetching, forceRefresh };
+    return (
+        <PageContext.Provider
+            value={{
+                forceRefresh,
+                resp,
+            }}
+        >
+            {children}
+        </PageContext.Provider>
+    );
 };
 
-export default useGetFetch;
+export default PageProvider;

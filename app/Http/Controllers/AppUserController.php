@@ -85,6 +85,26 @@ class AppUserController extends Controller
         }
     }
 
+    public function showProfile($id)
+    {
+        // $profile = DB::select('select * from user_profiles where user_profiles.user_id = "'.$id.'"');
+        $profile = DB::table('user_profiles')->where('user_id', '=', $id)->get();
+        $employment = DB::table('user_employments')->where('user_id', '=', $id)->get();
+
+        if ($profile && $employment) {
+            return response()->json([
+                'status' => 'success',
+                'profile' => $profile,
+                'employment' => $employment,
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'no data.',
+            'message' => 'there are no data to be found.',
+        ]);
+    }
+
     public function showUserById($id)
     {
         $type = app_user::find($id);

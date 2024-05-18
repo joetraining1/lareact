@@ -100,17 +100,17 @@ class KategoriController extends Controller
             'kategori_deskripsi' => 'required|string|max:255',
         ]);
 
-        $type = kategori::find($id);
+        $type = kategori::where('kategori_id', $id)->get();
         if ($type) {
-            $type->kategori_id = $type->kategori_id;
-            $type->kategori_name = $request->kategori_name;
-            $type->kategori_deskripsi = $request->kategori_deskripsi;
-            $type->save();
+            $type[0]->kategori_id = $type[0]->kategori_id;
+            $type[0]->kategori_name = $request->kategori_name;
+            $type[0]->kategori_deskripsi = $request->kategori_deskripsi;
+            $type[0]->save();
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Kategori updated successfully',
-                'data' => $type,
+                'data' => $type[0],
             ]);
         } else {
             return response()->json([
@@ -122,9 +122,9 @@ class KategoriController extends Controller
 
     public function destroy($id)
     {
-        $type = kategori::find($id);
+        $type = kategori::where('kategori_id', $id)->get();
         if ($type) {
-            $type->delete();
+            $type[0]->delete();
 
             return response()->json([
                 'status' => 'success',

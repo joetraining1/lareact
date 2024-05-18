@@ -99,18 +99,21 @@ class UserProfileController extends Controller
             'alamat' => 'required|string|max:255',
         ]);
 
-        $type = user_profile::find($id);
+        // $type = DB::table('user_profiles')->where('user_id', '=', $id)->get();
+
+        // $type = user_profile::find($id);
+        $type = user_profile::where('user_id', $id)->get();
         if ($type) {
-            $type->user_id = $type->user_id;
-            $type->nama = $request->nama;
-            $type->kontak = $request->kontak;
-            $type->alamat = $request->alamat;
-            $type->save();
+            $type[0]->user_id = $type[0]->user_id;
+            $type[0]->nama = $request->nama;
+            $type[0]->kontak = $request->kontak;
+            $type[0]->alamat = $request->alamat;
+            $type[0]->save();
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'User profile updated successfully',
-                'data' => $type,
+                'data' => $type[0],
             ]);
         } else {
             return response()->json([
