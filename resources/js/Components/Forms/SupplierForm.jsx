@@ -2,10 +2,12 @@ import useModal from "@/hooks/useModal";
 import InputLabel from "@/lib/parts/InputLabel/InputLabel";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import ApiClient from "@/lib/services/ApiClient";
+import SupplierServices from "@/lib/services/Supplier/SupplierServices";
 import React, { useState } from "react";
 
-const SupplierForm = ({ id, name = "", kontak = "", alamat = "" }) => {
+const SupplierForm = ({ id, refresh, name = "", kontak = "", alamat = "" }) => {
     const { shiftModal } = useModal();
+    const { adding } = SupplierServices();
 
     const [payload, setPayload] = useState({
         supplier_name: name,
@@ -13,33 +15,22 @@ const SupplierForm = ({ id, name = "", kontak = "", alamat = "" }) => {
         supplier_alamat: alamat,
     });
 
-    const adding = async () => {
+    const service = async () => {
         if (id) {
-            const up = await ApiClient.post(
-                `supplier/${id}?_method=PUT`,
-                payload
-            )
-                .then((res) => {
-                    return res.data;
-                })
-                .catch((error) => {
-                    console.log(error);
-                    return;
-                });
-
-            shiftModal();
-            return console.log(up);
-        }
-        const req = await ApiClient.post("supplier", payload)
-            .then((res) => {
-                return res.data;
-            })
-            .catch((error) => {
-                console.log(error);
-                return;
+            adding({
+                id: id,
+                payload: payload,
             });
+            refresh();
+            shiftModal();
+            return;
+        }
+        adding({
+            payload: payload,
+        });
+        refresh();
         shiftModal();
-        return console.log(req);
+        return;
     };
 
     return (
@@ -55,18 +46,21 @@ const SupplierForm = ({ id, name = "", kontak = "", alamat = "" }) => {
             <InputLabel
                 title={"Nama Supplier :"}
                 action={(a) => (payload.supplier_name = a)}
+                value={payload.supplier_name}
             />
             <InputLabel
                 title={"Kontak Supplier :"}
                 action={(a) => (payload.supplier_kontak = a)}
+                value={payload.supplier_kontak}
             />
             <InputLabel
                 title={"Alamat Supplier :"}
                 action={(a) => (payload.supplier_alamat = a)}
+                value={payload.supplier_alamat}
             />
 
             <br />
-            <SiteButton title={"submit"} action={() => adding()} />
+            <SiteButton title={"submit"} action={() => service()} />
         </div>
     );
 };

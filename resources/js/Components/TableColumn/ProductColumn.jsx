@@ -2,8 +2,12 @@ import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
 import { Typography } from "@mui/material";
 import { SectionDivider } from "../SectionContainer/SectionContainer";
+import SiteButton from "@/lib/parts/SiteButton/SiteButton";
+import { useNavigate } from "react-router-dom";
 
-const ProductColumn = ({ data = [], addition = [] }) => {
+const ProductColumn = ({ data = [], addition = [], refresh }) => {
+    const navigate = useNavigate();
+
     const typeColumn = [
         {
             field: "id",
@@ -31,7 +35,7 @@ const ProductColumn = ({ data = [], addition = [] }) => {
         },
         {
             field: "product_harga",
-            headerName: "Harga Produk",
+            headerName: "Harga Produk : Rp",
             width: 250,
             // renderCell: ({ row: { product_harga } }) => {
             //     return <Typography>{product_harga}</Typography>;
@@ -46,20 +50,17 @@ const ProductColumn = ({ data = [], addition = [] }) => {
             field: "option",
             headerName: "Option",
             width: 150,
-            renderCell: ({ row: { id, title, value } }) => {
+            renderCell: ({ row: { product_id } }) => {
                 return (
                     <SectionDivider
                         styles={{
                             alignItems: "center",
                         }}
                     >
-                        <IndexModal
-                            button={"option"}
-                            title={"Test Table Modal"}
-                            value={"modal opened"}
-                        >
-                            {title}
-                        </IndexModal>
+                        <SiteButton
+                            title={"edit"}
+                            action={() => navigate(`${product_id}`)}
+                        />
                     </SectionDivider>
                 );
             },

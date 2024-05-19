@@ -3,14 +3,11 @@ import IndexModal from "@/Components/Modal/IndexModal";
 import SectionContainer from "@/Components/SectionContainer/SectionContainer";
 import KategoriColumn from "@/Components/TableColumn/KategoriColumn";
 import TableData from "@/Components/TableData/TableData";
-import PageProvider from "@/contexts/PageContext";
 import useGetFetch from "@/hooks/useGetFetch";
-import usePage from "@/hooks/usePage";
 import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
-import SiteButton from "@/lib/parts/SiteButton/SiteButton";
-import React, { useEffect } from "react";
+import React from "react";
 
 const Kategori = () => {
     const { isFetching, isError, resp, forceRefresh } =

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\supplier;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -99,11 +100,12 @@ class SupplierController extends Controller
     {
         $request->validate([
             'supplier_name' => 'required|string|max:255',
-            'supplier_harga' => 'required|string|max:255',
-            'supplier_deskripsi' => 'required|string|max:255',
+            'supplier_kontak' => 'required|string|max:255',
+            'supplier_alamat' => 'required|string|max:255',
         ]);
 
-        $type = supplier::find($id);
+        $typeZero = supplier::where('supplier_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
             $type->supplier_id = $type->supplier_id;
             $type->supplier_name = $request->supplier_name;
@@ -126,7 +128,8 @@ class SupplierController extends Controller
 
     public function destroy($id)
     {
-        $type = supplier::find($id);
+        $typeZero = supplier::where('supplier_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
 
             $type->delete();

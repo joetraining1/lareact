@@ -3,13 +3,19 @@ import IndexModal from "@/Components/Modal/IndexModal";
 import SectionContainer from "@/Components/SectionContainer/SectionContainer";
 import DepartemenColumn from "@/Components/TableColumn/DepartemenColumn";
 import TableData from "@/Components/TableData/TableData";
+import useGetFetch from "@/hooks/useGetFetch";
 import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
 import React from "react";
 
 const Departemen = () => {
-    const { DataColumn } = DepartemenColumn();
+    const { isFetching, resp, forceRefresh } = useGetFetch("departemens");
+
+    const { DataColumn } = DepartemenColumn({
+        refresh: () => forceRefresh(),
+    });
+
     return (
         <SectionContainer url={"/master"}>
             <BoxContainer>
@@ -23,7 +29,7 @@ const Departemen = () => {
                     button={"Add new departemen"}
                 >
                     <br />
-                    <DepartemenForm />
+                    <DepartemenForm refresh={() => forceRefresh()} />
                 </IndexModal>
             </BoxContainer>
             <BoxContainer>
@@ -31,7 +37,11 @@ const Departemen = () => {
                     title={"Data Departemen"}
                     value={"Kelola keseluruhan data user pada aplikasi."}
                 />
-                <TableData column={DataColumn} rows={[]} />
+                <TableData
+                    column={DataColumn}
+                    rows={resp ? resp.data : []}
+                    loading={isFetching}
+                />
             </BoxContainer>
         </SectionContainer>
     );

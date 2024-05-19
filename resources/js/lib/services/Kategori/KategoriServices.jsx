@@ -46,7 +46,7 @@ const KategoriServices = () => {
         return console.log("pass some id");
     };
 
-    return { adding, deleting };
+    return { adding, deleting, msg };
 };
 
 export default KategoriServices;

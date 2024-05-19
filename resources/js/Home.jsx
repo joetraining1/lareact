@@ -42,10 +42,7 @@ const Home = () => {
                     <Route path="archive" element={<PageLayout />}>
                         <Route index element={<Documents />} />
                         <Route path="add" element={<CUArchive />} />
-                        <Route
-                            path="edit/:document_id"
-                            element={<CUArchive />}
-                        />
+                        <Route path=":document_id" element={<CUArchive />} />
                     </Route>
                     <Route path="purchase" element={<PageLayout />}>
                         <Route index element={<Purchases />} />
@@ -55,12 +52,12 @@ const Home = () => {
                     <Route path="product" element={<PageLayout />}>
                         <Route index element={<Products />} />
                         <Route path="add" element={<CUProduct />} />
-                        <Route path="edit/:user_id" element={<CUProduct />} />
+                        <Route path=":product_id" element={<CUProduct />} />
                     </Route>
                     <Route path="user" element={<PageLayout />}>
                         <Route index element={<Users />} />
                         <Route path="add" element={<CUUser />} />
-                        <Route path="edit/:user_id" element={<CUUser />} />
+                        <Route path=":user_id" element={<CUUser />} />
                     </Route>
                     <Route path="master" element={<PageLayout />}>
                         <Route index element={<MasterData />} />

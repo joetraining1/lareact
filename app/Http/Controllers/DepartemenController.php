@@ -20,7 +20,7 @@ class DepartemenController extends Controller
         if ($types->count() > 0) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
+                'data' => $types,
             ]);
         } else {
             return response()->json([
@@ -39,8 +39,8 @@ class DepartemenController extends Controller
 
         $asd = date('ym');
         $id = IdGenerator::generate([
-            'table' => 'suppliers',
-            'field' => 'supplier_id',
+            'table' => 'departemens',
+            'field' => 'departemen_id',
             'length' => 10,
             'prefix' => "DPT$asd",
         ]);
@@ -83,7 +83,7 @@ class DepartemenController extends Controller
         if ($type) {
             return response()->json([
                 'status' => 'success',
-                'type' => $type,
+                'data' => $type,
             ]);
         } else {
             return response()->json([
@@ -121,7 +121,8 @@ class DepartemenController extends Controller
 
     public function destroy($id)
     {
-        $type = departemen::find($id);
+        $typeZero = departemen::where('departemen_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
 
             $type->delete();

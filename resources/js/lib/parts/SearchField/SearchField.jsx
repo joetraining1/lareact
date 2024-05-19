@@ -24,9 +24,10 @@ const SearchField = ({
     action,
     target = "",
     children,
+    value = "",
 }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [keyword, setKeyword] = useState("");
+    const [keyword, setKeyword] = useState(value);
     const [dataset, setDataset] = useState([]);
     const [msg, setMsg] = useState("");
 

@@ -85,11 +85,11 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $type = product::find($id);
+        $type = DB::select('SELECT products.id, products.product_name, products.kategori_id, kategoris.kategori_name, products.product_harga, products.product_deskripsi from products left join kategoris on products.kategori_id = kategoris.kategori_id where products.product_id = "'.$id.'"');
         if ($type) {
             return response()->json([
                 'status' => 'success',
-                'type' => $type,
+                'data' => $type[0],
             ]);
         } else {
             return response()->json([
@@ -108,14 +108,14 @@ class ProductController extends Controller
             'product_deskripsi' => 'string|max:255',
         ]);
 
-        $type = product::find($id);
+        $type = product::where('product_id', $id)->get();
         if ($type) {
-            $type->product_id = $type->product_id;
-            $type->kategori_id = $request->kategori_id ? $request->kategori_id : $type->kategori_id;
-            $type->product_name = $request->product_name ? $request->product_name : $type->product_name;
-            $type->product_harga = $request->product_harga ? $request->product_harga : $type->product_harga;
-            $type->product_deskripsi = $request->product_deskripsi ? $request->product_deskripsi : $type->product_deskripsi;
-            $type->save();
+            $type[0]->product_id = $type[0]->product_id;
+            $type[0]->kategori_id = $request->kategori_id ? $request->kategori_id : $type[0]->kategori_id;
+            $type[0]->product_name = $request->product_name ? $request->product_name : $type[0]->product_name;
+            $type[0]->product_harga = $request->product_harga ? $request->product_harga : $type[0]->product_harga;
+            $type[0]->product_deskripsi = $request->product_deskripsi ? $request->product_deskripsi : $type[0]->product_deskripsi;
+            $type[0]->save();
 
             return response()->json([
                 'status' => 'success',

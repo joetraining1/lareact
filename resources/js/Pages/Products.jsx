@@ -11,8 +11,11 @@ import { useNavigate } from "react-router-dom";
 
 const Products = () => {
     const navigate = useNavigate();
-    const { DataColumn } = ProductColumn({});
-    const { resp, current, isError } = useGetFetch("products");
+    const { resp, isFetching, forceRefresh } = useGetFetch("products");
+    const { DataColumn } = ProductColumn({
+        refresh: () => forceRefresh(),
+    });
+
     return (
         <PageContainer>
             <BoxContainer>
@@ -35,7 +38,11 @@ const Products = () => {
                     title={"Data Produk"}
                     value={"Keseluruhan data produk."}
                 />
-                <TableData column={DataColumn} rows={resp ? resp.data : []} />
+                <TableData
+                    column={DataColumn}
+                    rows={resp ? resp.data : []}
+                    loading={isFetching}
+                />
             </BoxContainer>
         </PageContainer>
     );

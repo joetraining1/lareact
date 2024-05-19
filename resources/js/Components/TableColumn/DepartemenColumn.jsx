@@ -1,7 +1,12 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
+import DepartemenServices from "@/lib/services/Departemen/DepartemenServices";
+import { SectionDivider } from "../SectionContainer/SectionContainer";
+import DepartemenForm from "../Forms/DepartemenForm";
+import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 
-const DepartemenColumn = (data) => {
+const DepartemenColumn = ({ data, refresh }) => {
+    const { deleting } = DepartemenServices();
     const DataColumn = useMemo(() => {
         return [
             {
@@ -18,7 +23,7 @@ const DepartemenColumn = (data) => {
                 width: 150,
             },
             {
-                field: "departemen_nama",
+                field: "departemen_name",
                 headerName: "Nama Departemen",
                 width: 250,
             },
@@ -30,16 +35,38 @@ const DepartemenColumn = (data) => {
             {
                 field: "option",
                 headerName: "Option",
-                width: 150,
-                renderCell: ({ row: { id, title, value } }) => {
+                width: 250,
+                renderCell: ({
+                    row: { departemen_id, departemen_name, lokasi },
+                }) => {
                     return (
-                        <IndexModal
-                            button={"option"}
-                            title={"Test Table Modal"}
-                            value={"modal opened"}
+                        <SectionDivider
+                            styles={{
+                                alignItems: "center",
+                            }}
                         >
-                            {title}
-                        </IndexModal>
+                            <IndexModal
+                                button={"option"}
+                                title={"Test Table Modal"}
+                                value={"modal opened"}
+                            >
+                                <DepartemenForm
+                                    id={departemen_id}
+                                    name={departemen_name}
+                                    lokasi={lokasi}
+                                    refresh={() => refresh()}
+                                />
+                            </IndexModal>
+                            <SiteButton
+                                title={"delete"}
+                                action={() => {
+                                    deleting({
+                                        id: departemen_id,
+                                    });
+                                    refresh();
+                                }}
+                            />
+                        </SectionDivider>
                     );
                 },
             },

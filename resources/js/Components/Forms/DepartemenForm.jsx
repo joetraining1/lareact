@@ -2,41 +2,33 @@ import useModal from "@/hooks/useModal";
 import InputLabel from "@/lib/parts/InputLabel/InputLabel";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import ApiClient from "@/lib/services/ApiClient";
+import DepartemenServices from "@/lib/services/Departemen/DepartemenServices";
 import React, { useState } from "react";
 
-const DepartemenForm = ({ id }) => {
+const DepartemenForm = ({ id, refresh, name = "", lokasi = "" }) => {
     const { shiftModal } = useModal();
+    const { adding } = DepartemenServices();
 
     const [payload, setPayload] = useState({
-        departemen_name: "",
-        lokasi: "",
+        departemen_name: name,
+        lokasi: lokasi,
     });
 
-    const adding = async () => {
+    const service = async () => {
         if (id) {
-            const up = await ApiClient.post(
-                `departemen/${id}?_method=PUT`,
-                payload
-            )
-                .then((res) => {
-                    return res.data;
-                })
-                .catch((error) => {
-                    console.log(error);
-                    return;
-                });
-
+            adding({
+                id: id,
+                payload: payload,
+            });
+            refresh();
             shiftModal();
             return console.log(up);
         }
-        const req = await ApiClient.post("departemen", payload)
-            .then((res) => {
-                return res.data;
-            })
-            .catch((error) => {
-                console.log(error);
-                return;
-            });
+
+        adding({
+            payload: payload,
+        });
+        refresh();
         shiftModal();
         return console.log(req);
     };
@@ -60,7 +52,7 @@ const DepartemenForm = ({ id }) => {
                 action={(a) => (payload.lokasi = a)}
             />
             <br />
-            <SiteButton title={"submit"} action={() => adding()} />
+            <SiteButton title={"submit"} action={() => service()} />
         </div>
     );
 };
