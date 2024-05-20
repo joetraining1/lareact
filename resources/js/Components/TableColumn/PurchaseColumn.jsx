@@ -5,9 +5,11 @@ import { SectionDivider } from "../SectionContainer/SectionContainer";
 import Selections from "@/lib/parts/Selections/Selections";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import { useNavigate } from "react-router-dom";
+import OrderServices from "@/lib/services/PurchaseOrder/OrderServices";
 
-const PurchaseColumn = (data) => {
+const PurchaseColumn = ({ data, refresh }) => {
     const navigate = useNavigate();
+    const { deleting } = OrderServices();
 
     const DataColumn = useMemo(() => {
         return [
@@ -25,12 +27,12 @@ const PurchaseColumn = (data) => {
                 width: 150,
             },
             {
-                field: "requester",
+                field: "proposer",
                 headerName: "Pemohon",
                 width: 150,
             },
             {
-                field: "departemen",
+                field: "departemen_name",
                 headerName: "Departemen",
                 width: 150,
             },
@@ -43,6 +45,11 @@ const PurchaseColumn = (data) => {
                 field: "expense",
                 headerName: "Budget Kegiatan",
                 width: 250,
+            },
+            {
+                field: "modifier",
+                headerName: "Disunting oleh",
+                width: 150,
             },
             // {
             //     field: "products",
@@ -95,6 +102,16 @@ const PurchaseColumn = (data) => {
                             <SiteButton
                                 title={"kelola"}
                                 action={() => navigate(`${order_id}`)}
+                                variant={"text"}
+                            />
+                            <SiteButton
+                                title={"delete"}
+                                action={() => {
+                                    deleting({
+                                        id: order_id,
+                                    });
+                                    refresh();
+                                }}
                                 variant={"text"}
                             />
                         </SectionDivider>

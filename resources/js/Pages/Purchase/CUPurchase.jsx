@@ -3,8 +3,8 @@ import SectionContainer from "@/Components/SectionContainer/SectionContainer";
 import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
-import SiteButton from "@/lib/parts/SiteButton/SiteButton";
-import React from "react";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
 const CUPurchase = () => {
     return (
@@ -15,12 +15,6 @@ const CUPurchase = () => {
                     value={"Menambahkan Purchasing Order baru."}
                 />
                 <ProductForm />
-                <SiteButton
-                    title={"Simpan"}
-                    styles={{
-                        width: "150px",
-                    }}
-                />
             </BoxContainer>
             <BoxContainer>
                 <SectionHeader
@@ -31,15 +25,6 @@ const CUPurchase = () => {
                     <li>2. Document Processed</li>
                     <li>3. User Fill the Form</li>
                     <li>4. Document Done Archived</li>
-                </ul>
-                <SectionHeader title={"Purchase Order Fields"} />
-                <ul>
-                    <li>1. Order ID </li>
-                    <li>2. Surat Tugas</li>
-                    <li>3. Departemen</li>
-                    <li>4. Requester</li>
-                    <li>5. Purposes</li>
-                    <li>6. Expenses</li>
                 </ul>
             </BoxContainer>
         </SectionContainer>

@@ -1,5 +1,6 @@
 import PurchaseColumn from "@/Components/TableColumn/PurchaseColumn";
 import TableData from "@/Components/TableData/TableData";
+import useGetFetch from "@/hooks/useGetFetch";
 import { PurchaseData } from "@/lib/constant/TestData";
 import PageContainer from "@/lib/parts/PageContainer/PageContainer";
 import SectionHeader, {
@@ -11,7 +12,11 @@ import { useNavigate } from "react-router-dom";
 
 const Purchases = () => {
     const navigate = useNavigate();
-    const { DataColumn } = PurchaseColumn(PurchaseData);
+    const { isFetching, resp, forceRefresh } = useGetFetch("orders");
+    const { DataColumn } = PurchaseColumn({
+        refresh: () => forceRefresh(),
+    });
+
     return (
         <PageContainer>
             <BoxContainer>
@@ -34,7 +39,11 @@ const Purchases = () => {
                     title={"Data Belanja Perusahaan"}
                     value={"Informasi data belanja perusahaan."}
                 />
-                <TableData column={DataColumn} rows={PurchaseData} />
+                <TableData
+                    column={DataColumn}
+                    loading={isFetching}
+                    rows={resp ? resp.data : []}
+                />
             </BoxContainer>
         </PageContainer>
     );

@@ -12,11 +12,12 @@ import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import ApiClient from "@/lib/services/ApiClient";
 import ProductServices from "@/lib/services/Product/ProductServices";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CUProduct = () => {
+const CUProduct = ({ id }) => {
     const { product_id } = useParams();
     const { retrieving } = ProductServices();
+    const navigate = useNavigate();
 
     const [ktg, setKtg] = useState("");
     const [payload, setPayload] = useState({
@@ -43,7 +44,7 @@ const CUProduct = () => {
         return;
     };
 
-    if (!ktg) {
+    if (product_id && !ktg) {
         fetch(product_id);
         return;
     }
@@ -62,7 +63,8 @@ const CUProduct = () => {
                     return;
                 });
 
-            return console.log(up);
+            navigate("/product");
+            return;
         }
         const req = await ApiClient.post("product", payload)
             .then((res) => {
@@ -72,7 +74,9 @@ const CUProduct = () => {
                 console.log(error);
                 return;
             });
-        return console.log(req);
+
+        navigate("/product");
+        return;
     };
 
     return (

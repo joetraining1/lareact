@@ -12,4 +12,5 @@ export const AllColors = {
     Grey: "#5E6572",
     GreyScale: "#353535",
     GreyDoff: "#636564",
+    GrassGreen: "#9CEC5B",
 };

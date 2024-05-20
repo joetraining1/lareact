@@ -1,49 +1,28 @@
 import ArchiveForm from "@/Components/Forms/ArchiveForm";
-import SectionContainer, {
-    SectionDivider,
-} from "@/Components/SectionContainer/SectionContainer";
-import { h4FontStyle } from "@/lib/constant/Styles";
-import FileUploader from "@/lib/parts/FileUploader/FileUploader";
+import SectionContainer from "@/Components/SectionContainer/SectionContainer";
 import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
-import SiteButton from "@/lib/parts/SiteButton/SiteButton";
-import ApiClient from "@/lib/services/ApiClient";
-import { Typography } from "@mui/material";
-import FormData from "form-data";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import ArchiveUpload from "./ArchiveUpload";
+import { useParams } from "react-router-dom";
+import DocumentServices from "@/lib/services/Document/DocumentServices";
 
 const CUArchive = () => {
-    const [clicked, setClicked] = useState(null);
-    const [msg, setMsg] = useState("");
-    const [docId, setDocId] = useState("");
+    const { document_id } = useParams();
+    const { retrieving } = DocumentServices();
 
-    const user = useSelector((state) => state.auth.authState);
+    const [docId, setDocId] = useState(document_id ? document_id : "");
 
-    const sendFile = async () => {
-        const payload = new FormData();
-        payload.append("file_pdf", clicked);
-        payload.append("user_id", user.user_id);
-
-        const req = await ApiClient.post(`doc`, payload)
-            .then((res) => {
-                return res.data;
-            })
-            .catch((error) => {
-                setMsg(error.response.data.message);
-                const errorMessage = setTimeout(() => {
-                    return setMsg("");
-                }, 5000);
-                return console.log(error.response.data.message);
-            });
-
-        console.log(req.data);
-
-        setDocId(req?.data?.document_id);
-
+    if (document_id && docId) {
+        retrieving({
+            id: document_id,
+        }).then((res) => {
+            setDocId(res.data.document_id);
+            return;
+        });
         return;
-    };
+    }
 
     return (
         <SectionContainer url={"/archive"}>
@@ -52,28 +31,7 @@ const CUArchive = () => {
                     title={"Register Arsip Dokumen"}
                     value={"File maksimal 2mb, pdf."}
                 />
-                <SectionDivider>
-                    <FileUploader file={(a) => setClicked(a)} />
-                </SectionDivider>
-                <SiteButton
-                    title={"Simpan"}
-                    styles={{
-                        width: "150px",
-                    }}
-                    action={() => sendFile()}
-                />
-                {msg && (
-                    <Typography
-                        variant="body2"
-                        sx={{
-                            fontStyle: "italic",
-                            color: "red",
-                            ...h4FontStyle,
-                        }}
-                    >
-                        {msg}
-                    </Typography>
-                )}
+                <ArchiveUpload action={(a) => setDocId(a)} />
             </BoxContainer>
             <BoxContainer>
                 <SectionHeader title={"Urutan Proses Penambahan Arsip"} />

@@ -16,12 +16,12 @@ class OrderController extends Controller
 
     public function index()
     {
-        $types = DB::select('SELECT *, departemens.departemen_name, documents.document_url, user_profiles.nama from orders left join departemens on orders.departemen_id = departemens.departemen_id left join documents on orders.document_id = documents.document_id left join app_users on orders.requester = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id');
+        $types = DB::select("SELECT o.id, o.departemen_id, d.departemen_name, o.order_id, o.purpose, o.expense, o.requester, (SELECT user_profiles.nama from user_profiles WHERE user_profiles.user_id = o.requester) as 'proposer', o.modified_by, (SELECT user_profiles.nama from user_profiles WHERE user_profiles.user_id = o.modified_by) as 'modifier' from orders o left join departemens d on o.departemen_id = d.departemen_id");
 
-        if ($types->count() > 0) {
+        if ($types) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
+                'data' => $types,
             ]);
         } else {
             return response()->json([
@@ -34,10 +34,10 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'departmen_id' => 'required|string|max:255',
+            'departemen_id' => 'required|string|max:255',
             'requester' => 'required|string|max:255',
             'purpose' => 'required|string|max:255',
-            'expense' => 'required|integer|max:20',
+            'expense' => 'required|numeric|digits_between:1,20',
             'user_id' => 'required|string|max:255',
         ]);
 
@@ -69,11 +69,11 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $type = order::find($id);
+        $type = DB::select('SELECT o.id, o.order_id, o.departemen_id, o.requester, o.modified_by, o.expense, o.purpose, d.departemen_name, (SELECT user_profiles.nama from user_profiles WHERE user_profiles.user_id = o.requester) as "proposer" from orders o left join departemens d on o.departemen_id = d.departemen_id where o.order_id = "'.$id.'"');
         if ($type) {
             return response()->json([
                 'status' => 'success',
-                'type' => $type,
+                'data' => $type[0],
             ]);
         } else {
             return response()->json([
@@ -86,15 +86,15 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'departmen_id' => 'required|string|max:255',
-            'document_id' => 'string|max:255',
+            'departemen_id' => 'required|string|max:255',
             'requester' => 'required|string|max:255',
             'purpose' => 'required|string|max:255',
-            'expense' => 'required|integer|max:20',
+            'expense' => 'required|numeric|digits_between:1,20',
             'user_id' => 'required|string|max:255',
         ]);
 
-        $type = order::find($id);
+        $typeZero = order::where('order_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
             $type->order_id = $type->order_id;
             $type->departemen_id = $request->departemen_id;
@@ -120,10 +120,10 @@ class OrderController extends Controller
 
     public function destroy($id)
     {
-        $type = order::find($id);
+        $type = order::where('order_id', $id)->get();
         if ($type) {
 
-            $type->delete();
+            $type[0]->delete();
 
             return response()->json([
                 'status' => 'success',

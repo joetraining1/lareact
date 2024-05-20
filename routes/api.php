@@ -6,6 +6,8 @@ use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DocumentInfoController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderItemsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\SupplierController;
@@ -81,7 +83,7 @@ Route::prefix('v1/')->group(function () {
         Route::post('orders/search', 'SearchQuery');
         Route::get('orders', 'index');
         Route::get('order/{id}', 'show');
-        Route::post('orders', 'store');
+        Route::post('order', 'store');
         Route::put('order/{id}', 'update');
         Route::delete('order/{id}', 'destroy');
     });
