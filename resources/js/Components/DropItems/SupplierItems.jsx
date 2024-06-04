@@ -3,7 +3,7 @@ import { h4FontStyle } from "@/lib/constant/Styles";
 import { Typography } from "@mui/material";
 import React from "react";
 
-const SupplierItems = () => {
+const SupplierItems = ({ action }) => {
     const { dataset, setIsOpen, setKeyword } = useSearchField();
 
     if (dataset) {

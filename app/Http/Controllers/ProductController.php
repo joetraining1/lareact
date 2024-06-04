@@ -37,7 +37,7 @@ class ProductController extends Controller
         $request->validate([
             'kategori_id' => 'required|string|max:255',
             'product_name' => 'required|string|max:255',
-            'product_harga' => 'required|string|max:255',
+            'product_harga' => 'required|numeric|digits_between:1,20',
             'product_deskripsi' => 'required|string|max:255',
         ]);
 

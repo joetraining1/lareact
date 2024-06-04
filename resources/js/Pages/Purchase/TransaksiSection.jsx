@@ -19,7 +19,7 @@ const TransaksiSection = ({ order_id }) => {
                 value={"Menambahkan Transaksi pada order"}
             >
                 <br />
-                <OrderTransaksiForm />
+                <OrderTransaksiForm id={order_id} oId={order_id} />
             </IndexModal>
             <TableData column={DataColumn} rows={[]} />
         </SectionPresenter>

@@ -32,7 +32,7 @@ class DocumentController extends Controller
         }
     }
 
-    public function create($user_id)
+    public function create($f)
     {
         $asd = date('ym');
         $id = IdGenerator::generate([
@@ -42,8 +42,15 @@ class DocumentController extends Controller
             'prefix' => "DCS$asd",
         ]);
 
+        $file_path = $f->file('file_pdf')->store('files', 'public');
+        $file_url = "http://localhost:8000/storage/$file_path";
+        $file_name = Str::of($file_path)->remove('files/');
+
         $doc = document::create([
             'document_id' => $id,
+            'document_path' => $file_path,
+            'document_file' => $file_name,
+            'document_url' => $file_url,
             'created_by' => $user_id,
             'modified_by' => $user_id,
         ]);

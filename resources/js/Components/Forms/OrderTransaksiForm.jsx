@@ -9,16 +9,36 @@ import { h4FontStyle } from "@/lib/constant/Styles";
 import { AllColors } from "@/lib/constant/Colors";
 import useModal from "@/hooks/useModal";
 import ApiClient from "@/lib/services/ApiClient";
+import { useSelector } from "react-redux";
+import SupplierItems from "../DropItems/SupplierItems";
 
-const OrderTransaksiForm = ({ id }) => {
+const OrderTransaksiForm = ({
+    id,
+    trId = "",
+    trRef = "",
+    sId = "",
+    oId = "",
+    dId = "",
+    cost = "",
+    date = "",
+}) => {
     const { shiftModal } = useModal();
 
-    const [payload, setPayload] = useState({});
+    const user = useSelector((state) => state.auth.authState);
+
+    const [payload, setPayload] = useState({
+        transaksi_ref: trRef,
+        supplier_id: sId,
+        order_id: oId,
+        transaksi_cost: cost,
+        transaksi_date: date,
+        user_id: user.user_id,
+    });
 
     const adding = async () => {
-        if (id) {
+        if (trId) {
             const up = await ApiClient.post(
-                `order/item/${id}?_method=PUT`,
+                `transaksi/${trId}?_method=PUT`,
                 payload
             )
                 .then((res) => {
@@ -33,7 +53,7 @@ const OrderTransaksiForm = ({ id }) => {
             return console.log(up);
         }
 
-        const req = await ApiClient.post("order/item", payload)
+        const req = await ApiClient.post("transaksi", payload)
             .then((res) => {
                 return res.data;
             })
@@ -55,7 +75,11 @@ const OrderTransaksiForm = ({ id }) => {
                 gap: "10px",
             }}
         >
-            <InputLabel title={"Nomor Referensi :"} />
+            <InputLabel
+                title={"Nomor Referensi :"}
+                action={(a) => (payload.transaksi_ref = a)}
+                value={payload.transaksi_ref}
+            />
             <Typography
                 variant="body1"
                 sx={{ ...h4FontStyle, color: AllColors.DarkGrey }}
@@ -75,11 +99,32 @@ const OrderTransaksiForm = ({ id }) => {
             <SectionDivider>
                 <FileUploader />
             </SectionDivider>
-            <SearchField title={"Supplier :"} />
-            <InputLabel title={"Biaya Transaksi :"} />
-            <InputLabel title={"Tanggal Transaksi :"} />
+            <SearchField
+                title={"Supplier :"}
+                target={"suppliers/search"}
+                value={payload.supplier_id}
+            >
+                <SupplierItems
+                    action={(a) =>
+                        setPayload({
+                            ...payload,
+                            supplier_id: a.supplier_id,
+                        })
+                    }
+                />
+            </SearchField>
+            <InputLabel
+                title={"Biaya Transaksi :"}
+                action={(a) => (payload.transaksi_cost = parseInt(a))}
+                value={payload.transaksi_cost}
+            />
+            <InputLabel
+                title={"Tanggal Transaksi :"}
+                action={(a) => (payload.transaksi_date = a)}
+                value={payload.transaksi_date}
+            />
             <br />
-            <SiteButton title={"Submit"} />
+            <SiteButton title={"Submit"} action={() => adding()} />
         </div>
     );
 };

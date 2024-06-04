@@ -19,7 +19,7 @@ const ShipmentSection = ({ order_id }) => {
                 value={"Menambahkan shipment pengiriman pada order"}
             >
                 <br />
-                <OrderShipmentForm />
+                <OrderShipmentForm oId={order_id} />
             </IndexModal>
             <TableData column={DataColumn} rows={[]} />
         </SectionPresenter>

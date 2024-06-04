@@ -9,16 +9,38 @@ import { h4FontStyle } from "@/lib/constant/Styles";
 import { AllColors } from "@/lib/constant/Colors";
 import useModal from "@/hooks/useModal";
 import ApiClient from "@/lib/services/ApiClient";
+import TransaksiItems from "../DropItems/TransaksiItems";
+import { useSelector } from "react-redux";
 
-const OrderShipmentForm = ({ id }) => {
+const OrderShipmentForm = ({
+    id,
+    trId = "",
+    sRef = "",
+    sId = "",
+    oId = "",
+    dId = "",
+    cost = "",
+    date = "",
+    arrive = "",
+}) => {
     const { shiftModal } = useModal();
+    const user = useSelector((state) => state.auth.authState);
 
-    const [payload, setPayload] = useState({});
+    const [payload, setPayload] = useState({
+        transaksi_id: trId,
+        shipment_ref: sRef,
+        document_id: dId,
+        order_id: oId,
+        shipment_cost: cost,
+        shipment_start: date,
+        shipment_estimated: arrive,
+        user_id: user.user_id,
+    });
 
     const adding = async () => {
-        if (id) {
+        if (sId) {
             const up = await ApiClient.post(
-                `order/item/${id}?_method=PUT`,
+                `shipment/${sId}?_method=PUT`,
                 payload
             )
                 .then((res) => {
@@ -55,8 +77,25 @@ const OrderShipmentForm = ({ id }) => {
                 gap: "10px",
             }}
         >
-            <InputLabel title={"Nomor Referensi :"} />
-            <SearchField title={"ID Transaksi :"} />
+            <InputLabel
+                title={"Nomor Referensi :"}
+                action={(a) => (payload.shipment_ref = a)}
+                value={payload.shipment_ref}
+            />
+            <SearchField
+                title={"ID Transaksi :"}
+                target={"tranaksis/search"}
+                value={payload.transaksi_id}
+            >
+                <TransaksiItems
+                    action={(a) =>
+                        setPayload({
+                            ...payload,
+                            transaksi_id: a.transaksi_id,
+                        })
+                    }
+                />
+            </SearchField>
             <Typography
                 variant="body1"
                 sx={{ ...h4FontStyle, color: AllColors.DarkGrey }}
@@ -76,11 +115,23 @@ const OrderShipmentForm = ({ id }) => {
             <SectionDivider>
                 <FileUploader />
             </SectionDivider>
-            <InputLabel title={"Biaya Pengiriman :"} />
-            <InputLabel title={"Tanggal Pengiriman :"} />
-            <InputLabel title={"Estimasi Tiba :"} />
+            <InputLabel
+                title={"Biaya Pengiriman :"}
+                action={(a) => (payload.shipment_cost = parseInt(a))}
+                value={payload.shipment_cost}
+            />
+            <InputLabel
+                title={"Tanggal Pengiriman :"}
+                action={(a) => (payload.shipment_start = a)}
+                value={payload.shipment_start}
+            />
+            <InputLabel
+                title={"Estimasi Tiba :"}
+                action={(a) => (payload.shipment_estimated = a)}
+                value={payload.shipment_estimated}
+            />
             <br />
-            <SiteButton title={"Submit"} />
+            <SiteButton title={"Submit"} action={() => adding()} />
         </div>
     );
 };

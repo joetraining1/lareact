@@ -4,7 +4,7 @@ import { h4FontStyle } from "@/lib/constant/Styles";
 import { Typography } from "@mui/material";
 import React from "react";
 
-const ProductItems = ({ action }) => {
+const TransaksiItems = ({ action }) => {
     const { dataset, setIsOpen, setKeyword } = useSearchField();
 
     if (dataset) {
@@ -20,11 +20,11 @@ const ProductItems = ({ action }) => {
                     }}
                     onClick={() => {
                         action(item);
-                        setKeyword(item.product_name);
+                        setKeyword(item.transaksi_id);
                         return setIsOpen(false);
                     }}
                 >
-                    {item.product_name}
+                    {item.transaksi_id}
                 </span>
             );
         });
@@ -40,4 +40,4 @@ const ProductItems = ({ action }) => {
     );
 };
 
-export default ProductItems;
+export default TransaksiItems;

@@ -37,7 +37,7 @@ class ShipmentController extends Controller
             'transaksi_id' => 'required|string|max:255',
             'shipment_ref' => 'required|string|max:255',
             'document_id' => 'string|max:255',
-            'shipment_cost' => 'required|string|max:255',
+            'shipment_cost' => 'required|numeric|digits_between:1,20',
             'shipment_start' => 'required|string|max:255',
             'shipment_estimated' => 'required|string|max:255',
             'user_id' => 'required|string|max:255',

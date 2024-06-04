@@ -37,7 +37,7 @@ class TransaksiController extends Controller
             'order_id' => 'required|string|max:255',
             'supplier_id' => 'required|string|max:255',
             'document_id' => 'string|max:255',
-            'transaksi_cost' => 'required|integer|max:20',
+            'transaksi_cost' => 'required|numeric|digits_between:1,20',
             'transaksi_date' => 'required|string|max:255',
             'user_id' => 'required|string|max:255',
         ]);
