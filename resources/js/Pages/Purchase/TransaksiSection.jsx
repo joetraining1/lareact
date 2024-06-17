@@ -3,10 +3,17 @@ import IndexModal from "@/Components/Modal/IndexModal";
 import SectionPresenter from "@/Components/SectionPresenter/SectionPresenter";
 import TransaksiColumn from "@/Components/TableColumn/TransaksiColumn";
 import TableData from "@/Components/TableData/TableData";
+import useGetFetch from "@/hooks/useGetFetch";
 import React from "react";
 
 const TransaksiSection = ({ order_id }) => {
-    const { DataColumn } = TransaksiColumn({});
+    const { isFetching, resp, forceRefresh } = useGetFetch(
+        `transaksis/${order_id}`
+    );
+
+    const { DataColumn } = TransaksiColumn({
+        refresh: () => forceRefresh(),
+    });
 
     return (
         <SectionPresenter
@@ -21,7 +28,11 @@ const TransaksiSection = ({ order_id }) => {
                 <br />
                 <OrderTransaksiForm id={order_id} oId={order_id} />
             </IndexModal>
-            <TableData column={DataColumn} rows={[]} />
+            <TableData
+                column={DataColumn}
+                rows={resp ? resp.data : []}
+                loading={isFetching}
+            />
         </SectionPresenter>
     );
 };

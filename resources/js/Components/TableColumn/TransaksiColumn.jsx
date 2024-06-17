@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
 
-const TransaksiColumn = ({ data = [], addition = [] }) => {
+const TransaksiColumn = ({ data = [], addition = [], refresh }) => {
     const DataColumn = useMemo(() => {
         return [
             {
@@ -24,7 +24,7 @@ const TransaksiColumn = ({ data = [], addition = [] }) => {
                 width: 150,
             },
             {
-                field: "supplier_nama",
+                field: "supplier_name",
                 headerName: "Supplier",
                 width: 250,
             },

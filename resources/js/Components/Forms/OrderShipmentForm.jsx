@@ -11,6 +11,7 @@ import useModal from "@/hooks/useModal";
 import ApiClient from "@/lib/services/ApiClient";
 import TransaksiItems from "../DropItems/TransaksiItems";
 import { useSelector } from "react-redux";
+import FormData from "form-data";
 
 const OrderShipmentForm = ({
     id,
@@ -25,6 +26,7 @@ const OrderShipmentForm = ({
 }) => {
     const { shiftModal } = useModal();
     const user = useSelector((state) => state.auth.authState);
+    const [docx, setDocx] = useState(null);
 
     const [payload, setPayload] = useState({
         transaksi_id: trId,
@@ -38,7 +40,11 @@ const OrderShipmentForm = ({
     });
 
     const adding = async () => {
+        const sendReq = new FormData();
+        sendReq.append("file_pdf", docx);
+        sendReq.append("user_id", user.user_id);
         if (sId) {
+            //send the document first
             const up = await ApiClient.post(
                 `shipment/${sId}?_method=PUT`,
                 payload
@@ -54,6 +60,14 @@ const OrderShipmentForm = ({
             shiftModal();
             return console.log(up);
         }
+
+        //send the document first
+
+        const doc = await ApiClient.post(`doc`, sendReq).then((res) => {
+            return res.data;
+        });
+
+        payload.document_id = doc.document_id;
 
         const req = await ApiClient.post("order/item", payload)
             .then((res) => {
@@ -84,7 +98,7 @@ const OrderShipmentForm = ({
             />
             <SearchField
                 title={"ID Transaksi :"}
-                target={"tranaksis/search"}
+                target={"transaksis/search"}
                 value={payload.transaksi_id}
             >
                 <TransaksiItems

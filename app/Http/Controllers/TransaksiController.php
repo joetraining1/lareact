@@ -16,11 +16,11 @@ class TransaksiController extends Controller
 
     public function index($id)
     {
-        $types = DB::select("SELECT *, suppliers.supplier_name, documents.document_url, user_profiles.nama from transaksis left join supplier on transaksis.supplier_id = suppliers.supplier_id left join documents on transaksis.document_id = documents.document_id left join app_users on transaksis.modified_by = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id where transaksis.order_id = $id");
-        if ($types->count() > 0) {
+        $types = DB::select('SELECT transaksis.id, transaksis.document_id, transaksis.supplier_id, transaksis.transaksi_cost, transaksis.transaksi_date, transaksis.transaksi_ref, transaksis.transaksi_id, suppliers.supplier_name, documents.document_url, user_profiles.nama from transaksis left join suppliers on transaksis.supplier_id = suppliers.supplier_id left join documents on transaksis.document_id = documents.document_id left join app_users on transaksis.modified_by = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id where transaksis.order_id = "'.$id.'"');
+        if ($types) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
+                'data' => $types,
             ]);
         } else {
             return response()->json([
@@ -90,6 +90,25 @@ class TransaksiController extends Controller
                 'message' => 'there are no data to be found.',
             ]);
         }
+    }
+
+    public function SearchQuery(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        $query = DB::select('SELECT * from transaksis where transaksis.transaksi_id like "%'.$keyword.'%"');
+
+        if ($query) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $query,
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'fail',
+            'message' => 'There are no data to be found.',
+        ]);
     }
 
     public function update(Request $request, $id)

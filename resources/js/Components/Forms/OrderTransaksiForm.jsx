@@ -11,6 +11,7 @@ import useModal from "@/hooks/useModal";
 import ApiClient from "@/lib/services/ApiClient";
 import { useSelector } from "react-redux";
 import SupplierItems from "../DropItems/SupplierItems";
+import FormData from "form-data";
 
 const OrderTransaksiForm = ({
     id,
@@ -26,9 +27,13 @@ const OrderTransaksiForm = ({
 
     const user = useSelector((state) => state.auth.authState);
 
+    const [docx, setDocx] = useState(null);
+    const [msg, setMsg] = useState("");
+
     const [payload, setPayload] = useState({
         transaksi_ref: trRef,
         supplier_id: sId,
+        document_id: dId,
         order_id: oId,
         transaksi_cost: cost,
         transaksi_date: date,
@@ -36,6 +41,9 @@ const OrderTransaksiForm = ({
     });
 
     const adding = async () => {
+        const doc = new FormData();
+        doc.append("file_pdf", docx);
+        doc.append("user_id", user.user_id);
         if (trId) {
             const up = await ApiClient.post(
                 `transaksi/${trId}?_method=PUT`,
@@ -52,6 +60,12 @@ const OrderTransaksiForm = ({
             shiftModal();
             return console.log(up);
         }
+
+        const upDoc = await ApiClient.post("doc", doc).then((res) => {
+            return res.data;
+        });
+
+        payload.document_id = upDoc.data.document_id;
 
         const req = await ApiClient.post("transaksi", payload)
             .then((res) => {
@@ -97,7 +111,7 @@ const OrderTransaksiForm = ({
                 Upload max size 2mb, type: pdf
             </Typography>
             <SectionDivider>
-                <FileUploader />
+                <FileUploader file={(a) => setDocx(a)} />
             </SectionDivider>
             <SearchField
                 title={"Supplier :"}
