@@ -16,7 +16,7 @@ class TransaksiController extends Controller
 
     public function index($id)
     {
-        $types = DB::select('SELECT transaksis.id, transaksis.document_id, transaksis.supplier_id, transaksis.transaksi_cost, transaksis.transaksi_date, transaksis.transaksi_ref, transaksis.transaksi_id, suppliers.supplier_name, documents.document_url, user_profiles.nama from transaksis left join suppliers on transaksis.supplier_id = suppliers.supplier_id left join documents on transaksis.document_id = documents.document_id left join app_users on transaksis.modified_by = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id where transaksis.order_id = "'.$id.'"');
+        $types = DB::select('SELECT transaksis.id, transaksis.document_id, transaksis.supplier_id, transaksis.transaksi_cost, transaksis.transaksi_date, transaksis.transaksi_ref, transaksis.transaksi_id, suppliers.supplier_name, documents.document_file, documents.document_url, user_profiles.nama from transaksis left join suppliers on transaksis.supplier_id = suppliers.supplier_id left join documents on transaksis.document_id = documents.document_id left join app_users on transaksis.modified_by = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id where transaksis.order_id = "'.$id.'"');
         if ($types) {
             return response()->json([
                 'status' => 'success',
@@ -118,12 +118,13 @@ class TransaksiController extends Controller
             'order_id' => 'required|string|max:255',
             'supplier_id' => 'required|string|max:255',
             'document_id' => 'string|max:255',
-            'transaksi_cost' => 'required|integer|max:20',
+            'transaksi_cost' => 'required|numeric|digits_between:1,20',
             'transaksi_date' => 'required|string|max:255',
             'user_id' => 'required|string|max:255',
         ]);
 
-        $type = transaksi::find($id);
+        $typeZero = transaksi::where('transaksi_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
             $type->transaksi_id = $type->transaksi_id;
             $type->transaksi_ref = $request->transaksi_ref;
@@ -131,7 +132,7 @@ class TransaksiController extends Controller
             $type->document_id = $request->document_id ? $request->document_id : $type->document_id;
             $type->transaksi_cost = $request->transaksi_cost;
             $type->transaksi_date = $request->transaksi_date;
-            $type->user_id = $request->description;
+            $type->modified_by = $request->user_id;
             $type->save();
 
             return response()->json([
@@ -149,7 +150,8 @@ class TransaksiController extends Controller
 
     public function destroy($id)
     {
-        $type = transaksi::find($id);
+        $typeZero = transaksi::where('transaksi_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
 
             $type->delete();

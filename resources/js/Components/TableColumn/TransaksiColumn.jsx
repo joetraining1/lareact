@@ -1,7 +1,16 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
+import OrderTransaksiForm from "../Forms/OrderTransaksiForm";
+import { SectionDivider } from "../SectionContainer/SectionContainer";
+import SiteButton from "@/lib/parts/SiteButton/SiteButton";
+import TransaksiServices from "@/lib/services/PurchaseOrder/TransaksiServices";
+import DocumentServices from "@/lib/services/Document/DocumentServices";
+import DocumentInfoServices from "@/lib/services/Document/DocumentInfoServices";
 
-const TransaksiColumn = ({ data = [], addition = [], refresh }) => {
+const TransaksiColumn = ({ data = [], addition = [], refresh, order_id }) => {
+    const { deleting: TransaksiDelete } = TransaksiServices();
+    const { deleting: DocDelete } = DocumentServices();
+
     const DataColumn = useMemo(() => {
         return [
             {
@@ -41,16 +50,57 @@ const TransaksiColumn = ({ data = [], addition = [], refresh }) => {
             {
                 field: "option",
                 headerName: "Option",
-                width: 150,
-                renderCell: ({ row: { id, title, value } }) => {
+                width: 250,
+                renderCell: ({
+                    row: {
+                        id,
+                        title,
+                        transaksi_id,
+                        transaksi_ref,
+                        transaksi_cost,
+                        transaksi_date,
+                        document_id,
+                        supplier_id,
+                        document_file,
+                    },
+                }) => {
                     return (
-                        <IndexModal
-                            button={"option"}
-                            title={"Test Table Modal"}
-                            value={"modal opened"}
+                        <SectionDivider
+                            styles={{
+                                alignItems: "center",
+                            }}
                         >
-                            {title}
-                        </IndexModal>
+                            <IndexModal
+                                button={"edit"}
+                                title={`Edit Transaksi ${transaksi_id}`}
+                                value={"modal opened"}
+                            >
+                                <OrderTransaksiForm
+                                    refresh={() => refresh()}
+                                    trId={transaksi_id}
+                                    trRef={transaksi_ref}
+                                    id={order_id}
+                                    oId={order_id}
+                                    cost={transaksi_cost}
+                                    date={transaksi_date}
+                                    dId={document_id}
+                                    sId={supplier_id}
+                                    filename={document_file}
+                                />
+                            </IndexModal>
+                            <SiteButton
+                                title={"delete"}
+                                action={() => {
+                                    DocDelete({
+                                        id: document_id,
+                                    });
+                                    TransaksiDelete({
+                                        id: transaksi_id,
+                                    });
+                                    refresh();
+                                }}
+                            />
+                        </SectionDivider>
                     );
                 },
             },

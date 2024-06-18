@@ -87,20 +87,21 @@ class DocumentInfoController extends Controller
             'document_judul' => 'required|string|max:255',
             'document_agenda' => 'required|string|max:255',
             'document_date' => 'required|string|max:255',
-            'kategori_id' => 'required|string|max:255',
-            'departemen_id' => 'required|string|max:255',
+            'kategori_id' => 'string|max:255',
+            'departemen_id' => 'string|max:255',
             'user_id' => 'required|string|max:255',
         ]);
 
-        $type = document_info::find($id);
+        $typeZero = document_info::where('document_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
             $type->document_id = $type->document_id;
             $type->document_ref = $request->document_ref;
             $type->document_judul = $request->document_judul;
             $type->document_agenda = $request->document_agenda;
             $type->document_date = $request->document_date;
-            $type->kategori_id = $request->kategori_id;
-            $type->departemen_id = $request->departemen_id;
+            $type->kategori_id = $request->kategori_id ? $request->kategori_id : null;
+            $type->departemen_id = $request->departemen_id ? $request->departemen_id : null;
             $type->modified_by = $request->user_id;
             $type->save();
 
@@ -119,7 +120,8 @@ class DocumentInfoController extends Controller
 
     public function destroy($id)
     {
-        $type = document_info::find($id);
+        $typeZero = document_info::where('document_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
 
             $type->delete();

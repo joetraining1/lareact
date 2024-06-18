@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\document;
+use App\Models\document_info;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -86,6 +87,11 @@ class DocumentController extends Controller
             'modified_by' => $request->user_id,
         ]);
 
+        $info = document_info::create([
+            'document_id' => $id,
+            'modified_by' => $request->user_id,
+        ]);
+
         return response()->json([
             'status' => 'success',
             'message' => 'Document registered successfully',
@@ -116,7 +122,8 @@ class DocumentController extends Controller
             'file_pdf' => 'required|mimes:pdf|max:2048',
         ]);
 
-        $type = document::find($id);
+        $typeZero = document::where('document_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
             $del_file = File::delete('storage/'.$type->document_path);
 
@@ -146,7 +153,8 @@ class DocumentController extends Controller
 
     public function destroy($id)
     {
-        $type = document::find($id);
+        $typeZero = document::where('document_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
 
             $type->delete();

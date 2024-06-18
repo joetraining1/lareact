@@ -15,7 +15,22 @@ const DocumentServices = () => {
         return req;
     };
 
-    return { retrieving };
+    const deleting = async ({ id }) => {
+        if (id) {
+            const req = await ApiClient.delete(`doc/${id}`)
+                .then((res) => {
+                    return res.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    return;
+                });
+            return;
+        }
+        return console.log("pass some id");
+    };
+
+    return { retrieving, deleting };
 };
 
 export default DocumentServices;

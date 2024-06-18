@@ -13,6 +13,7 @@ const TransaksiSection = ({ order_id }) => {
 
     const { DataColumn } = TransaksiColumn({
         refresh: () => forceRefresh(),
+        order_id: order_id,
     });
 
     return (
@@ -26,7 +27,11 @@ const TransaksiSection = ({ order_id }) => {
                 value={"Menambahkan Transaksi pada order"}
             >
                 <br />
-                <OrderTransaksiForm id={order_id} oId={order_id} />
+                <OrderTransaksiForm
+                    id={order_id}
+                    oId={order_id}
+                    refresh={() => forceRefresh()}
+                />
             </IndexModal>
             <TableData
                 column={DataColumn}

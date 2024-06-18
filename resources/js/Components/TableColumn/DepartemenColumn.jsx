@@ -47,7 +47,7 @@ const DepartemenColumn = ({ data, refresh }) => {
                         >
                             <IndexModal
                                 button={"option"}
-                                title={"Test Table Modal"}
+                                title={`Edit Departemen ${departemen_name}`}
                                 value={"modal opened"}
                             >
                                 <DepartemenForm

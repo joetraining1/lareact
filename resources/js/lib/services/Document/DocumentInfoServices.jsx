@@ -1,10 +1,10 @@
 import React from "react";
 import ApiClient from "../ApiClient";
 
-const TransaksiServices = () => {
+const DocumentInfoServices = () => {
     const deleting = async ({ id }) => {
         if (id) {
-            const req = await ApiClient.delete(`transaksi/${id}`)
+            const req = await ApiClient.delete(`docs/info/${id}`)
                 .then((res) => {
                     return res.data;
                 })
@@ -16,9 +16,7 @@ const TransaksiServices = () => {
         }
         return console.log("pass some id");
     };
-    return {
-        deleting,
-    };
+    return { deleting };
 };
 
-export default TransaksiServices;
+export default DocumentInfoServices;

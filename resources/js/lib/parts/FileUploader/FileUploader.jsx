@@ -7,11 +7,13 @@ import { Button, Typography } from "@mui/material";
 import { h4FontStyle } from "@/lib/constant/Styles";
 import { FileSlicer } from "@/lib/utils/StringExtensionExtractor";
 
-const FileUploader = ({ file = (a) => console.log(a.name) }) => {
+const FileUploader = ({ file = (a) => console.log(a.name), value = "" }) => {
     const [selected, setSelected] = useState(null);
+    const [name, setName] = useState(FileSlicer(value));
 
     const handleFile = (doc) => {
         setSelected(doc);
+        setName(FileSlicer(doc.name));
         file(doc);
         return;
     };
@@ -40,7 +42,7 @@ const FileUploader = ({ file = (a) => console.log(a.name) }) => {
                     onChange={(e) => handleFile(e.target.files[0])}
                 />
             </Button>
-            {selected && (
+            {name && (
                 <UniversalButton
                     variant={"text"}
                     title={"clear"}
@@ -48,17 +50,21 @@ const FileUploader = ({ file = (a) => console.log(a.name) }) => {
                         color: AllColors.Grey,
                     }}
                     icon={<ClearRounded />}
-                    action={() => setSelected(null)}
+                    action={() => {
+                        setSelected(null);
+                        setName("");
+                        return;
+                    }}
                 />
             )}
-            {selected && (
+            {name && (
                 <Typography
                     sx={{
                         ...h4FontStyle,
                         color: AllColors.DarkGrey,
                     }}
                 >
-                    {FileSlicer(selected.name)}
+                    {name}
                 </Typography>
             )}
         </React.Fragment>

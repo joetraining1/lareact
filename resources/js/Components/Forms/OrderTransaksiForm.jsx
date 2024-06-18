@@ -22,6 +22,8 @@ const OrderTransaksiForm = ({
     dId = "",
     cost = "",
     date = "",
+    filename = "",
+    refresh,
 }) => {
     const { shiftModal } = useModal();
 
@@ -45,6 +47,36 @@ const OrderTransaksiForm = ({
         doc.append("file_pdf", docx);
         doc.append("user_id", user.user_id);
         if (trId) {
+            if (payload.document_id) {
+                const upDoc = await ApiClient.post(
+                    `doc/${payload.document_id}?_method=PUT`,
+                    doc
+                ).then((res) => {
+                    return res.data;
+                });
+
+                payload.document_id = upDoc.data.document_id;
+            }
+
+            if (docx) {
+                const upDoc = await ApiClient.post("doc", doc).then((res) => {
+                    return res.data;
+                });
+
+                payload.document_id = upDoc.data.document_id;
+
+                const docInfo = await ApiClient.post(
+                    `docs/info/${upDoc.data.document_id}?_method=PUT`,
+                    {
+                        document_ref: payload.transaksi_ref,
+                        document_judul: `transaksi order ${oId}`,
+                        document_agenda: `transaksi order ${oId}`,
+                        document_date: payload.transaksi_date,
+                        user_id: user.user_id,
+                    }
+                );
+            }
+
             const up = await ApiClient.post(
                 `transaksi/${trId}?_method=PUT`,
                 payload
@@ -57,6 +89,7 @@ const OrderTransaksiForm = ({
                     return;
                 });
 
+            refresh();
             shiftModal();
             return console.log(up);
         }
@@ -67,6 +100,17 @@ const OrderTransaksiForm = ({
 
         payload.document_id = upDoc.data.document_id;
 
+        const docInfo = await ApiClient.post(
+            `docs/info/${upDoc.data.document_id}?_method=PUT`,
+            {
+                document_ref: payload.transaksi_ref,
+                document_judul: `transaksi order ${oId}`,
+                document_agenda: `transaksi order ${oId}`,
+                document_date: payload.transaksi_date,
+                user_id: user.user_id,
+            }
+        );
+
         const req = await ApiClient.post("transaksi", payload)
             .then((res) => {
                 return res.data;
@@ -75,6 +119,8 @@ const OrderTransaksiForm = ({
                 console.log(error);
                 return;
             });
+
+        refresh();
         shiftModal();
         return console.log(req);
     };
@@ -111,7 +157,10 @@ const OrderTransaksiForm = ({
                 Upload max size 2mb, type: pdf
             </Typography>
             <SectionDivider>
-                <FileUploader file={(a) => setDocx(a)} />
+                <FileUploader
+                    file={(a) => setDocx(a)}
+                    value={filename ? filename : ""}
+                />
             </SectionDivider>
             <SearchField
                 title={"Supplier :"}
