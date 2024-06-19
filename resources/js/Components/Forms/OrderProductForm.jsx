@@ -83,7 +83,7 @@ const OrderProductForm = ({ order_id, id, pId = "", qty = "", cost = "" }) => {
                 value={payload.order_cost}
             />
             <br />
-            <SiteButton title={"Simpan"} />
+            <SiteButton title={"Simpan"} action={() => adding()} />
         </div>
     );
 };

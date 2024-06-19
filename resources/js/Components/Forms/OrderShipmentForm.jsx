@@ -23,6 +23,8 @@ const OrderShipmentForm = ({
     cost = "",
     date = "",
     arrive = "",
+    filename = "",
+    refresh,
 }) => {
     const { shiftModal } = useModal();
     const user = useSelector((state) => state.auth.authState);
@@ -57,6 +59,7 @@ const OrderShipmentForm = ({
                     return;
                 });
 
+            refresh();
             shiftModal();
             return console.log(up);
         }
@@ -67,9 +70,20 @@ const OrderShipmentForm = ({
             return res.data;
         });
 
-        payload.document_id = doc.document_id;
+        payload.document_id = doc.data.document_id;
 
-        const req = await ApiClient.post("order/item", payload)
+        const docInfo = await ApiClient.post(
+            `docs/info/${doc.data.document_id}?_method=PUT`,
+            {
+                document_ref: payload.shipment_ref,
+                document_judul: `shipment order ${oId}`,
+                document_agenda: `shipment order ${oId}`,
+                document_date: payload.shipment_start,
+                user_id: user.user_id,
+            }
+        );
+
+        const req = await ApiClient.post("shipment", payload)
             .then((res) => {
                 return res.data;
             })
@@ -77,6 +91,7 @@ const OrderShipmentForm = ({
                 console.log(error);
                 return;
             });
+        refresh();
         shiftModal();
         return console.log(req);
     };
@@ -127,7 +142,7 @@ const OrderShipmentForm = ({
                 Upload max size 2mb, type: pdf
             </Typography>
             <SectionDivider>
-                <FileUploader />
+                <FileUploader file={(a) => setDocx(a)} />
             </SectionDivider>
             <InputLabel
                 title={"Biaya Pengiriman :"}

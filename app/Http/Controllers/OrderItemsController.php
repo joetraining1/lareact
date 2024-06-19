@@ -15,7 +15,7 @@ class OrderItemsController extends Controller
 
     public function index($id)
     {
-        $types = DB::select("SELECT order_items.product_id, products.product_name, order_items.order_qty, order_items.order_cost from order_items left join products on order_items.product_id = products.product_id where order_items.order_id = $id");
+        $types = DB::select('SELECT order_items.product_id, products.product_name, order_items.order_qty, order_items.order_cost from order_items left join products on order_items.product_id = products.product_id where order_items.order_id = $id');
         if ($types->count() > 0) {
             return response()->json([
                 'status' => 'success',
@@ -34,8 +34,8 @@ class OrderItemsController extends Controller
         $request->validate([
             'order_id' => 'required|string|max:255',
             'product_id' => 'required|string|max:255',
-            'order_qty' => 'required|integer|max:20',
-            'order_cost' => 'required|integer|max:20',
+            'order_qty' => 'required|numeric|digits_between:1,10',
+            'order_cost' => 'required|numeric|digits_between:1,20',
         ]);
 
         $type = order_items::create([

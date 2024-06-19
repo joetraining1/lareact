@@ -16,11 +16,11 @@ class ShipmentController extends Controller
 
     public function index($id)
     {
-        $types = DB::select("SELECT *, documents.document_url, user_profiles.nama from shipments left join documents on shipments.document_id = documents.document_id left join app_users on shipments.modified_by = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id where shipments.order_id = $id");
-        if ($types->count() > 0) {
+        $types = DB::select('SELECT shipments.order_id, shipments.id, shipments.transaksi_id, shipments.shipment_id, shipments.shipment_ref, shipments.shipment_cost, shipments.shipment_start, shipments.shipment_estimated, shipments.document_id, shipments.modified_by, documents.document_url, user_profiles.nama from shipments left join documents on shipments.document_id = documents.document_id left join app_users on shipments.modified_by = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id where shipments.order_id = "'.$id.'"');
+        if ($types) {
             return response()->json([
                 'status' => 'success',
-                'types' => $types,
+                'data' => $types,
             ]);
         } else {
             return response()->json([
@@ -55,7 +55,7 @@ class ShipmentController extends Controller
             'shipment_id' => $id,
             'order_id' => $request->order_id,
             'transaksi_id' => $request->transaksi_id,
-            'shipment_ref' => $request->supplier_id,
+            'shipment_ref' => $request->shipment_ref,
             'shipment_cost' => $request->shipment_cost,
             'shipment_start' => $request->shipment_start,
             'shipment_estimated' => $request->shipment_estimated,

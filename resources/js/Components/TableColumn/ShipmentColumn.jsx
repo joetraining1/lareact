@@ -1,7 +1,10 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
+import ShipmentServices from "@/lib/services/PurchaseOrder/ShipmentServices";
+import OrderShipmentForm from "../Forms/OrderShipmentForm";
 
-const ShipmentColumn = ({ data = [], addition = [] }) => {
+const ShipmentColumn = ({ data = [], addition = [], refresh, order_id }) => {
+    const {} = ShipmentServices();
     const DataColumn = useMemo(() => {
         return [
             {
@@ -59,7 +62,10 @@ const ShipmentColumn = ({ data = [], addition = [] }) => {
                             title={"Test Table Modal"}
                             value={"modal opened"}
                         >
-                            {title}
+                            <OrderShipmentForm
+                                refresh={() => refresh()}
+                                oId={order_id}
+                            />
                         </IndexModal>
                     );
                 },
