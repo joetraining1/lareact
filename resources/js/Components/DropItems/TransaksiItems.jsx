@@ -11,7 +11,7 @@ const TransaksiItems = ({ action }) => {
         return dataset.map((item, index) => {
             return (
                 <span
-                    key={item.product_id}
+                    key={item.transaksi_id}
                     style={{
                         cursor: "pointer",
                         "&:hover": {

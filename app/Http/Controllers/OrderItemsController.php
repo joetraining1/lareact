@@ -15,8 +15,8 @@ class OrderItemsController extends Controller
 
     public function index($id)
     {
-        $types = DB::select('SELECT order_items.product_id, products.product_name, order_items.order_qty, order_items.order_cost from order_items left join products on order_items.product_id = products.product_id where order_items.order_id = $id');
-        if ($types->count() > 0) {
+        $types = DB::select('SELECT order_items.id, order_items.product_id, products.product_name, products.product_deskripsi, products.product_harga, products.kategori_id, kategoris.kategori_name, order_items.order_qty, order_items.order_cost from order_items left join products on order_items.product_id = products.product_id left join kategoris on products.kategori_id = kategoris.kategori_id where order_items.order_id = "'.$id.'"');
+        if ($types) {
             return response()->json([
                 'status' => 'success',
                 'data' => $types,
@@ -72,11 +72,12 @@ class OrderItemsController extends Controller
     {
         $request->validate([
             'product_id' => 'required|string|max:255',
-            'order_qty' => 'required|integer|max:20',
-            'order_cost' => 'required|integer|max:20',
+            'order_qty' => 'required|numeric|digits_between:1,10',
+            'order_cost' => 'required|numeric|digits_between:1,20',
         ]);
 
-        $type = order_items::find($id);
+        $typeZero = order_items::where('id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
             $type->product_id = $request->product_id;
             $type->order_qty = $request->order_qty;
@@ -98,7 +99,8 @@ class OrderItemsController extends Controller
 
     public function destroy($id)
     {
-        $type = order_items::find($id);
+        $typeZero = order_items::where('id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
 
             $type->delete();

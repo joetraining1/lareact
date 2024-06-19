@@ -6,7 +6,15 @@ import ApiClient from "@/lib/services/ApiClient";
 import React, { useState } from "react";
 import ProductItems from "../DropItems/ProductItems";
 
-const OrderProductForm = ({ order_id, id, pId = "", qty = "", cost = "" }) => {
+const OrderProductForm = ({
+    order_id,
+    id,
+    pId = "",
+    qty = "",
+    cost = "",
+    pName = "",
+    refresh,
+}) => {
     const { shiftModal } = useModal();
 
     const [payload, setPayload] = useState({
@@ -30,6 +38,7 @@ const OrderProductForm = ({ order_id, id, pId = "", qty = "", cost = "" }) => {
                     return;
                 });
 
+            refresh();
             shiftModal();
             return console.log(up);
         }
@@ -42,6 +51,8 @@ const OrderProductForm = ({ order_id, id, pId = "", qty = "", cost = "" }) => {
                 console.log(error);
                 return;
             });
+
+        refresh();
         shiftModal();
         return console.log(req);
     };
@@ -61,7 +72,7 @@ const OrderProductForm = ({ order_id, id, pId = "", qty = "", cost = "" }) => {
             <SearchField
                 title={"Cari Produk :"}
                 target={"products/search"}
-                value={payload.product_id}
+                value={pName}
             >
                 <ProductItems
                     action={(a) =>

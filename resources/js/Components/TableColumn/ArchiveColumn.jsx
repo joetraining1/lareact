@@ -4,8 +4,11 @@ import { Button } from "@mui/material";
 import { h4FontStyle } from "@/lib/constant/Styles";
 import { AllColors } from "@/lib/constant/Colors";
 import { SectionDivider } from "../SectionContainer/SectionContainer";
+import SiteButton from "@/lib/parts/SiteButton/SiteButton";
+import DocumentServices from "@/lib/services/Document/DocumentServices";
 
-const ArchiveColumn = (data) => {
+const ArchiveColumn = ({ data, refresh }) => {
+    const { deleting } = DocumentServices();
     const DataColumn = useMemo(() => {
         return [
             {
@@ -66,7 +69,7 @@ const ArchiveColumn = (data) => {
                 field: "option",
                 headerName: "Option",
                 width: 150,
-                renderCell: ({ row: { id, title, value } }) => {
+                renderCell: ({ row: { id, title, document_id } }) => {
                     return (
                         <SectionDivider
                             styles={{
@@ -74,12 +77,22 @@ const ArchiveColumn = (data) => {
                             }}
                         >
                             <IndexModal
-                                button={"option"}
+                                button={"edit"}
                                 title={"Test Table Modal"}
                                 value={"modal opened"}
                             >
                                 {title}
                             </IndexModal>
+                            <SiteButton
+                                title={"delete"}
+                                action={() => {
+                                    deleting({
+                                        id: document_id,
+                                    });
+                                    refresh();
+                                    return;
+                                }}
+                            />
                         </SectionDivider>
                     );
                 },

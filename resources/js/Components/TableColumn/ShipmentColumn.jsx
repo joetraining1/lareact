@@ -2,9 +2,13 @@ import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
 import ShipmentServices from "@/lib/services/PurchaseOrder/ShipmentServices";
 import OrderShipmentForm from "../Forms/OrderShipmentForm";
+import { SectionDivider } from "../SectionContainer/SectionContainer";
+import SiteButton from "@/lib/parts/SiteButton/SiteButton";
+import DocumentServices from "@/lib/services/Document/DocumentServices";
 
 const ShipmentColumn = ({ data = [], addition = [], refresh, order_id }) => {
-    const {} = ShipmentServices();
+    const { deleting: DocDelete } = DocumentServices();
+    const { deleting: ShipmentDelete } = ShipmentServices();
     const DataColumn = useMemo(() => {
         return [
             {
@@ -55,18 +59,56 @@ const ShipmentColumn = ({ data = [], addition = [], refresh, order_id }) => {
                 field: "option",
                 headerName: "Option",
                 width: 150,
-                renderCell: ({ row: { id, title, value } }) => {
+                renderCell: ({
+                    row: {
+                        id,
+                        shipment_id,
+                        shipment_ref,
+                        shipment_cost,
+                        shipment_start,
+                        shipment_estimated,
+                        transaksi_id,
+                        document_id,
+                        document_file,
+                    },
+                }) => {
                     return (
-                        <IndexModal
-                            button={"option"}
-                            title={"Test Table Modal"}
-                            value={"modal opened"}
+                        <SectionDivider
+                            styles={{
+                                alignItems: "center",
+                            }}
                         >
-                            <OrderShipmentForm
-                                refresh={() => refresh()}
-                                oId={order_id}
+                            <IndexModal
+                                button={"edit"}
+                                title={`Edit Shipment ${shipment_id}`}
+                                value={"modal opened"}
+                            >
+                                <OrderShipmentForm
+                                    refresh={() => refresh()}
+                                    oId={order_id}
+                                    arrive={shipment_estimated}
+                                    cost={shipment_cost}
+                                    dId={document_id}
+                                    trId={transaksi_id}
+                                    sId={shipment_id}
+                                    sRef={shipment_ref}
+                                    date={shipment_start}
+                                    filename={document_file}
+                                />
+                            </IndexModal>
+                            <SiteButton
+                                title={"delete"}
+                                action={() => {
+                                    DocDelete({
+                                        id: document_id,
+                                    });
+                                    ShipmentDelete({
+                                        id: shipment_id,
+                                    });
+                                    refresh();
+                                }}
                             />
-                        </IndexModal>
+                        </SectionDivider>
                     );
                 },
             },

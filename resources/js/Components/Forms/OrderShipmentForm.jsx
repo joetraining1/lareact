@@ -29,6 +29,7 @@ const OrderShipmentForm = ({
     const { shiftModal } = useModal();
     const user = useSelector((state) => state.auth.authState);
     const [docx, setDocx] = useState(null);
+    const [msg, setMsg] = useState("");
 
     const [payload, setPayload] = useState({
         transaksi_id: trId,
@@ -42,11 +43,52 @@ const OrderShipmentForm = ({
     });
 
     const adding = async () => {
+        if (!docx) {
+            setMsg("Dokumen belum ditambahkan.");
+            const unmount = setTimeout(() => {
+                setMsg("");
+                return;
+            }, 5000);
+            return;
+        }
         const sendReq = new FormData();
         sendReq.append("file_pdf", docx);
         sendReq.append("user_id", user.user_id);
         if (sId) {
             //send the document first
+
+            if (payload.document_id && docx) {
+                const upDoc = await ApiClient.post(
+                    `doc/${payload.document_id}?_method=PUT`,
+                    sendReq
+                ).then((res) => {
+                    return res.data;
+                });
+
+                payload.document_id = upDoc.data.document_id;
+            }
+
+            if (docx && !payload.document_id) {
+                const upDoc = await ApiClient.post("doc", sendReq).then(
+                    (res) => {
+                        return res.data;
+                    }
+                );
+
+                payload.document_id = upDoc.data.document_id;
+
+                const docInfo = await ApiClient.post(
+                    `docs/info/${upDoc.data.document_id}?_method=PUT`,
+                    {
+                        document_ref: payload.shipment_ref,
+                        document_judul: `shipment order ${oId}`,
+                        document_agenda: `shipment order ${oId}`,
+                        document_date: payload.shipment_start,
+                        user_id: user.user_id,
+                    }
+                );
+            }
+
             const up = await ApiClient.post(
                 `shipment/${sId}?_method=PUT`,
                 payload
@@ -63,8 +105,6 @@ const OrderShipmentForm = ({
             shiftModal();
             return console.log(up);
         }
-
-        //send the document first
 
         const doc = await ApiClient.post(`doc`, sendReq).then((res) => {
             return res.data;
@@ -142,7 +182,10 @@ const OrderShipmentForm = ({
                 Upload max size 2mb, type: pdf
             </Typography>
             <SectionDivider>
-                <FileUploader file={(a) => setDocx(a)} />
+                <FileUploader
+                    file={(a) => setDocx(a)}
+                    value={filename ? filename : ""}
+                />
             </SectionDivider>
             <InputLabel
                 title={"Biaya Pengiriman :"}
@@ -160,6 +203,18 @@ const OrderShipmentForm = ({
                 value={payload.shipment_estimated}
             />
             <br />
+            {msg && (
+                <Typography
+                    variant="body2"
+                    sx={{
+                        fontStyle: "italic",
+                        color: "red",
+                        ...h4FontStyle,
+                    }}
+                >
+                    {msg}
+                </Typography>
+            )}
             <SiteButton title={"Submit"} action={() => adding()} />
         </div>
     );

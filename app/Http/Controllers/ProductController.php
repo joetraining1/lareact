@@ -132,7 +132,8 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        $type = product::find($id);
+        $typeZero = product::where('product_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
 
             $type->delete();

@@ -16,7 +16,7 @@ class ShipmentController extends Controller
 
     public function index($id)
     {
-        $types = DB::select('SELECT shipments.order_id, shipments.id, shipments.transaksi_id, shipments.shipment_id, shipments.shipment_ref, shipments.shipment_cost, shipments.shipment_start, shipments.shipment_estimated, shipments.document_id, shipments.modified_by, documents.document_url, user_profiles.nama from shipments left join documents on shipments.document_id = documents.document_id left join app_users on shipments.modified_by = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id where shipments.order_id = "'.$id.'"');
+        $types = DB::select('SELECT shipments.order_id, shipments.id, shipments.transaksi_id, shipments.shipment_id, shipments.shipment_ref, shipments.shipment_cost, shipments.shipment_start, shipments.shipment_estimated, shipments.document_id, shipments.modified_by, documents.document_url, documents.document_file, user_profiles.nama from shipments left join documents on shipments.document_id = documents.document_id left join app_users on shipments.modified_by = app_users.user_id left join user_profiles on app_users.user_id = user_profiles.user_id where shipments.order_id = "'.$id.'"');
         if ($types) {
             return response()->json([
                 'status' => 'success',
@@ -101,13 +101,14 @@ class ShipmentController extends Controller
             'transaksi_id' => 'required|string|max:255',
             'shipment_ref' => 'required|string|max:255',
             'document_id' => 'string|max:255',
-            'shipment_cost' => 'required|string|max:255',
+            'shipment_cost' => 'required|numeric|digits_between:1,20',
             'shipment_start' => 'required|string|max:255',
             'shipment_estimated' => 'required|string|max:255',
             'user_id' => 'required|string|max:255',
         ]);
 
-        $type = shipment::find($id);
+        $typeZero = shipment::where('shipment_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
             $type->shipment_id = $type->shipment_id;
             $type->shipment_ref = $request->shipment_ref;
@@ -135,7 +136,8 @@ class ShipmentController extends Controller
 
     public function destroy($id)
     {
-        $type = shipment::find($id);
+        $typeZero = shipment::where('shipment_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
 
             $type->delete();

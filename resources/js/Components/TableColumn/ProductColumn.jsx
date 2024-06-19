@@ -4,8 +4,15 @@ import { Typography } from "@mui/material";
 import { SectionDivider } from "../SectionContainer/SectionContainer";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import { useNavigate } from "react-router-dom";
+import OrderProductForm from "../Forms/OrderProductForm";
 
-const ProductColumn = ({ data = [], addition = [], refresh }) => {
+const ProductColumn = ({
+    data = [],
+    addition = [],
+    refresh,
+    order_id,
+    option,
+}) => {
     const navigate = useNavigate();
 
     const typeColumn = [
@@ -46,25 +53,7 @@ const ProductColumn = ({ data = [], addition = [], refresh }) => {
             headerName: "Deskripsi Produk",
             width: 250,
         },
-        {
-            field: "option",
-            headerName: "Option",
-            width: 150,
-            renderCell: ({ row: { product_id } }) => {
-                return (
-                    <SectionDivider
-                        styles={{
-                            alignItems: "center",
-                        }}
-                    >
-                        <SiteButton
-                            title={"edit"}
-                            action={() => navigate(`${product_id}`)}
-                        />
-                    </SectionDivider>
-                );
-            },
-        },
+        ...option,
     ];
 
     const DataColumn = useMemo(() => {

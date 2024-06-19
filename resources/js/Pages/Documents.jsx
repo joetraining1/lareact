@@ -11,9 +11,10 @@ import { useNavigate } from "react-router-dom";
 
 const Documents = () => {
     const navigate = useNavigate();
-    const { DataColumn } = ArchiveColumn();
-
-    const { resp, current, isError } = useGetFetch("docs");
+    const { resp, isFetching, forceRefresh } = useGetFetch("docs");
+    const { DataColumn } = ArchiveColumn({
+        refresh: () => forceRefresh(),
+    });
 
     return (
         <PageContainer>
@@ -35,7 +36,11 @@ const Documents = () => {
                     title={"Data Dokumen Arsip"}
                     value={"Keseluruhan arsip dokumen dalam perusahaan."}
                 />
-                <TableData column={DataColumn} rows={resp ? resp.data : []} />
+                <TableData
+                    column={DataColumn}
+                    rows={resp ? resp.data : []}
+                    loading={isFetching}
+                />
             </BoxContainer>
         </PageContainer>
     );

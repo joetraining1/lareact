@@ -1,3 +1,4 @@
+import { SectionDivider } from "@/Components/SectionContainer/SectionContainer";
 import ProductColumn from "@/Components/TableColumn/ProductColumn";
 import TableData from "@/Components/TableData/TableData";
 import useGetFetch from "@/hooks/useGetFetch";
@@ -6,14 +7,48 @@ import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
+import ProductServices from "@/lib/services/Product/ProductServices";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Products = () => {
     const navigate = useNavigate();
     const { resp, isFetching, forceRefresh } = useGetFetch("products");
+    const { deleting } = ProductServices();
+
     const { DataColumn } = ProductColumn({
         refresh: () => forceRefresh(),
+        option: [
+            {
+                field: "option",
+                headerName: "Option",
+                width: 250,
+                renderCell: ({ row: { product_id } }) => {
+                    return (
+                        <SectionDivider
+                            styles={{
+                                alignItems: "center",
+                            }}
+                        >
+                            <SiteButton
+                                title={"edit"}
+                                action={() => navigate(`${product_id}`)}
+                            />
+                            <SiteButton
+                                title={"delete"}
+                                action={() => {
+                                    deleting({
+                                        id: product_id,
+                                    });
+                                    forceRefresh();
+                                    return;
+                                }}
+                            />
+                        </SectionDivider>
+                    );
+                },
+            },
+        ],
     });
 
     return (

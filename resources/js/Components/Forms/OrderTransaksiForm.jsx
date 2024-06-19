@@ -47,7 +47,7 @@ const OrderTransaksiForm = ({
         doc.append("file_pdf", docx);
         doc.append("user_id", user.user_id);
         if (trId) {
-            if (payload.document_id) {
+            if (payload.document_id && docx) {
                 const upDoc = await ApiClient.post(
                     `doc/${payload.document_id}?_method=PUT`,
                     doc
