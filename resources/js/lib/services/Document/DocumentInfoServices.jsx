@@ -16,7 +16,21 @@ const DocumentInfoServices = () => {
         }
         return console.log("pass some id");
     };
-    return { deleting };
+
+    const retrieving = async ({ id }) => {
+        const req = await ApiClient.get(`docs/info/${id}`)
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                console.log(err);
+                return;
+            });
+
+        return req;
+    };
+
+    return { deleting, retrieving };
 };
 
 export default DocumentInfoServices;

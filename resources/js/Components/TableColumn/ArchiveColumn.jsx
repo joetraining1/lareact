@@ -6,9 +6,11 @@ import { AllColors } from "@/lib/constant/Colors";
 import { SectionDivider } from "../SectionContainer/SectionContainer";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import DocumentServices from "@/lib/services/Document/DocumentServices";
+import { useNavigate } from "react-router-dom";
 
 const ArchiveColumn = ({ data, refresh }) => {
     const { deleting } = DocumentServices();
+    const navigate = useNavigate();
     const DataColumn = useMemo(() => {
         return [
             {
@@ -76,13 +78,10 @@ const ArchiveColumn = ({ data, refresh }) => {
                                 alignItems: "center",
                             }}
                         >
-                            <IndexModal
-                                button={"edit"}
-                                title={"Test Table Modal"}
-                                value={"modal opened"}
-                            >
-                                {title}
-                            </IndexModal>
+                            <SiteButton
+                                title={"edit"}
+                                action={() => navigate(`${document_id}`)}
+                            />
                             <SiteButton
                                 title={"delete"}
                                 action={() => {

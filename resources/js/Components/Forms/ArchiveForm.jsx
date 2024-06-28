@@ -9,7 +9,16 @@ import { useSelector } from "react-redux";
 import DepartemenItems from "../DropItems/DepartemenItems";
 import { TargetUrl } from "@/lib/constant/Target";
 
-const ArchiveForm = ({ document_id = "", id }) => {
+const ArchiveForm = ({
+    document_id = "",
+    id,
+    dRef = "",
+    dTitle = "",
+    dPurpose = "",
+    dDate = "",
+    cId = "",
+    dId = "",
+}) => {
     if (!document_id) {
         return null;
     }
@@ -18,12 +27,12 @@ const ArchiveForm = ({ document_id = "", id }) => {
 
     const [payload, setPayload] = useState({
         document_id: document_id,
-        document_ref: "",
-        document_judul: "",
-        document_agenda: "",
-        document_date: "",
-        kategori_id: "",
-        departemen_id: "",
+        document_ref: dRef,
+        document_judul: dTitle,
+        document_agenda: dPurpose,
+        document_date: dDate,
+        kategori_id: cId,
+        departemen_id: dId,
         user_id: user.user_id,
     });
 

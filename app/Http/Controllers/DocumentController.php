@@ -101,7 +101,8 @@ class DocumentController extends Controller
 
     public function show($id)
     {
-        $type = document::find($id);
+        $typeZero = document::where('document_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
             return response()->json([
                 'status' => 'success',

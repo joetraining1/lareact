@@ -32,9 +32,12 @@ const ProfileDisplay = ({ user_id, profile, employment }) => {
                     title={`Settings Password`}
                     value={"konfigurasi password user aplikasi."}
                 />
-                <InputLabel title={"Password Lama :"} />
-                <InputLabel title={"Password Baru :"} />
-                <InputLabel title={"Konfirm Password Baru :"} />
+                <InputLabel title={"Password Lama :"} type={"password"} />
+                <InputLabel title={"Password Baru :"} type={"password"} />
+                <InputLabel
+                    title={"Konfirm Password Baru :"}
+                    type={"password"}
+                />
                 <SiteButton title={"simpan"} />
             </BoxContainer>
 
