@@ -18,6 +18,8 @@ const ArchiveForm = ({
     dDate = "",
     cId = "",
     dId = "",
+    dept = "",
+    kat = "",
 }) => {
     if (!document_id) {
         return null;
@@ -50,7 +52,6 @@ const ArchiveForm = ({
                     return;
                 });
 
-            shiftModal();
             return console.log(up);
         }
         const req = await ApiClient.post(`docs/info/${document_id}`, payload)
@@ -69,6 +70,7 @@ const ArchiveForm = ({
             <InputLabel
                 title={`Nomor Referensei Dokumen ID:${document_id}`}
                 action={(a) => (payload.document_ref = a)}
+                value={dRef}
             />
             <SectionDivider>
                 <SectionDivider
@@ -85,6 +87,7 @@ const ArchiveForm = ({
                         }}
                         target={TargetUrl.kategori}
                         action={(a) => console.log(a)}
+                        value={kat}
                     >
                         <KategoriItems
                             action={(a) =>
@@ -109,6 +112,7 @@ const ArchiveForm = ({
                             width: "100%",
                         }}
                         target={TargetUrl.departemen}
+                        value={dept}
                     >
                         <DepartemenItems
                             action={(a) =>
@@ -124,14 +128,17 @@ const ArchiveForm = ({
             <InputLabel
                 title={"Judul Dokumen :"}
                 action={(a) => (payload.document_judul = a)}
+                value={payload.document_judul}
             />
             <InputLabel
                 title={"Agenda Dokumen :"}
                 action={(a) => (payload.document_agenda = a)}
+                value={payload.document_agenda}
             />
             <InputLabel
                 title={"Tanggal Dokumen :"}
                 action={(a) => (payload.document_date = a)}
+                value={payload.document_date}
             />
 
             <SiteButton

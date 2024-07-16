@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\document_info;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DocumentInfoController extends Controller
 {
@@ -61,7 +62,8 @@ class DocumentInfoController extends Controller
 
     public function show($id)
     {
-        $typeZero = document_info::where('document_id', $id)->get();
+        // $typeZero = document_info::where('document_id', $id)->get();
+        $typeZero = DB::select('SELECT document_infos.id, document_infos.document_ref, document_infos.document_judul, document_infos.document_agenda, document_infos.document_date, document_infos.kategori_id, document_infos.document_id, document_infos.departemen_id, departemens.departemen_name, kategoris.kategori_name from document_infos left join departemens on document_infos.departemen_id = departemens.departemen_id left join kategoris on document_infos.kategori_id = kategoris.kategori_id where document_infos.document_id = "'.$id.'"');
         $type = $typeZero[0];
         if ($type) {
             return response()->json([

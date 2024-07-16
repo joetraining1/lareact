@@ -5,6 +5,7 @@ import { SectionDivider } from "../SectionContainer/SectionContainer";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import { useNavigate } from "react-router-dom";
 import OrderProductForm from "../Forms/OrderProductForm";
+import { Rupiah } from "@/lib/utils/IntoCurrency";
 
 const ProductColumn = ({
     data = [],
@@ -44,9 +45,19 @@ const ProductColumn = ({
             field: "product_harga",
             headerName: "Harga Produk : Rp",
             width: 250,
-            // renderCell: ({ row: { product_harga } }) => {
-            //     return <Typography>{product_harga}</Typography>;
-            // },
+            renderCell: ({ row: { product_harga } }) => {
+                return (
+                    <SectionDivider
+                        styles={{
+                            alignItems: "center",
+                        }}
+                    >
+                        <Typography>{`${Rupiah(
+                            parseInt(product_harga)
+                        )}`}</Typography>
+                    </SectionDivider>
+                );
+            },
         },
         {
             field: "product_deskripsi",

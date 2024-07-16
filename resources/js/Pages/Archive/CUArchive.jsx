@@ -14,20 +14,24 @@ const CUArchive = () => {
     const { retrieving: getDoc } = DocumentServices();
     const { retrieving: getDocInfo } = DocumentInfoServices();
 
-    const [docId, setDocId] = useState(document_id ? document_id : "");
+    const [docId, setDocId] = useState("");
     const [docData, setDocData] = useState({});
+    const [docInfo, setDocInfo] = useState({});
 
     useEffect(() => {
-        if (document_id && docId) {
+        if (document_id) {
             getDoc({
                 id: document_id,
             }).then((res) => {
-                setDocId(res.data.document_id);
                 setDocData(res.data);
                 return;
             });
             getDocInfo({
                 id: document_id,
+            }).then((res) => {
+                setDocInfo(res.data);
+                setDocId(document_id);
+                return;
             });
         }
         return;
@@ -40,7 +44,17 @@ const CUArchive = () => {
                     title={"Register Arsip Dokumen"}
                     value={"File maksimal 2mb, pdf."}
                 />
-                <ArchiveUpload action={(a) => setDocId(a)} />
+                {docData.document_file ? (
+                    <ArchiveUpload
+                        action={(a) => setDocId(a)}
+                        filename={
+                            docData.document_file ? docData.document_file : ""
+                        }
+                    />
+                ) : null}
+                {docData.document_file ? null : (
+                    <ArchiveUpload action={(a) => setDocId(a)} filename={""} />
+                )}
             </BoxContainer>
             <BoxContainer>
                 <SectionHeader title={"Urutan Proses Penambahan Arsip"} />
@@ -56,7 +70,20 @@ const CUArchive = () => {
                     title={"Detail Arsip"}
                     value={"Informasi Dokumen Tambahan."}
                 />
-                {docId ? <ArchiveForm document_id={docId} /> : null}
+                {docId !== "" ? (
+                    <ArchiveForm
+                        document_id={docId}
+                        cId={docInfo.kategori_id}
+                        dDate={docInfo.document_date}
+                        dPurpose={docInfo.document_agenda}
+                        dTitle={docInfo.document_judul}
+                        dId={docInfo.departemen_id}
+                        dRef={docInfo.document_ref}
+                        dept={docInfo.departemen_name}
+                        kat={docInfo.kategori_name}
+                        id={docInfo.id}
+                    />
+                ) : null}
             </BoxContainer>
         </SectionContainer>
     );

@@ -8,7 +8,7 @@ import FormData from "form-data";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-const ArchiveUpload = ({ action }) => {
+const ArchiveUpload = ({ action, filename = "" }) => {
     const [clicked, setClicked] = useState(null);
     const [msg, setMsg] = useState("");
     const [docId, setDocId] = useState("");
@@ -42,7 +42,7 @@ const ArchiveUpload = ({ action }) => {
     return (
         <React.Fragment>
             <SectionDivider>
-                <FileUploader file={(a) => setClicked(a)} />
+                <FileUploader file={(a) => setClicked(a)} value={filename} />
             </SectionDivider>
             <SiteButton
                 title={"Simpan"}

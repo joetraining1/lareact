@@ -11,6 +11,14 @@ const FileUploader = ({ file = (a) => console.log(a.name), value = "" }) => {
     const [selected, setSelected] = useState(null);
     const [name, setName] = useState(FileSlicer(value));
 
+    // if (value && name !== "") {
+    //     const lastExt = value.lastIndexOf(".");
+    //     const fileName = value.substring(0, 10).concat("...");
+    //     const ext = value.substring(lastExt + 1);
+    //     const res = fileName.concat(ext);
+    //     setName(res);
+    // }
+
     const handleFile = (doc) => {
         setSelected(doc);
         setName(FileSlicer(doc.name));
