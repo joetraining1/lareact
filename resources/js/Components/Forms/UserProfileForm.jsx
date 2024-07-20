@@ -1,21 +1,22 @@
+import useModal from "@/hooks/useModal";
 import InputLabel from "@/lib/parts/InputLabel/InputLabel";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import ApiClient from "@/lib/services/ApiClient";
 import React, { useState } from "react";
 
-const UserProfileForm = ({ id }) => {
+const UserProfileForm = ({ id, refresh, name = "", fone = "", addr = "" }) => {
     const [payload, setPayload] = useState({
-        nama: "",
-        kontak: "",
-        alamat: "",
+        nama: name,
+        kontak: fone,
+        alamat: addr,
     });
 
-    console.log(id);
+    const { shiftModal } = useModal();
 
     const adding = async () => {
         if (id) {
             const up = await ApiClient.post(
-                `account/${id}?_method=PUT`,
+                `account/profile/${id}?_method=PUT`,
                 payload
             )
                 .then((res) => {
@@ -25,6 +26,8 @@ const UserProfileForm = ({ id }) => {
                     console.log(error);
                     return;
                 });
+            refresh();
+            shiftModal();
 
             return console.log(up);
         }
@@ -47,15 +50,19 @@ const UserProfileForm = ({ id }) => {
             <InputLabel
                 title={"Nama User"}
                 action={(a) => (payload.nama = a)}
+                value={payload.nama}
             />
             <InputLabel
                 title={"Kontak User"}
                 action={(a) => (payload.kontak = a)}
+                value={payload.kontak}
             />
             <InputLabel
                 title={"Alamat User"}
                 action={(a) => (payload.alamat = a)}
+                value={payload.kontak}
             />
+            <br />
             <SiteButton
                 title={"Simpan"}
                 styles={{

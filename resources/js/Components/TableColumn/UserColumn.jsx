@@ -1,7 +1,10 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
+import { SectionDivider } from "../SectionContainer/SectionContainer";
+import SiteButton from "@/lib/parts/SiteButton/SiteButton";
+import UserProfileForm from "../Forms/UserProfileForm";
 
-const UserColumn = (data) => {
+const UserColumn = ({ data, refresh }) => {
     const DataColumn = useMemo(() => {
         return [
             {
@@ -40,16 +43,49 @@ const UserColumn = (data) => {
             {
                 field: "option",
                 headerName: "Option",
-                width: 150,
-                renderCell: ({ row: { id, title, value } }) => {
+                width: 250,
+                renderCell: ({
+                    row: { id, user_id, nama, kontak, alamat },
+                }) => {
                     return (
-                        <IndexModal
-                            button={"option"}
-                            title={"Test Table Modal"}
-                            value={"modal opened"}
+                        <SectionDivider
+                            styles={{
+                                alignItems: "center",
+                            }}
                         >
-                            {title}
-                        </IndexModal>
+                            <IndexModal
+                                button={"edit"}
+                                title={`Edit Profile User ${user_id}`}
+                                value={"modal opened"}
+                            >
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        width: "450px",
+                                        height: "fit-content",
+                                        flexDirection: "column",
+                                        gap: "10px",
+                                    }}
+                                >
+                                    <UserProfileForm
+                                        id={user_id}
+                                        refresh={() => refresh()}
+                                        addr={alamat}
+                                        fone={kontak}
+                                        name={nama}
+                                    />
+                                </div>
+                            </IndexModal>
+                            <SiteButton
+                                title={"delete"}
+                                action={() => {
+                                    deleting({
+                                        id: user_id,
+                                    });
+                                    refresh();
+                                }}
+                            />
+                        </SectionDivider>
                     );
                 },
             },

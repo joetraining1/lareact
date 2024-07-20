@@ -46,10 +46,12 @@ const DepartemenForm = ({ id, refresh, name = "", lokasi = "" }) => {
             <InputLabel
                 title={"Nama Departemen :"}
                 action={(a) => (payload.departemen_name = a)}
+                value={payload.departemen_name}
             />
             <InputLabel
                 title={"Lokasi Departemen :"}
                 action={(a) => (payload.lokasi = a)}
+                value={payload.lokasi}
             />
             <br />
             <SiteButton title={"submit"} action={() => service()} />

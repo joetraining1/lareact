@@ -11,8 +11,10 @@ import { useNavigate } from "react-router-dom";
 
 const Users = () => {
     const navigate = useNavigate();
-    const { DataColumn } = UserColumn();
-    const { resp, current, isError } = useGetFetch("accounts");
+    const { resp, forceRefresh, isFetching } = useGetFetch("accounts");
+    const { DataColumn } = UserColumn({
+        refresh: () => forceRefresh(),
+    });
 
     return (
         <PageContainer>
