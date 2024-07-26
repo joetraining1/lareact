@@ -6,6 +6,8 @@ import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import TransaksiServices from "@/lib/services/PurchaseOrder/TransaksiServices";
 import DocumentServices from "@/lib/services/Document/DocumentServices";
 import DocumentInfoServices from "@/lib/services/Document/DocumentInfoServices";
+import { Rupiah } from "@/lib/utils/IntoCurrency";
+import { Typography } from "@mui/material";
 
 const TransaksiColumn = ({ data = [], addition = [], refresh, order_id }) => {
     const { deleting: TransaksiDelete } = TransaksiServices();
@@ -41,6 +43,19 @@ const TransaksiColumn = ({ data = [], addition = [], refresh, order_id }) => {
                 field: "transaksi_cost",
                 headerName: "Biaya Transaksi",
                 width: 250,
+                renderCell: ({ row: { transaksi_cost } }) => {
+                    return (
+                        <SectionDivider
+                            styles={{
+                                alignItems: "center",
+                            }}
+                        >
+                            <Typography>{`${Rupiah(
+                                parseInt(transaksi_cost)
+                            )}`}</Typography>
+                        </SectionDivider>
+                    );
+                },
             },
             {
                 field: "transaksi_date",

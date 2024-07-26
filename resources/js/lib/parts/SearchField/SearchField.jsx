@@ -116,7 +116,7 @@ const SearchField = ({
                     size="small"
                     sx={{
                         ...styles,
-                        zIndex: 1,
+                        zIndex: 0,
                         width: "100%",
                     }}
                     onChange={(e) => handleKeyword(e)}

@@ -5,6 +5,8 @@ import OrderShipmentForm from "../Forms/OrderShipmentForm";
 import { SectionDivider } from "../SectionContainer/SectionContainer";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import DocumentServices from "@/lib/services/Document/DocumentServices";
+import { Typography } from "@mui/material";
+import { Rupiah } from "@/lib/utils/IntoCurrency";
 
 const ShipmentColumn = ({ data = [], addition = [], refresh, order_id }) => {
     const { deleting: DocDelete } = DocumentServices();
@@ -44,6 +46,19 @@ const ShipmentColumn = ({ data = [], addition = [], refresh, order_id }) => {
                 field: "shipment_cost",
                 headerName: "Biaya Pengiriman",
                 width: 250,
+                renderCell: ({ row: { shipment_cost } }) => {
+                    return (
+                        <SectionDivider
+                            styles={{
+                                alignItems: "center",
+                            }}
+                        >
+                            <Typography>{`${Rupiah(
+                                parseInt(shipment_cost)
+                            )}`}</Typography>
+                        </SectionDivider>
+                    );
+                },
             },
             {
                 field: "shipment_start",

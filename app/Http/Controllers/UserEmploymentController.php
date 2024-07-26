@@ -15,8 +15,8 @@ class UserEmploymentController extends Controller
 
     public function index()
     {
-        $types = user_employment::all();
-        if ($types->count() > 0) {
+        $types = DB::select('SELECT e.id, e.user_id, p.nama, e.departemen_id, d.departemen_name, d.lokasi, e.posisi, e.jabatan from user_employments e left join app_users a on e.user_id = a.user_id left join user_profiles p on a.user_id = p.user_id left join departemens d on e.departemen_id = d.departemen_id');
+        if ($types) {
             return response()->json([
                 'status' => 'success',
                 'data' => $types,
@@ -55,14 +55,11 @@ class UserEmploymentController extends Controller
     public function show($id)
     {
         $type = user_employment::where('user_id', $id);
-        $user = DB::table('app_users')
-            ->where('user_id', '=', $id)
-            ->get();
 
         if ($type) {
             return response()->json([
                 'status' => 'success',
-                'data' => $type,
+                'data' => $type[0],
             ]);
         } else {
             return response()->json([
@@ -103,7 +100,8 @@ class UserEmploymentController extends Controller
 
     public function destroy($id)
     {
-        $type = user_employment::find($id);
+        $typeZero = user_employment::where('user_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
 
             $type->delete();

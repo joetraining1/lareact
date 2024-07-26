@@ -3,8 +3,10 @@ import IndexModal from "../Modal/IndexModal";
 import { SectionDivider } from "../SectionContainer/SectionContainer";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import UserProfileForm from "../Forms/UserProfileForm";
+import UserServices from "@/lib/services/User/UserServices";
 
 const UserColumn = ({ data, refresh }) => {
+    const { deleting } = UserServices();
     const DataColumn = useMemo(() => {
         return [
             {

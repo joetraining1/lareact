@@ -3,13 +3,20 @@ import IndexModal from "@/Components/Modal/IndexModal";
 import SectionContainer from "@/Components/SectionContainer/SectionContainer";
 import EmploymentColumn from "@/Components/TableColumn/EmploymentColumn";
 import TableData from "@/Components/TableData/TableData";
+import useGetFetch from "@/hooks/useGetFetch";
 import SectionHeader, {
     BoxContainer,
 } from "@/lib/parts/SectionHeader/SectionHeader";
 import React from "react";
 
 const Employment = () => {
-    const { DataColumn } = EmploymentColumn();
+    const { resp, forceRefresh, isFetching } = useGetFetch(
+        "account/employments"
+    );
+
+    const { DataColumn } = EmploymentColumn({
+        refresh: () => forceRefresh(),
+    });
     return (
         <SectionContainer url={"/master"}>
             <BoxContainer>
@@ -25,7 +32,7 @@ const Employment = () => {
                     button={"Add new employment"}
                 >
                     <br />
-                    <EmploymentForm />
+                    <EmploymentForm refresh={() => forceRefresh()} />
                 </IndexModal>
             </BoxContainer>
             <BoxContainer>
@@ -35,7 +42,7 @@ const Employment = () => {
                         "Kelola keseluruhan data hubungan kerja pegawai di perusahaan."
                     }
                 />
-                <TableData column={DataColumn} rows={[]} />
+                <TableData column={DataColumn} rows={resp ? resp.data : []} />
             </BoxContainer>
         </SectionContainer>
     );

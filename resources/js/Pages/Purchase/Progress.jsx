@@ -50,15 +50,7 @@ const Progress = () => {
                     />
                 )}
             </BoxContainer>
-            <BoxContainer>
-                <SectionHeader title={"DFD"} />
-                <ul>
-                    <li>1. Order had items</li>
-                    <li>2. Order had transaction</li>
-                    <li>3. transaction includes supplier, order</li>
-                    <li>4. shipment includes transaction</li>
-                </ul>
-            </BoxContainer>
+
             <ProductSection order_id={order_id} />
             <TransaksiSection order_id={order_id} />
             <ShipmentSection order_id={order_id} />

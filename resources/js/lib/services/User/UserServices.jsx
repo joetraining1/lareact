@@ -20,6 +20,14 @@ const UserServices = () => {
         return;
     };
 
+    const deleting = async ({ id }) => {
+        const req = await ApiClient.delete(`account/${id}`).then((res) => {
+            return res.data;
+        });
+        console.log(req);
+        return;
+    };
+
     const forceOut = () => {
         dispatch(logout());
         Cookies.remove("accessToken");
@@ -27,7 +35,7 @@ const UserServices = () => {
         return;
     };
 
-    return { signout, forceOut };
+    return { signout, forceOut, deleting };
 };
 
 export default UserServices;

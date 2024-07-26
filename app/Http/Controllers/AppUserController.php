@@ -89,7 +89,7 @@ class AppUserController extends Controller
     {
         // $profile = DB::select('select * from user_profiles where user_profiles.user_id = "'.$id.'"');
         $profile = DB::table('user_profiles')->where('user_id', '=', $id)->get();
-        $employment = DB::table('user_employments')->where('user_id', '=', $id)->get();
+        $employment = DB::select('SELECT e.id, e.user_id, p.nama, e.departemen_id, d.departemen_name, d.lokasi, e.posisi, e.jabatan from user_employments e left join app_users a on e.user_id = a.user_id left join user_profiles p on a.user_id = p.user_id left join departemens d on e.departemen_id = d.departemen_id where e.user_id = "'.$id.'"');
 
         if ($profile && $employment) {
             return response()->json([
@@ -146,19 +146,14 @@ class AppUserController extends Controller
 
     public function destroy($id)
     {
-        $type = app_user::find($id);
+        $typeZero = app_user::where('user_id', $id)->get();
+        $type = $typeZero[0];
         if ($type) {
-            $return = [
-                'id' => $type->id,
-                'title' => $type->title,
-                'description' => $type->description,
-            ];
             $type->delete();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'User type removed successfully',
-                'type' => $return,
+                'message' => 'User removed successfully',
             ]);
         } else {
             return response()->json([

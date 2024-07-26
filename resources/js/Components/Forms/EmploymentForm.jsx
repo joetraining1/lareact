@@ -1,15 +1,30 @@
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import React, { useState } from "react";
-import InputLabel from "vendor/laravel/breeze/stubs/inertia-react/resources/js/Components/InputLabel";
 import UserItems from "../DropItems/UserItems";
 import SearchField from "@/lib/parts/SearchField/SearchField";
 import DepartemenItems from "../DropItems/DepartemenItems";
 import { TargetUrl } from "@/lib/constant/Target";
 import useModal from "@/hooks/useModal";
+import InputLabel from "@/lib/parts/InputLabel/InputLabel";
+import UserEmployment from "@/lib/services/User/UserEmployment";
 
-const EmploymentForm = ({ refresh }) => {
-    const [payload, setPayload] = useState({});
+const EmploymentForm = ({
+    id,
+    refresh,
+    dId = "",
+    name = "",
+    dept = "",
+    role = "",
+    rank = "",
+}) => {
+    const [payload, setPayload] = useState({
+        user_id: id,
+        departemen_id: dId,
+        posisi: role,
+        jabatan: rank,
+    });
     const { shiftModal } = useModal();
+    const { adding } = UserEmployment();
 
     const service = async () => {
         if (id) {
@@ -43,13 +58,13 @@ const EmploymentForm = ({ refresh }) => {
             <SearchField
                 title={"Pegawai :"}
                 target={TargetUrl.user}
-                value={payload.supplier_id}
+                value={name}
             >
                 <UserItems
                     action={(a) =>
                         setPayload({
                             ...payload,
-                            supplier_id: a.supplier_id,
+                            user_id: a.user_id,
                         })
                     }
                 />
@@ -57,26 +72,26 @@ const EmploymentForm = ({ refresh }) => {
             <SearchField
                 title={"Departemen :"}
                 target={TargetUrl.departemen}
-                value={payload.supplier_id}
+                value={dept}
             >
                 <DepartemenItems
                     action={(a) =>
                         setPayload({
                             ...payload,
-                            supplier_id: a.supplier_id,
+                            departemen_id: a.departemen_id,
                         })
                     }
                 />
             </SearchField>
             <InputLabel
                 title={"Posisi Pegawai :"}
-                action={(a) => (payload.departemen_name = a)}
-                value={payload.departemen_name}
+                action={(a) => (payload.posisi = a)}
+                value={payload.posisi}
             />
             <InputLabel
                 title={"Jabatan Pegawai :"}
-                action={(a) => (payload.lokasi = a)}
-                value={payload.lokasi}
+                action={(a) => (payload.jabatan = a)}
+                value={payload.jabatan}
             />
             <br />
             <SiteButton title={"submit"} action={() => service()} />

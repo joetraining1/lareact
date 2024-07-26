@@ -74,9 +74,6 @@ class UserProfileController extends Controller
     public function show($id)
     {
         $type = user_profile::where('user_id', $id);
-        $user = DB::table('app_users')
-            ->where('user_id', '=', $id)
-            ->get();
 
         if ($type) {
             return response()->json([

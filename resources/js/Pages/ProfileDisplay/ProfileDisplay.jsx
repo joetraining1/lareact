@@ -27,19 +27,6 @@ const ProfileDisplay = ({ user_id, profile, employment }) => {
                     alamat={profile.alamat}
                 />
             </BoxContainer>
-            <BoxContainer>
-                <SectionHeader
-                    title={`Settings Password`}
-                    value={"konfigurasi password user aplikasi."}
-                />
-                <InputLabel title={"Password Lama :"} type={"password"} />
-                <InputLabel title={"Password Baru :"} type={"password"} />
-                <InputLabel
-                    title={"Konfirm Password Baru :"}
-                    type={"password"}
-                />
-                <SiteButton title={"simpan"} />
-            </BoxContainer>
 
             <BoxContainer>
                 <SectionHeader
@@ -47,6 +34,34 @@ const ProfileDisplay = ({ user_id, profile, employment }) => {
                     value={
                         "Manage informasi hubungan kerja user dengan perusahaan."
                     }
+                />
+                <InputLabel
+                    title={"Posisi :"}
+                    value={employment.posisi}
+                    props={{
+                        disabled: true,
+                    }}
+                />
+                <InputLabel
+                    title={"Jabatan :"}
+                    value={employment.jabatan}
+                    props={{
+                        disabled: true,
+                    }}
+                />
+                <InputLabel
+                    title={"Departemen :"}
+                    value={employment.departemen_name}
+                    props={{
+                        disabled: true,
+                    }}
+                />
+                <InputLabel
+                    title={"Lokasi Departemen :"}
+                    value={employment.lokasi}
+                    props={{
+                        disabled: true,
+                    }}
                 />
             </BoxContainer>
             <BoxContainer>

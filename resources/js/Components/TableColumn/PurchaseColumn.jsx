@@ -6,6 +6,8 @@ import Selections from "@/lib/parts/Selections/Selections";
 import SiteButton from "@/lib/parts/SiteButton/SiteButton";
 import { useNavigate } from "react-router-dom";
 import OrderServices from "@/lib/services/PurchaseOrder/OrderServices";
+import { Typography } from "@mui/material";
+import { Rupiah } from "@/lib/utils/IntoCurrency";
 
 const PurchaseColumn = ({ data, refresh }) => {
     const navigate = useNavigate();
@@ -45,6 +47,19 @@ const PurchaseColumn = ({ data, refresh }) => {
                 field: "expense",
                 headerName: "Budget Kegiatan",
                 width: 250,
+                renderCell: ({ row: { expense } }) => {
+                    return (
+                        <SectionDivider
+                            styles={{
+                                alignItems: "center",
+                            }}
+                        >
+                            <Typography>{`${Rupiah(
+                                parseInt(expense)
+                            )}`}</Typography>
+                        </SectionDivider>
+                    );
+                },
             },
             {
                 field: "modifier",

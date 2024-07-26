@@ -1,7 +1,12 @@
 import React, { useMemo } from "react";
 import IndexModal from "../Modal/IndexModal";
+import { SectionDivider } from "../SectionContainer/SectionContainer";
+import SiteButton from "@/lib/parts/SiteButton/SiteButton";
+import UserEmployment from "@/lib/services/User/UserEmployment";
+import EmploymentForm from "../Forms/EmploymentForm";
 
-const EmploymentColumn = (data) => {
+const EmploymentColumn = ({ data, refresh }) => {
+    const { deleting } = UserEmployment();
     const DataColumn = useMemo(() => {
         return [
             {
@@ -28,7 +33,7 @@ const EmploymentColumn = (data) => {
                 width: 150,
             },
             {
-                field: "departemen_nama",
+                field: "departemen_name",
                 headerName: "Nama Departemen",
                 width: 250,
             },
@@ -50,16 +55,49 @@ const EmploymentColumn = (data) => {
             {
                 field: "option",
                 headerName: "Option",
-                width: 150,
-                renderCell: ({ row: { id, title, value } }) => {
+                width: 250,
+                renderCell: ({
+                    row: {
+                        id,
+                        user_id,
+                        departemen_name,
+                        nama,
+                        departemen_id,
+                        posisi,
+                        jabatan,
+                    },
+                }) => {
                     return (
-                        <IndexModal
-                            button={"option"}
-                            title={"Test Table Modal"}
-                            value={"modal opened"}
+                        <SectionDivider
+                            styles={{
+                                alignItems: "center",
+                            }}
                         >
-                            {title}
-                        </IndexModal>
+                            <IndexModal
+                                button={"edit"}
+                                title={"Edit Hubungan Pekerjaan"}
+                                value={`Pegawai : ${user_id}`}
+                            >
+                                <EmploymentForm
+                                    id={user_id}
+                                    refresh={() => refresh()}
+                                    dId={departemen_id}
+                                    dept={departemen_name}
+                                    name={nama}
+                                    rank={jabatan}
+                                    role={posisi}
+                                />
+                            </IndexModal>
+                            <SiteButton
+                                title={"delete"}
+                                action={() => {
+                                    deleting({
+                                        id: user_id,
+                                    });
+                                    refresh();
+                                }}
+                            />
+                        </SectionDivider>
                     );
                 },
             },

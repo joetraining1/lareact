@@ -13,6 +13,7 @@ import { h4FontStyle } from "@/lib/constant/Styles";
 import { useNavigate } from "react-router-dom";
 import { AllColors } from "@/lib/constant/Colors";
 import Messages from "@/lib/parts/AlertMessages/Messages";
+import { Rupiah } from "@/lib/utils/IntoCurrency";
 
 const ProductForm = ({
     id = "",
@@ -111,9 +112,8 @@ const ProductForm = ({
                         styles={{
                             width: "100%",
                         }}
-                        type={"number"}
                         action={(a) => (payload.expense = parseInt(a))}
-                        value={payload.expense}
+                        value={Rupiah(payload.expense)}
                     />
                 </SectionDivider>
             </SectionDivider>
