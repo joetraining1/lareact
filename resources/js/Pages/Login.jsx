@@ -1,9 +1,8 @@
 import { AllColors } from "@/lib/constant/Colors";
 import { AllSize } from "@/lib/constant/Styles";
 import React from "react";
-import bg1 from "../assets/front.jpg";
-import bg2 from "../assets/fr.jpg";
-import LoginForms from "@/Components/Forms/LoginForms";
+import bg1 from "../assets/bg1.jpg";
+import bg2 from "../assets/bg2.jpg";
 import { Outlet } from "react-router-dom";
 import { Head } from "@inertiajs/react";
 
@@ -50,7 +49,7 @@ const Login = () => {
                                 fontFamily: "Playfair Display, serif",
                             }}
                         >
-                            Restaurant
+                            CV. Karya Abadi
                         </h4>
                         <h4
                             style={{
@@ -61,7 +60,7 @@ const Login = () => {
                                 fontFamily: "Playfair Display, serif",
                             }}
                         >
-                            of Authentic Culture.
+                            Dekat Dengan Anda
                         </h4>
                     </div>
                     <div
@@ -71,6 +70,7 @@ const Login = () => {
                             overflow: "auto",
                             backgroundImage: `linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,245,255,0) 100%), url(${bg1})`,
                             backgroundPosition: "center",
+                            backgroundSize: "cover",
                             boxShadow: "0px 5px 15px 10px rgba(0,0,0,0.25)",
                         }}
                     ></div>
@@ -79,7 +79,8 @@ const Login = () => {
                             width: "40%",
                             height: "100%",
                             backgroundImage: `linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,245,255,0) 100%), url(${bg2})`,
-                            backgroundPosition: "35%",
+                            backgroundPosition: "center left",
+                            backgroundSize: "cover",
                             boxShadow: "0px 5px 15px 10px rgba(0,0,0,0.25)",
                         }}
                     ></div>

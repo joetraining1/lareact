@@ -21,13 +21,13 @@ const Logo = () => {
                     fontWeight: "700",
                 }}
             >
-                Golden
+                Karya
                 <span
                     style={{
                         color: AllColors.Yellow,
                     }}
                 >
-                    Lamian
+                    Abadi
                 </span>
             </Typography>
         </div>
